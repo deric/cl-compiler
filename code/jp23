@@ -1,0 +1,15 @@
+Program
+  Vars
+    A Array [10] of Struct
+                      B Bool
+                      X Int
+                    EndStruct
+    S Struct
+        B Bool
+        X Int
+      EndStruct
+  EndVars
+  S.X:=5
+  A[S.X]:=S
+  WriteLn(A[5].X)
+EndProgram

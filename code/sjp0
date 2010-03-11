@@ -1,0 +1,131 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x Int
+  4:     y Struct
+  5: 	  x Int
+  6: 	  y Int
+  7: 	EndStruct
+  8:     b Struct 
+  9:         n Int
+ 10:       EndStruct
+ 11:     a Struct 
+ 12:         n Int 
+ 13:         n Int
+ 14:       EndStruct
+ 15:   ENDVARS
+ 16:   w:=v+p12
+ 17:   v:=y.y+y.x
+ 18:   x:=3+y.y
+ 19:   x:=3+y.x
+ 20:   b.x:=b.n
+ 21:   b:=y.y+y.x
+ 22:   y.x:=y.y
+ 23:   y.y:=2+y.x+x
+ 24:   y:=y
+ 25: ENDPROGRAM
+ 26: 
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__int
+    |      |                 \__ident(y)
+    |      |                          \__int
+    |      \__ident(b)
+    |      |        \__struct
+    |      |                 \__ident(n)
+    |      |                          \__int
+    |      \__ident(a)
+    |               \__struct
+    |                        \__ident(n)
+    |                        |        \__int
+    |                        \__ident(n)
+    |                                 \__int
+    \__list
+    \__list
+           \__:=
+           |    \__ident(w)
+           |    \__+
+           |        \__ident(v)
+           |        \__ident(p12)
+           \__:=
+           |    \__ident(v)
+           |    \__+
+           |        \__.
+           |        |   \__ident(y)
+           |        |   \__ident(y)
+           |        \__.
+           |            \__ident(y)
+           |            \__ident(x)
+           \__:=
+           |    \__ident(x)
+           |    \__+
+           |        \__intconst(3)
+           |        \__.
+           |            \__ident(y)
+           |            \__ident(y)
+           \__:=
+           |    \__ident(x)
+           |    \__+
+           |        \__intconst(3)
+           |        \__.
+           |            \__ident(y)
+           |            \__ident(x)
+           \__:=
+           |    \__.
+           |    |   \__ident(b)
+           |    |   \__ident(x)
+           |    \__.
+           |        \__ident(b)
+           |        \__ident(n)
+           \__:=
+           |    \__ident(b)
+           |    \__+
+           |        \__.
+           |        |   \__ident(y)
+           |        |   \__ident(y)
+           |        \__.
+           |            \__ident(y)
+           |            \__ident(x)
+           \__:=
+           |    \__.
+           |    |   \__ident(y)
+           |    |   \__ident(x)
+           |    \__.
+           |        \__ident(y)
+           |        \__ident(y)
+           \__:=
+           |    \__.
+           |    |   \__ident(y)
+           |    |   \__ident(y)
+           |    \__+
+           |        \__+
+           |        |   \__intconst(2)
+           |        |   \__.
+           |        |       \__ident(y)
+           |        |       \__ident(x)
+           |        \__ident(x)
+           \__:=
+                \__ident(y)
+                \__ident(y)
+
+
+Type Checking:
+
+L. 13: Field n already defined in the struct.
+L. 16: Identifier w is undeclared.
+L. 16: Identifier v is undeclared.
+L. 16: Identifier p12 is undeclared.
+L. 16: Left expression of assignment is not referenceable.
+L. 17: Identifier v is undeclared.
+L. 17: Left expression of assignment is not referenceable.
+L. 20: Field x is not defined in the struct.
+L. 21: Assignment with incompatible types.
+There are errors: no code generated

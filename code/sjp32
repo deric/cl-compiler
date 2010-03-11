@@ -1,0 +1,526 @@
+
+
+  1: Program
+  2:   Vars
+  3:     S Struct
+  4:         X Int
+  5:         A Array [10] Of Int
+  6:       EndStruct
+  7:   EndVars
+  8:   Procedure P1(Ref A Array [10] Of Int)
+  9:     A[3]:=5
+ 10:   EndProcedure
+ 11:   Procedure P2(Ref S2 Struct X Int A Array [10] Of Int EndStruct)
+ 12:     S2.A:=F1(S2.A)
+ 13:     S2.A:=F2(S2.A)
+ 14:     S2.X:=3
+ 15:     P1(S2.A)
+ 16:     P3(S2.A)
+ 17:   EndProcedure
+ 18:   Procedure P3(Val A2 Array [10] Of Int)
+ 19:     A2[4]:=5
+ 20:   EndProcedure
+ 21:   Function F1(Ref A Array [10] Of Int) Return Array [10] Of Int
+ 22:     Vars
+ 23:       B Array [10] Of Int
+ 24:     EndVars
+ 25:     B:=A
+ 26:     B[5]:=B[3]+B[4]
+ 27:     Return B
+ 28:   EndFunction
+ 29:   Function F2(Val A Array [10] Of Int) Return Array [10] Of Int
+ 30:     Vars
+ 31:       B Array [10] Of Int
+ 32:     EndVars
+ 33:     B:=A
+ 34:     B[6]:=B[3]+B[4]+B[5]
+ 35:     Return B
+ 36:   EndFunction
+ 37:   S.A[3]:=1
+ 38:   S.A[4]:=2
+ 39:   P2(S)
+ 40:   WriteLn(S.X)
+ 41:   WriteLn(S.A[3])
+ 42:   WriteLn(S.A[4])
+ 43:   WriteLn(S.A[5])
+ 44:   WriteLn(S.A[6])
+ 45: EndProgram
+ 46: 
+
+
+program
+    \__list
+    |      \__ident(S)
+    |               \__struct
+    |                        \__ident(X)
+    |                        |        \__int
+    |                        \__ident(A)
+    |                                 \__array
+    |                                         \__intconst(10)
+    |                                         \__int
+    \__list
+    |      \__procedure
+    |      |           \__ident(P1)
+    |      |           |         \__list
+    |      |           |                \__ref
+    |      |           |                      \__ident(A)
+    |      |           |                      \__array
+    |      |           |                              \__intconst(10)
+    |      |           |                              \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           \__list
+    |      |                  \__:=
+    |      |                       \__[
+    |      |                       |   \__ident(A)
+    |      |                       |   \__intconst(3)
+    |      |                       \__intconst(5)
+    |      \__procedure
+    |      |           \__ident(P2)
+    |      |           |         \__list
+    |      |           |                \__ref
+    |      |           |                      \__ident(S2)
+    |      |           |                      \__struct
+    |      |           |                               \__ident(X)
+    |      |           |                               |        \__int
+    |      |           |                               \__ident(A)
+    |      |           |                                        \__array
+    |      |           |                                                \__intconst(10)
+    |      |           |                                                \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           \__list
+    |      |                  \__:=
+    |      |                  |    \__.
+    |      |                  |    |   \__ident(S2)
+    |      |                  |    |   \__ident(A)
+    |      |                  |    \__(
+    |      |                  |        \__ident(F1)
+    |      |                  |        \__list
+    |      |                  |               \__.
+    |      |                  |                   \__ident(S2)
+    |      |                  |                   \__ident(A)
+    |      |                  \__:=
+    |      |                  |    \__.
+    |      |                  |    |   \__ident(S2)
+    |      |                  |    |   \__ident(A)
+    |      |                  |    \__(
+    |      |                  |        \__ident(F2)
+    |      |                  |        \__list
+    |      |                  |               \__.
+    |      |                  |                   \__ident(S2)
+    |      |                  |                   \__ident(A)
+    |      |                  \__:=
+    |      |                  |    \__.
+    |      |                  |    |   \__ident(S2)
+    |      |                  |    |   \__ident(X)
+    |      |                  |    \__intconst(3)
+    |      |                  \__(
+    |      |                  |   \__ident(P1)
+    |      |                  |   \__list
+    |      |                  |          \__.
+    |      |                  |              \__ident(S2)
+    |      |                  |              \__ident(A)
+    |      |                  \__(
+    |      |                      \__ident(P3)
+    |      |                      \__list
+    |      |                             \__.
+    |      |                                 \__ident(S2)
+    |      |                                 \__ident(A)
+    |      \__procedure
+    |      |           \__ident(P3)
+    |      |           |         \__list
+    |      |           |                \__val
+    |      |           |                      \__ident(A2)
+    |      |           |                      \__array
+    |      |           |                              \__intconst(10)
+    |      |           |                              \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           \__list
+    |      |                  \__:=
+    |      |                       \__[
+    |      |                       |   \__ident(A2)
+    |      |                       |   \__intconst(4)
+    |      |                       \__intconst(5)
+    |      \__function
+    |      |          \__ident(F1)
+    |      |          |         \__list
+    |      |          |         |      \__ref
+    |      |          |         |            \__ident(A)
+    |      |          |         |            \__array
+    |      |          |         |                    \__intconst(10)
+    |      |          |         |                    \__int
+    |      |          |         \__array
+    |      |          |                 \__intconst(10)
+    |      |          |                 \__int
+    |      |          \__list
+    |      |          |      \__ident(B)
+    |      |          |               \__array
+    |      |          |                       \__intconst(10)
+    |      |          |                       \__int
+    |      |          \__list
+    |      |          \__list
+    |      |          |      \__:=
+    |      |          |      |    \__ident(B)
+    |      |          |      |    \__ident(A)
+    |      |          |      \__:=
+    |      |          |           \__[
+    |      |          |           |   \__ident(B)
+    |      |          |           |   \__intconst(5)
+    |      |          |           \__+
+    |      |          |               \__[
+    |      |          |               |   \__ident(B)
+    |      |          |               |   \__intconst(3)
+    |      |          |               \__[
+    |      |          |                   \__ident(B)
+    |      |          |                   \__intconst(4)
+    |      |          \__ident(B)
+    |      \__function
+    |                 \__ident(F2)
+    |                 |         \__list
+    |                 |         |      \__val
+    |                 |         |            \__ident(A)
+    |                 |         |            \__array
+    |                 |         |                    \__intconst(10)
+    |                 |         |                    \__int
+    |                 |         \__array
+    |                 |                 \__intconst(10)
+    |                 |                 \__int
+    |                 \__list
+    |                 |      \__ident(B)
+    |                 |               \__array
+    |                 |                       \__intconst(10)
+    |                 |                       \__int
+    |                 \__list
+    |                 \__list
+    |                 |      \__:=
+    |                 |      |    \__ident(B)
+    |                 |      |    \__ident(A)
+    |                 |      \__:=
+    |                 |           \__[
+    |                 |           |   \__ident(B)
+    |                 |           |   \__intconst(6)
+    |                 |           \__+
+    |                 |               \__+
+    |                 |               |   \__[
+    |                 |               |   |   \__ident(B)
+    |                 |               |   |   \__intconst(3)
+    |                 |               |   \__[
+    |                 |               |       \__ident(B)
+    |                 |               |       \__intconst(4)
+    |                 |               \__[
+    |                 |                   \__ident(B)
+    |                 |                   \__intconst(5)
+    |                 \__ident(B)
+    \__list
+           \__:=
+           |    \__[
+           |    |   \__.
+           |    |   |   \__ident(S)
+           |    |   |   \__ident(A)
+           |    |   \__intconst(3)
+           |    \__intconst(1)
+           \__:=
+           |    \__[
+           |    |   \__.
+           |    |   |   \__ident(S)
+           |    |   |   \__ident(A)
+           |    |   \__intconst(4)
+           |    \__intconst(2)
+           \__(
+           |   \__ident(P2)
+           |   \__list
+           |          \__ident(S)
+           \__writeln
+           |         \__.
+           |             \__ident(S)
+           |             \__ident(X)
+           \__writeln
+           |         \__[
+           |             \__.
+           |             |   \__ident(S)
+           |             |   \__ident(A)
+           |             \__intconst(3)
+           \__writeln
+           |         \__[
+           |             \__.
+           |             |   \__ident(S)
+           |             |   \__ident(A)
+           |             \__intconst(4)
+           \__writeln
+           |         \__[
+           |             \__.
+           |             |   \__ident(S)
+           |             |   \__ident(A)
+           |             \__intconst(5)
+           \__writeln
+                     \__[
+                         \__.
+                         |   \__ident(S)
+                         |   \__ident(A)
+                         \__intconst(6)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _S 44
+  endvariables
+
+    aload _S t0
+    addi t0 4 t0
+    iload 3 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 1 t1
+    stor t1 t0
+    aload _S t0
+    addi t0 4 t0
+    iload 4 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 2 t1
+    stor t1 t0
+    aload _S t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_P2
+    killparam
+    killparam
+    aload _S t0
+    addi t0 0 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _S t0
+    addi t0 4 t0
+    iload 3 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _S t0
+    addi t0 4 t0
+    iload 4 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _S t0
+    addi t0 4 t0
+    iload 5 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _S t0
+    addi t0 4 t0
+    iload 6 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_P1
+  parameters
+    _A
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _A t0
+    iload 3 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 5 t1
+    stor t1 t0
+    retu
+endsubroutine
+
+subroutine program_P2
+  parameters
+    _S2
+    static_link
+  endparameters
+
+  variables
+    aux_space 80
+  endvariables
+
+    load _S2 t0
+    addi t0 4 t0
+    aload aux_space t1
+    addi t1 0 t1
+    pushparam t1
+    load _S2 t2
+    addi t2 4 t2
+    pushparam t2
+    load static_link t2
+    pushparam t2
+    call program_F1
+    killparam
+    killparam
+    killparam
+    copy t1 t0 40
+    load _S2 t0
+    addi t0 4 t0
+    aload aux_space t1
+    addi t1 0 t1
+    pushparam t1
+    load _S2 t3
+    addi t3 4 t3
+    aload aux_space t2
+    addi t2 40 t2
+    copy t3 t2 40
+    pushparam t2
+    load static_link t2
+    pushparam t2
+    call program_F2
+    killparam
+    killparam
+    killparam
+    copy t1 t0 40
+    load _S2 t0
+    addi t0 0 t0
+    iload 3 t1
+    stor t1 t0
+    load _S2 t0
+    addi t0 4 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_P1
+    killparam
+    killparam
+    load _S2 t1
+    addi t1 4 t1
+    aload aux_space t0
+    addi t0 0 t0
+    copy t1 t0 40
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_P3
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_P3
+  parameters
+    _A2
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _A2 t0
+    iload 4 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 5 t1
+    stor t1 t0
+    retu
+endsubroutine
+
+subroutine program_F1
+  parameters
+    returnvalue
+    _A
+    static_link
+  endparameters
+
+  variables
+    _B 40
+  endvariables
+
+    aload _B t0
+    load _A t1
+    copy t1 t0 40
+    aload _B t0
+    iload 5 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    aload _B t1
+    iload 3 t2
+    muli t2 4 t2
+    addi t1 t2 t1
+    load t1 t1
+    aload _B t2
+    iload 4 t3
+    muli t3 4 t3
+    addi t2 t3 t2
+    load t2 t2
+    addi t1 t2 t1
+    stor t1 t0
+    aload _B t1
+    load returnvalue t0
+    copy t1 t0 40
+    retu
+endsubroutine
+
+subroutine program_F2
+  parameters
+    returnvalue
+    _A
+    static_link
+  endparameters
+
+  variables
+    _B 40
+  endvariables
+
+    aload _B t0
+    load _A t1
+    copy t1 t0 40
+    aload _B t0
+    iload 6 t1
+    muli t1 4 t1
+    addi t0 t1 t0
+    aload _B t1
+    iload 3 t2
+    muli t2 4 t2
+    addi t1 t2 t1
+    load t1 t1
+    aload _B t2
+    iload 4 t3
+    muli t3 4 t3
+    addi t2 t3 t2
+    load t2 t2
+    addi t1 t2 t1
+    aload _B t2
+    iload 5 t3
+    muli t3 4 t3
+    addi t2 t3 t2
+    load t2 t2
+    addi t1 t2 t1
+    stor t1 t0
+    aload _B t1
+    load returnvalue t0
+    copy t1 t0 40
+    retu
+endsubroutine
+
+Executing code:
+3
+5
+2
+3
+6

@@ -1,0 +1,249 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     Y INT
+  4:     X BOOL
+  5:   ENDVARS
+  6:   PROCEDURE P0(VAL V0 INT, REF R0 INT) 
+  7:     PROCEDURE P1(VAL V1 INT, REF R1 INT,VAL R2 INT) 
+  8:       VARS
+  9:         Y1 INT
+ 10:         X1 BOOL
+ 11:       ENDVARS
+ 12:       R1 := V1
+ 13:       V0 := 10
+ 14:       X:=Not(V0=R2 And V0=R1+R0) 
+ 15:     ENDPROCEDURE
+ 16:   P1(V0, R0, R0)
+ 17:   WRITE(V0)
+ 18:   WRITE("  ")
+ 19:   WRITE(R0)
+ 20:   WRITE("  ")
+ 21:   ENDPROCEDURE
+ 22: Y := 3
+ 23: X := False
+ 24: P0(2*3+1, Y)
+ 25: WRITE(Y)
+ 26: WRITE("  ")
+ 27: WRITELN(X)
+ 28: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(Y)
+    |      |        \__int
+    |      \__ident(X)
+    |               \__bool
+    \__list
+    |      \__procedure
+    |                  \__ident(P0)
+    |                  |         \__list
+    |                  |                \__val
+    |                  |                |     \__ident(V0)
+    |                  |                |     \__int
+    |                  |                \__ref
+    |                  |                      \__ident(R0)
+    |                  |                      \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(P1)
+    |                  |                  |         \__list
+    |                  |                  |                \__val
+    |                  |                  |                |     \__ident(V1)
+    |                  |                  |                |     \__int
+    |                  |                  |                \__ref
+    |                  |                  |                |     \__ident(R1)
+    |                  |                  |                |     \__int
+    |                  |                  |                \__val
+    |                  |                  |                      \__ident(R2)
+    |                  |                  |                      \__int
+    |                  |                  \__list
+    |                  |                  |      \__ident(Y1)
+    |                  |                  |      |         \__int
+    |                  |                  |      \__ident(X1)
+    |                  |                  |                \__bool
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(R1)
+    |                  |                         |    \__ident(V1)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(V0)
+    |                  |                         |    \__intconst(10)
+    |                  |                         \__:=
+    |                  |                              \__ident(X)
+    |                  |                              \__not
+    |                  |                                    \__and
+    |                  |                                          \__=
+    |                  |                                          |   \__ident(V0)
+    |                  |                                          |   \__ident(R2)
+    |                  |                                          \__=
+    |                  |                                              \__ident(V0)
+    |                  |                                              \__+
+    |                  |                                                  \__ident(R1)
+    |                  |                                                  \__ident(R0)
+    |                  \__list
+    |                         \__(
+    |                         |   \__ident(P1)
+    |                         |   \__list
+    |                         |          \__ident(V0)
+    |                         |          \__ident(R0)
+    |                         |          \__ident(R0)
+    |                         \__write
+    |                         |       \__ident(V0)
+    |                         \__write
+    |                         |       \__string("  ")
+    |                         \__write
+    |                         |       \__ident(R0)
+    |                         \__write
+    |                                 \__string("  ")
+    \__list
+           \__:=
+           |    \__ident(Y)
+           |    \__intconst(3)
+           \__:=
+           |    \__ident(X)
+           |    \__false
+           \__(
+           |   \__ident(P0)
+           |   \__list
+           |          \__+
+           |          |   \__*
+           |          |   |   \__intconst(2)
+           |          |   |   \__intconst(3)
+           |          |   \__intconst(1)
+           |          \__ident(Y)
+           \__write
+           |       \__ident(Y)
+           \__write
+           |       \__string("  ")
+           \__writeln
+                     \__ident(X)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _Y 4
+    _X 4
+  endvariables
+
+    aload _Y t0
+    iload 3 t1
+    stor t1 t0
+    aload _X t0
+    iload 0 t1
+    stor t1 t0
+    iload 2 t0
+    iload 3 t1
+    muli t0 t1 t0
+    iload 1 t1
+    addi t0 t1 t0
+    pushparam t0
+    aload _Y t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_P0
+    killparam
+    killparam
+    killparam
+    load _Y t0
+    wrii t0
+    wris "  "
+    load _X t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_P0_P1
+  parameters
+    _V1
+    _R1
+    _R2
+    static_link
+  endparameters
+
+  variables
+    _Y1 4
+    _X1 4
+  endvariables
+
+    load _R1 t0
+    load _V1 t1
+    stor t1 t0
+    load static_link t0
+    addi t0 offset(program_P0:_V0) t0
+    iload 10 t1
+    stor t1 t0
+    load static_link t0
+    load t0 t0
+    addi t0 offset(program:_X) t0
+    load static_link t1
+    addi t1 offset(program_P0:_V0) t1
+    load t1 t1
+    load _R2 t2
+    equi t1 t2 t1
+    load static_link t2
+    addi t2 offset(program_P0:_V0) t2
+    load t2 t2
+    load _R1 t3
+    load t3 t3
+    load static_link t4
+    addi t4 offset(program_P0:_R0) t4
+    load t4 t4
+    load t4 t4
+    addi t3 t4 t3
+    equi t2 t3 t2
+    land t1 t2 t1
+    lnot t1 t1
+    stor t1 t0
+    retu
+endsubroutine
+
+subroutine program_P0
+  parameters
+    _V0
+    _R0
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _V0 t0
+    pushparam t0
+    load _R0 t0
+    pushparam t0
+    load _R0 t0
+    load t0 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_P0_P1
+    killparam
+    killparam
+    killparam
+    killparam
+    load _V0 t0
+    wrii t0
+    wris "  "
+    load _R0 t0
+    load t0 t0
+    wrii t0
+    wris "  "
+    retu
+endsubroutine
+
+Executing code:
+10  7  7  1

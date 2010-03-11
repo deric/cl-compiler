@@ -1,0 +1,1190 @@
+
+
+  1: PROGRAM
+  2: VARS
+  3:   f INT
+  4:   f1 INT
+  5:   f2 INT
+  6:   f3 INT
+  7:   m INT
+  8:   r INT
+  9:   aux INT
+ 10: ENDVARS
+ 11: 
+ 12:  PROCEDURE fact(VAL n INT, REF z INT, REF f INT)
+ 13:     PROCEDURE mult(REF a INT, REF b INT, REF p INT)
+ 14:       IF a=0 THEN  p:=0
+ 15:       ELSE IF a>0 THEN  a:=a-1
+ 16:                         mult(a,b,p)
+ 17:                         p:=p+b
+ 18:            ENDIF
+ 19:       ENDIF
+ 20:     ENDPROCEDURE
+ 21:     PROCEDURE gfact(VAL y INT, VAL w INT, VAL n INT, REF f INT)
+ 22:     VARS
+ 23:       p INT
+ 24:       aux INT
+ 25:     ENDVARS
+ 26:       IF y=0 THEN f:=w
+ 27:       ELSE IF y>0 THEN  aux:=y
+ 28:                         mult(y,w,p)
+ 29:                         y:=aux
+ 30:                         gfact(y-1,p,n,f)
+ 31:            ENDIF
+ 32:       ENDIF
+ 33:     ENDPROCEDURE
+ 34:     gfact(n,1,z,f)
+ 35:  ENDPROCEDURE
+ 36: 
+ 37:  PROCEDURE F(VAL n INT, REF f1 INT, REF f2 INT, REF f3 INT, VAL f4 INT)
+ 38:    PROCEDURE fibon(VAL n INT, REF f INT, REF f1 INT)
+ 39:      IF n=1 THEN  f:=1   f1:=0
+ 40:      ELSE IF n>1 THEN
+ 41:               fibon(n-1,f,f1)
+ 42:               aux:=f
+ 43:               f:=aux+f1
+ 44:               f1:=aux
+ 45:          ENDIF
+ 46:      ENDIF
+ 47:    ENDPROCEDURE
+ 48: 
+ 49:    PROCEDURE fibon2(VAL n INT, REF f INT)
+ 50:    VARS
+ 51:      f1 INT
+ 52:      f2 INT
+ 53:    ENDVARS
+ 54:       IF n=0 THEN  f:=0
+ 55:       ELSE IF n=1 THEN  f:=1
+ 56:            ELSE IF n>1 THEN
+ 57:                     fibon2(n-1,f1)
+ 58:                     fibon2(n-2,f2)
+ 59:                     f:=f1+f2
+ 60:                 ENDIF
+ 61:            ENDIF
+ 62:       ENDIF
+ 63:    ENDPROCEDURE
+ 64: 
+ 65:   fibon(n,f1,f2)
+ 66:   fibon2(n,f4)
+ 67:   f3:=f4
+ 68:  ENDPROCEDURE
+ 69: 
+ 70:  PROCEDURE trad(VAL n INT, REF m INT)
+ 71:    PROCEDURE dividir(VAL a INT, VAL b INT, REF c INT, REF r INT)
+ 72:      IF a<b THEN  c:=0  r:=a
+ 73:      ELSE
+ 74:           dividir(a,2*b,c,r)
+ 75:           IF r<b THEN c:=2*c
+ 76:           ELSE  c:=2*c+1
+ 77:                 r:=r-b
+ 78:           ENDIF
+ 79:      ENDIF
+ 80:    ENDPROCEDURE
+ 81:    PROCEDURE gtrad(VAL u INT, VAL v INT, VAL w INT, VAL q INT, REF m INT)
+ 82:      IF w=0 THEN m:=u
+ 83:      ELSE IF w>0 THEN
+ 84:               dividir(w,2,q,r)
+ 85:               gtrad(u+v*r, v*10, q,q,m)
+ 86:           ENDIF
+ 87:      ENDIF
+ 88:    ENDPROCEDURE
+ 89:   m:=0
+ 90:   gtrad(m,m+1,n,m,m)
+ 91:  ENDPROCEDURE
+ 92: 
+ 93:  aux:=6
+ 94:  fact(aux,aux,f)
+ 95:     WRITELN(f)
+ 96: 
+ 97:  F(8,f1,f2,f3,96)
+ 98:    IF f1=f3 THEN
+ 99:       WRITE(f1) WRITE("  ")  WRITELN(f2)
+100:    ENDIF
+101: 
+102:  trad(19,m)
+103:     WRITELN(m)
+104: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(f)
+    |      |        \__int
+    |      \__ident(f1)
+    |      |         \__int
+    |      \__ident(f2)
+    |      |         \__int
+    |      \__ident(f3)
+    |      |         \__int
+    |      \__ident(m)
+    |      |        \__int
+    |      \__ident(r)
+    |      |        \__int
+    |      \__ident(aux)
+    |                 \__int
+    \__list
+    |      \__procedure
+    |      |           \__ident(fact)
+    |      |           |           \__list
+    |      |           |                  \__val
+    |      |           |                  |     \__ident(n)
+    |      |           |                  |     \__int
+    |      |           |                  \__ref
+    |      |           |                  |     \__ident(z)
+    |      |           |                  |     \__int
+    |      |           |                  \__ref
+    |      |           |                        \__ident(f)
+    |      |           |                        \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |      |           \__ident(mult)
+    |      |           |      |           |           \__list
+    |      |           |      |           |                  \__ref
+    |      |           |      |           |                  |     \__ident(a)
+    |      |           |      |           |                  |     \__int
+    |      |           |      |           |                  \__ref
+    |      |           |      |           |                  |     \__ident(b)
+    |      |           |      |           |                  |     \__int
+    |      |           |      |           |                  \__ref
+    |      |           |      |           |                        \__ident(p)
+    |      |           |      |           |                        \__int
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |                  \__if
+    |      |           |      |                       \__=
+    |      |           |      |                       |   \__ident(a)
+    |      |           |      |                       |   \__intconst(0)
+    |      |           |      |                       \__list
+    |      |           |      |                       |      \__:=
+    |      |           |      |                       |           \__ident(p)
+    |      |           |      |                       |           \__intconst(0)
+    |      |           |      |                       \__list
+    |      |           |      |                              \__if
+    |      |           |      |                                   \__>
+    |      |           |      |                                   |   \__ident(a)
+    |      |           |      |                                   |   \__intconst(0)
+    |      |           |      |                                   \__list
+    |      |           |      |                                          \__:=
+    |      |           |      |                                          |    \__ident(a)
+    |      |           |      |                                          |    \__-
+    |      |           |      |                                          |        \__ident(a)
+    |      |           |      |                                          |        \__intconst(1)
+    |      |           |      |                                          \__(
+    |      |           |      |                                          |   \__ident(mult)
+    |      |           |      |                                          |   \__list
+    |      |           |      |                                          |          \__ident(a)
+    |      |           |      |                                          |          \__ident(b)
+    |      |           |      |                                          |          \__ident(p)
+    |      |           |      |                                          \__:=
+    |      |           |      |                                               \__ident(p)
+    |      |           |      |                                               \__+
+    |      |           |      |                                                   \__ident(p)
+    |      |           |      |                                                   \__ident(b)
+    |      |           |      \__procedure
+    |      |           |                  \__ident(gfact)
+    |      |           |                  |            \__list
+    |      |           |                  |                   \__val
+    |      |           |                  |                   |     \__ident(y)
+    |      |           |                  |                   |     \__int
+    |      |           |                  |                   \__val
+    |      |           |                  |                   |     \__ident(w)
+    |      |           |                  |                   |     \__int
+    |      |           |                  |                   \__val
+    |      |           |                  |                   |     \__ident(n)
+    |      |           |                  |                   |     \__int
+    |      |           |                  |                   \__ref
+    |      |           |                  |                         \__ident(f)
+    |      |           |                  |                         \__int
+    |      |           |                  \__list
+    |      |           |                  |      \__ident(p)
+    |      |           |                  |      |        \__int
+    |      |           |                  |      \__ident(aux)
+    |      |           |                  |                 \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__if
+    |      |           |                              \__=
+    |      |           |                              |   \__ident(y)
+    |      |           |                              |   \__intconst(0)
+    |      |           |                              \__list
+    |      |           |                              |      \__:=
+    |      |           |                              |           \__ident(f)
+    |      |           |                              |           \__ident(w)
+    |      |           |                              \__list
+    |      |           |                                     \__if
+    |      |           |                                          \__>
+    |      |           |                                          |   \__ident(y)
+    |      |           |                                          |   \__intconst(0)
+    |      |           |                                          \__list
+    |      |           |                                                 \__:=
+    |      |           |                                                 |    \__ident(aux)
+    |      |           |                                                 |    \__ident(y)
+    |      |           |                                                 \__(
+    |      |           |                                                 |   \__ident(mult)
+    |      |           |                                                 |   \__list
+    |      |           |                                                 |          \__ident(y)
+    |      |           |                                                 |          \__ident(w)
+    |      |           |                                                 |          \__ident(p)
+    |      |           |                                                 \__:=
+    |      |           |                                                 |    \__ident(y)
+    |      |           |                                                 |    \__ident(aux)
+    |      |           |                                                 \__(
+    |      |           |                                                     \__ident(gfact)
+    |      |           |                                                     \__list
+    |      |           |                                                            \__-
+    |      |           |                                                            |   \__ident(y)
+    |      |           |                                                            |   \__intconst(1)
+    |      |           |                                                            \__ident(p)
+    |      |           |                                                            \__ident(n)
+    |      |           |                                                            \__ident(f)
+    |      |           \__list
+    |      |                  \__(
+    |      |                      \__ident(gfact)
+    |      |                      \__list
+    |      |                             \__ident(n)
+    |      |                             \__intconst(1)
+    |      |                             \__ident(z)
+    |      |                             \__ident(f)
+    |      \__procedure
+    |      |           \__ident(F)
+    |      |           |        \__list
+    |      |           |               \__val
+    |      |           |               |     \__ident(n)
+    |      |           |               |     \__int
+    |      |           |               \__ref
+    |      |           |               |     \__ident(f1)
+    |      |           |               |     \__int
+    |      |           |               \__ref
+    |      |           |               |     \__ident(f2)
+    |      |           |               |     \__int
+    |      |           |               \__ref
+    |      |           |               |     \__ident(f3)
+    |      |           |               |     \__int
+    |      |           |               \__val
+    |      |           |                     \__ident(f4)
+    |      |           |                     \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |      |           \__ident(fibon)
+    |      |           |      |           |            \__list
+    |      |           |      |           |                   \__val
+    |      |           |      |           |                   |     \__ident(n)
+    |      |           |      |           |                   |     \__int
+    |      |           |      |           |                   \__ref
+    |      |           |      |           |                   |     \__ident(f)
+    |      |           |      |           |                   |     \__int
+    |      |           |      |           |                   \__ref
+    |      |           |      |           |                         \__ident(f1)
+    |      |           |      |           |                         \__int
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |                  \__if
+    |      |           |      |                       \__=
+    |      |           |      |                       |   \__ident(n)
+    |      |           |      |                       |   \__intconst(1)
+    |      |           |      |                       \__list
+    |      |           |      |                       |      \__:=
+    |      |           |      |                       |      |    \__ident(f)
+    |      |           |      |                       |      |    \__intconst(1)
+    |      |           |      |                       |      \__:=
+    |      |           |      |                       |           \__ident(f1)
+    |      |           |      |                       |           \__intconst(0)
+    |      |           |      |                       \__list
+    |      |           |      |                              \__if
+    |      |           |      |                                   \__>
+    |      |           |      |                                   |   \__ident(n)
+    |      |           |      |                                   |   \__intconst(1)
+    |      |           |      |                                   \__list
+    |      |           |      |                                          \__(
+    |      |           |      |                                          |   \__ident(fibon)
+    |      |           |      |                                          |   \__list
+    |      |           |      |                                          |          \__-
+    |      |           |      |                                          |          |   \__ident(n)
+    |      |           |      |                                          |          |   \__intconst(1)
+    |      |           |      |                                          |          \__ident(f)
+    |      |           |      |                                          |          \__ident(f1)
+    |      |           |      |                                          \__:=
+    |      |           |      |                                          |    \__ident(aux)
+    |      |           |      |                                          |    \__ident(f)
+    |      |           |      |                                          \__:=
+    |      |           |      |                                          |    \__ident(f)
+    |      |           |      |                                          |    \__+
+    |      |           |      |                                          |        \__ident(aux)
+    |      |           |      |                                          |        \__ident(f1)
+    |      |           |      |                                          \__:=
+    |      |           |      |                                               \__ident(f1)
+    |      |           |      |                                               \__ident(aux)
+    |      |           |      \__procedure
+    |      |           |                  \__ident(fibon2)
+    |      |           |                  |             \__list
+    |      |           |                  |                    \__val
+    |      |           |                  |                    |     \__ident(n)
+    |      |           |                  |                    |     \__int
+    |      |           |                  |                    \__ref
+    |      |           |                  |                          \__ident(f)
+    |      |           |                  |                          \__int
+    |      |           |                  \__list
+    |      |           |                  |      \__ident(f1)
+    |      |           |                  |      |         \__int
+    |      |           |                  |      \__ident(f2)
+    |      |           |                  |                \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__if
+    |      |           |                              \__=
+    |      |           |                              |   \__ident(n)
+    |      |           |                              |   \__intconst(0)
+    |      |           |                              \__list
+    |      |           |                              |      \__:=
+    |      |           |                              |           \__ident(f)
+    |      |           |                              |           \__intconst(0)
+    |      |           |                              \__list
+    |      |           |                                     \__if
+    |      |           |                                          \__=
+    |      |           |                                          |   \__ident(n)
+    |      |           |                                          |   \__intconst(1)
+    |      |           |                                          \__list
+    |      |           |                                          |      \__:=
+    |      |           |                                          |           \__ident(f)
+    |      |           |                                          |           \__intconst(1)
+    |      |           |                                          \__list
+    |      |           |                                                 \__if
+    |      |           |                                                      \__>
+    |      |           |                                                      |   \__ident(n)
+    |      |           |                                                      |   \__intconst(1)
+    |      |           |                                                      \__list
+    |      |           |                                                             \__(
+    |      |           |                                                             |   \__ident(fibon2)
+    |      |           |                                                             |   \__list
+    |      |           |                                                             |          \__-
+    |      |           |                                                             |          |   \__ident(n)
+    |      |           |                                                             |          |   \__intconst(1)
+    |      |           |                                                             |          \__ident(f1)
+    |      |           |                                                             \__(
+    |      |           |                                                             |   \__ident(fibon2)
+    |      |           |                                                             |   \__list
+    |      |           |                                                             |          \__-
+    |      |           |                                                             |          |   \__ident(n)
+    |      |           |                                                             |          |   \__intconst(2)
+    |      |           |                                                             |          \__ident(f2)
+    |      |           |                                                             \__:=
+    |      |           |                                                                  \__ident(f)
+    |      |           |                                                                  \__+
+    |      |           |                                                                      \__ident(f1)
+    |      |           |                                                                      \__ident(f2)
+    |      |           \__list
+    |      |                  \__(
+    |      |                  |   \__ident(fibon)
+    |      |                  |   \__list
+    |      |                  |          \__ident(n)
+    |      |                  |          \__ident(f1)
+    |      |                  |          \__ident(f2)
+    |      |                  \__(
+    |      |                  |   \__ident(fibon2)
+    |      |                  |   \__list
+    |      |                  |          \__ident(n)
+    |      |                  |          \__ident(f4)
+    |      |                  \__:=
+    |      |                       \__ident(f3)
+    |      |                       \__ident(f4)
+    |      \__procedure
+    |                  \__ident(trad)
+    |                  |           \__list
+    |                  |                  \__val
+    |                  |                  |     \__ident(n)
+    |                  |                  |     \__int
+    |                  |                  \__ref
+    |                  |                        \__ident(m)
+    |                  |                        \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |      |           \__ident(dividir)
+    |                  |      |           |              \__list
+    |                  |      |           |                     \__val
+    |                  |      |           |                     |     \__ident(a)
+    |                  |      |           |                     |     \__int
+    |                  |      |           |                     \__val
+    |                  |      |           |                     |     \__ident(b)
+    |                  |      |           |                     |     \__int
+    |                  |      |           |                     \__ref
+    |                  |      |           |                     |     \__ident(c)
+    |                  |      |           |                     |     \__int
+    |                  |      |           |                     \__ref
+    |                  |      |           |                           \__ident(r)
+    |                  |      |           |                           \__int
+    |                  |      |           \__list
+    |                  |      |           \__list
+    |                  |      |           \__list
+    |                  |      |                  \__if
+    |                  |      |                       \__<
+    |                  |      |                       |   \__ident(a)
+    |                  |      |                       |   \__ident(b)
+    |                  |      |                       \__list
+    |                  |      |                       |      \__:=
+    |                  |      |                       |      |    \__ident(c)
+    |                  |      |                       |      |    \__intconst(0)
+    |                  |      |                       |      \__:=
+    |                  |      |                       |           \__ident(r)
+    |                  |      |                       |           \__ident(a)
+    |                  |      |                       \__list
+    |                  |      |                              \__(
+    |                  |      |                              |   \__ident(dividir)
+    |                  |      |                              |   \__list
+    |                  |      |                              |          \__ident(a)
+    |                  |      |                              |          \__*
+    |                  |      |                              |          |   \__intconst(2)
+    |                  |      |                              |          |   \__ident(b)
+    |                  |      |                              |          \__ident(c)
+    |                  |      |                              |          \__ident(r)
+    |                  |      |                              \__if
+    |                  |      |                                   \__<
+    |                  |      |                                   |   \__ident(r)
+    |                  |      |                                   |   \__ident(b)
+    |                  |      |                                   \__list
+    |                  |      |                                   |      \__:=
+    |                  |      |                                   |           \__ident(c)
+    |                  |      |                                   |           \__*
+    |                  |      |                                   |               \__intconst(2)
+    |                  |      |                                   |               \__ident(c)
+    |                  |      |                                   \__list
+    |                  |      |                                          \__:=
+    |                  |      |                                          |    \__ident(c)
+    |                  |      |                                          |    \__+
+    |                  |      |                                          |        \__*
+    |                  |      |                                          |        |   \__intconst(2)
+    |                  |      |                                          |        |   \__ident(c)
+    |                  |      |                                          |        \__intconst(1)
+    |                  |      |                                          \__:=
+    |                  |      |                                               \__ident(r)
+    |                  |      |                                               \__-
+    |                  |      |                                                   \__ident(r)
+    |                  |      |                                                   \__ident(b)
+    |                  |      \__procedure
+    |                  |                  \__ident(gtrad)
+    |                  |                  |            \__list
+    |                  |                  |                   \__val
+    |                  |                  |                   |     \__ident(u)
+    |                  |                  |                   |     \__int
+    |                  |                  |                   \__val
+    |                  |                  |                   |     \__ident(v)
+    |                  |                  |                   |     \__int
+    |                  |                  |                   \__val
+    |                  |                  |                   |     \__ident(w)
+    |                  |                  |                   |     \__int
+    |                  |                  |                   \__val
+    |                  |                  |                   |     \__ident(q)
+    |                  |                  |                   |     \__int
+    |                  |                  |                   \__ref
+    |                  |                  |                         \__ident(m)
+    |                  |                  |                         \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__if
+    |                  |                              \__=
+    |                  |                              |   \__ident(w)
+    |                  |                              |   \__intconst(0)
+    |                  |                              \__list
+    |                  |                              |      \__:=
+    |                  |                              |           \__ident(m)
+    |                  |                              |           \__ident(u)
+    |                  |                              \__list
+    |                  |                                     \__if
+    |                  |                                          \__>
+    |                  |                                          |   \__ident(w)
+    |                  |                                          |   \__intconst(0)
+    |                  |                                          \__list
+    |                  |                                                 \__(
+    |                  |                                                 |   \__ident(dividir)
+    |                  |                                                 |   \__list
+    |                  |                                                 |          \__ident(w)
+    |                  |                                                 |          \__intconst(2)
+    |                  |                                                 |          \__ident(q)
+    |                  |                                                 |          \__ident(r)
+    |                  |                                                 \__(
+    |                  |                                                     \__ident(gtrad)
+    |                  |                                                     \__list
+    |                  |                                                            \__+
+    |                  |                                                            |   \__ident(u)
+    |                  |                                                            |   \__*
+    |                  |                                                            |       \__ident(v)
+    |                  |                                                            |       \__ident(r)
+    |                  |                                                            \__*
+    |                  |                                                            |   \__ident(v)
+    |                  |                                                            |   \__intconst(10)
+    |                  |                                                            \__ident(q)
+    |                  |                                                            \__ident(q)
+    |                  |                                                            \__ident(m)
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(m)
+    |                         |    \__intconst(0)
+    |                         \__(
+    |                             \__ident(gtrad)
+    |                             \__list
+    |                                    \__ident(m)
+    |                                    \__+
+    |                                    |   \__ident(m)
+    |                                    |   \__intconst(1)
+    |                                    \__ident(n)
+    |                                    \__ident(m)
+    |                                    \__ident(m)
+    \__list
+           \__:=
+           |    \__ident(aux)
+           |    \__intconst(6)
+           \__(
+           |   \__ident(fact)
+           |   \__list
+           |          \__ident(aux)
+           |          \__ident(aux)
+           |          \__ident(f)
+           \__writeln
+           |         \__ident(f)
+           \__(
+           |   \__ident(F)
+           |   \__list
+           |          \__intconst(8)
+           |          \__ident(f1)
+           |          \__ident(f2)
+           |          \__ident(f3)
+           |          \__intconst(96)
+           \__if
+           |    \__=
+           |    |   \__ident(f1)
+           |    |   \__ident(f3)
+           |    \__list
+           |           \__write
+           |           |       \__ident(f1)
+           |           \__write
+           |           |       \__string("  ")
+           |           \__writeln
+           |                     \__ident(f2)
+           \__(
+           |   \__ident(trad)
+           |   \__list
+           |          \__intconst(19)
+           |          \__ident(m)
+           \__writeln
+                     \__ident(m)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _f 4
+    _f1 4
+    _f2 4
+    _f3 4
+    _m 4
+    _r 4
+    _aux 4
+  endvariables
+
+    aload _aux t0
+    iload 6 t1
+    stor t1 t0
+    load _aux t0
+    pushparam t0
+    aload _aux t0
+    pushparam t0
+    aload _f t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_fact
+    killparam
+    killparam
+    killparam
+    killparam
+    load _f t0
+    wrii t0
+    wrln
+    iload 8 t0
+    pushparam t0
+    aload _f1 t0
+    pushparam t0
+    aload _f2 t0
+    pushparam t0
+    aload _f3 t0
+    pushparam t0
+    iload 96 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    load _f1 t0
+    load _f3 t1
+    equi t0 t1 t0
+    fjmp t0 endif_1
+    load _f1 t0
+    wrii t0
+    wris "  "
+    load _f2 t0
+    wrii t0
+    wrln
+  etiq endif_1
+    iload 19 t0
+    pushparam t0
+    aload _m t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_trad
+    killparam
+    killparam
+    killparam
+    load _m t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_fact_mult
+  parameters
+    _a
+    _b
+    _p
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _a t0
+    load t0 t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _p t0
+    iload 0 t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _a t0
+    load t0 t0
+    iload 0 t1
+    grti t0 t1 t0
+    fjmp t0 endif_2
+    load _a t0
+    load _a t1
+    load t1 t1
+    iload 1 t2
+    subi t1 t2 t1
+    stor t1 t0
+    load _a t0
+    pushparam t0
+    load _b t0
+    pushparam t0
+    load _p t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_fact_mult
+    killparam
+    killparam
+    killparam
+    killparam
+    load _p t0
+    load _p t1
+    load t1 t1
+    load _b t2
+    load t2 t2
+    addi t1 t2 t1
+    stor t1 t0
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_fact_gfact
+  parameters
+    _y
+    _w
+    _n
+    _f
+    static_link
+  endparameters
+
+  variables
+    _p 4
+    _aux 4
+  endvariables
+
+    load _y t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _f t0
+    load _w t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _y t0
+    iload 0 t1
+    grti t0 t1 t0
+    fjmp t0 endif_2
+    aload _aux t0
+    load _y t1
+    stor t1 t0
+    aload _y t0
+    pushparam t0
+    aload _w t0
+    pushparam t0
+    aload _p t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_fact_mult
+    killparam
+    killparam
+    killparam
+    killparam
+    aload _y t0
+    load _aux t1
+    stor t1 t0
+    load _y t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    load _p t0
+    pushparam t0
+    load _n t0
+    pushparam t0
+    load _f t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_fact_gfact
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_fact
+  parameters
+    _n
+    _z
+    _f
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _n t0
+    pushparam t0
+    iload 1 t0
+    pushparam t0
+    load _z t0
+    load t0 t0
+    pushparam t0
+    load _f t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_fact_gfact
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_F_fibon
+  parameters
+    _n
+    _f
+    _f1
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _n t0
+    iload 1 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _f t0
+    iload 1 t1
+    stor t1 t0
+    load _f1 t0
+    iload 0 t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _n t0
+    iload 1 t1
+    grti t0 t1 t0
+    fjmp t0 endif_2
+    load _n t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    load _f t0
+    pushparam t0
+    load _f1 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_F_fibon
+    killparam
+    killparam
+    killparam
+    killparam
+    load static_link t0
+    load t0 t0
+    addi t0 offset(program:_aux) t0
+    load _f t1
+    load t1 t1
+    stor t1 t0
+    load _f t0
+    load static_link t1
+    load t1 t1
+    addi t1 offset(program:_aux) t1
+    load t1 t1
+    load _f1 t2
+    load t2 t2
+    addi t1 t2 t1
+    stor t1 t0
+    load _f1 t0
+    load static_link t1
+    load t1 t1
+    addi t1 offset(program:_aux) t1
+    load t1 t1
+    stor t1 t0
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_F_fibon2
+  parameters
+    _n
+    _f
+    static_link
+  endparameters
+
+  variables
+    _f1 4
+    _f2 4
+  endvariables
+
+    load _n t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _f t0
+    iload 0 t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _n t0
+    iload 1 t1
+    equi t0 t1 t0
+    fjmp t0 else_2
+    load _f t0
+    iload 1 t1
+    stor t1 t0
+    ujmp endif_2
+  etiq else_2
+    load _n t0
+    iload 1 t1
+    grti t0 t1 t0
+    fjmp t0 endif_3
+    load _n t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    aload _f1 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_F_fibon2
+    killparam
+    killparam
+    killparam
+    load _n t0
+    iload 2 t1
+    subi t0 t1 t0
+    pushparam t0
+    aload _f2 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_F_fibon2
+    killparam
+    killparam
+    killparam
+    load _f t0
+    load _f1 t1
+    load _f2 t2
+    addi t1 t2 t1
+    stor t1 t0
+  etiq endif_3
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_F
+  parameters
+    _n
+    _f1
+    _f2
+    _f3
+    _f4
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _n t0
+    pushparam t0
+    load _f1 t0
+    pushparam t0
+    load _f2 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F_fibon
+    killparam
+    killparam
+    killparam
+    killparam
+    load _n t0
+    pushparam t0
+    aload _f4 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F_fibon2
+    killparam
+    killparam
+    killparam
+    load _f3 t0
+    load _f4 t1
+    stor t1 t0
+    retu
+endsubroutine
+
+subroutine program_trad_dividir
+  parameters
+    _a
+    _b
+    _c
+    _r
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _a t0
+    load _b t1
+    lesi t0 t1 t0
+    fjmp t0 else_1
+    load _c t0
+    iload 0 t1
+    stor t1 t0
+    load _r t0
+    load _a t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _a t0
+    pushparam t0
+    iload 2 t0
+    load _b t1
+    muli t0 t1 t0
+    pushparam t0
+    load _c t0
+    pushparam t0
+    load _r t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_trad_dividir
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    load _r t0
+    load t0 t0
+    load _b t1
+    lesi t0 t1 t0
+    fjmp t0 else_2
+    load _c t0
+    iload 2 t1
+    load _c t2
+    load t2 t2
+    muli t1 t2 t1
+    stor t1 t0
+    ujmp endif_2
+  etiq else_2
+    load _c t0
+    iload 2 t1
+    load _c t2
+    load t2 t2
+    muli t1 t2 t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    load _r t0
+    load _r t1
+    load t1 t1
+    load _b t2
+    subi t1 t2 t1
+    stor t1 t0
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_trad_gtrad
+  parameters
+    _u
+    _v
+    _w
+    _q
+    _m
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _w t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _m t0
+    load _u t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _w t0
+    iload 0 t1
+    grti t0 t1 t0
+    fjmp t0 endif_2
+    load _w t0
+    pushparam t0
+    iload 2 t0
+    pushparam t0
+    aload _q t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    addi t0 offset(program:_r) t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_trad_dividir
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    load _u t0
+    load _v t1
+    load static_link t2
+    load t2 t2
+    addi t2 offset(program:_r) t2
+    load t2 t2
+    muli t1 t2 t1
+    addi t0 t1 t0
+    pushparam t0
+    load _v t0
+    iload 10 t1
+    muli t0 t1 t0
+    pushparam t0
+    load _q t0
+    pushparam t0
+    load _q t0
+    pushparam t0
+    load _m t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_trad_gtrad
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_trad
+  parameters
+    _n
+    _m
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _m t0
+    iload 0 t1
+    stor t1 t0
+    load _m t0
+    load t0 t0
+    pushparam t0
+    load _m t0
+    load t0 t0
+    iload 1 t1
+    addi t0 t1 t0
+    pushparam t0
+    load _n t0
+    pushparam t0
+    load _m t0
+    load t0 t0
+    pushparam t0
+    load _m t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_trad_gtrad
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    killparam
+    retu
+endsubroutine
+
+Executing code:
+720
+21  13
+10011

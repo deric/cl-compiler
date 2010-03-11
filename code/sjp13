@@ -1,0 +1,198 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     X Int
+  4:     Y Bool
+  5:     Z Struct x int y bool EndStruct
+  6:   ENDVARS
+  7:     Function p(Val X Int) Return Array [10] Of Int
+  8:         Return r
+  9:     EndFunction
+ 10:     Function r() Return Int
+ 11:         Return true
+ 12:     EndFunction
+ 13:     Function s() Return Struct x int y bool EndStruct
+ 14:         Return 3
+ 15:     EndFunction 
+ 16:     Function t() Return Bool
+ 17:         Return s
+ 18:     EndFunction
+ 19:     Function t() Return Bool
+ 20:         Return t
+ 21:     EndFunction
+ 22: 
+ 23:     read(X)
+ 24:     read(Y)
+ 25:     read(p)
+ 26:     read(r)
+ 27:     read(s)
+ 28:     read(Z)
+ 29: 
+ 30:     write(r())
+ 31:     writeln(s())
+ 32:     writeln(Z)
+ 33:     IF X THEN
+ 34:         WHILE Z DO
+ 35: 	   X:=5
+ 36: 	ENDWHILE
+ 37:     ENDIF
+ 38:     IF s() THEN
+ 39:         WHILE X=Y DO
+ 40: 	   Y:=true
+ 41: 	ENDWHILE
+ 42:     ENDIF
+ 43:     IF Z.x=Z THEN
+ 44:         WHILE p() DO
+ 45: 	   Y:=true
+ 46: 	ENDWHILE
+ 47:     ENDIF
+ 48: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |      |        \__bool
+    |      \__ident(Z)
+    |               \__struct
+    |                        \__ident(x)
+    |                        |        \__int
+    |                        \__ident(y)
+    |                                 \__bool
+    \__list
+    |      \__function
+    |      |          \__ident(p)
+    |      |          |        \__list
+    |      |          |        |      \__val
+    |      |          |        |            \__ident(X)
+    |      |          |        |            \__int
+    |      |          |        \__array
+    |      |          |                \__intconst(10)
+    |      |          |                \__int
+    |      |          \__list
+    |      |          \__list
+    |      |          \__list
+    |      |          \__ident(r)
+    |      \__function
+    |      |          \__ident(r)
+    |      |          |        \__list
+    |      |          |        \__int
+    |      |          \__list
+    |      |          \__list
+    |      |          \__list
+    |      |          \__true
+    |      \__function
+    |      |          \__ident(s)
+    |      |          |        \__list
+    |      |          |        \__struct
+    |      |          |                 \__ident(x)
+    |      |          |                 |        \__int
+    |      |          |                 \__ident(y)
+    |      |          |                          \__bool
+    |      |          \__list
+    |      |          \__list
+    |      |          \__list
+    |      |          \__intconst(3)
+    |      \__function
+    |      |          \__ident(t)
+    |      |          |        \__list
+    |      |          |        \__bool
+    |      |          \__list
+    |      |          \__list
+    |      |          \__list
+    |      |          \__ident(s)
+    |      \__function
+    |                 \__ident(t)
+    |                 |        \__list
+    |                 |        \__bool
+    |                 \__list
+    |                 \__list
+    |                 \__list
+    |                 \__ident(t)
+    \__list
+           \__read
+           |      \__ident(X)
+           \__read
+           |      \__ident(Y)
+           \__read
+           |      \__ident(p)
+           \__read
+           |      \__ident(r)
+           \__read
+           |      \__ident(s)
+           \__read
+           |      \__ident(Z)
+           \__write
+           |       \__(
+           |           \__ident(r)
+           |           \__list
+           \__writeln
+           |         \__(
+           |             \__ident(s)
+           |             \__list
+           \__writeln
+           |         \__ident(Z)
+           \__if
+           |    \__ident(X)
+           |    \__list
+           |           \__while
+           |                   \__ident(Z)
+           |                   \__list
+           |                          \__:=
+           |                               \__ident(X)
+           |                               \__intconst(5)
+           \__if
+           |    \__(
+           |    |   \__ident(s)
+           |    |   \__list
+           |    \__list
+           |           \__while
+           |                   \__=
+           |                   |   \__ident(X)
+           |                   |   \__ident(Y)
+           |                   \__list
+           |                          \__:=
+           |                               \__ident(Y)
+           |                               \__true
+           \__if
+                \__=
+                |   \__.
+                |   |   \__ident(Z)
+                |   |   \__ident(x)
+                |   \__ident(Z)
+                \__list
+                       \__while
+                               \__(
+                               |   \__ident(p)
+                               |   \__list
+                               \__list
+                                      \__:=
+                                           \__ident(Y)
+                                           \__true
+
+
+Type Checking:
+
+L. 19: Identifier t already declared.
+L. 8: Return with incompatible type.
+L. 11: Return with incompatible type.
+L. 14: Return with incompatible type.
+L. 17: Return with incompatible type.
+L. 20: Return with incompatible type.
+L. 25: Referenceable expression required in read.
+L. 26: Referenceable expression required in read.
+L. 27: Referenceable expression required in read.
+L. 28: Basic type required in read.
+L. 31: Basic type required in writeln.
+L. 32: Basic type required in writeln.
+L. 33: Instruction if requires a boolean condition.
+L. 34: Instruction while requires a boolean condition.
+L. 38: Instruction if requires a boolean condition.
+L. 39: Operator = with incompatible types.
+L. 43: Operator = with incompatible types.
+L. 44: The number of parameters in the call do not match.
+L. 44: Instruction while requires a boolean condition.
+There are errors: no code generated

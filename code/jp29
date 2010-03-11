@@ -1,0 +1,46 @@
+PROGRAM
+
+  PROCEDURE A1()
+    WRITELN("")
+  ENDPROCEDURE //A1
+
+  PROCEDURE A2(VAL j INT)
+    IF (j=0) THEN WRITE("soy A2 llamado por main ") A1()
+    ELSE
+      IF (j=3) THEN WRITE("soy A2 llamado por ABC ") A1()
+      ELSE WRITE("soy A2 llamado por AB1 ") A1()
+      ENDIF
+    ENDIF
+  ENDPROCEDURE //A2
+
+  PROCEDURE A3(VAL i INT)
+
+    PROCEDURE AB1(VAL k INT)
+      PROCEDURE ABC()
+        A2(3) //desde aqui no podemos llamar a A32 ni a A3
+        A3(3)
+        AB1(i-1)
+      ENDPROCEDURE //ABC
+
+      IF (k>-1) THEN ABC()
+      ELSE A2(2)
+      ENDIF
+    ENDPROCEDURE //AB1
+
+    PROCEDURE AB2()
+      AB1(i)
+    ENDPROCEDURE //AB2
+
+    IF (i=0)  THEN
+      WRITE("soy A3 llamado por main ") A1()
+      AB2()
+    ELSE WRITE("soy A3 llamado por ABC ") A1()
+    ENDIF
+  ENDPROCEDURE //A3
+
+  PROCEDURE A4()
+  ENDPROCEDURE //A4
+
+  A2(0)
+  A3(0) //desde aqui no podemos llamar a AB1 ni a A32
+ENDPROGRAM

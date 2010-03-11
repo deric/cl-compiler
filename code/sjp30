@@ -1,0 +1,633 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     X INT
+  4:     Y INT
+  5:   ENDVARS
+  6: 
+  7:   PROCEDURE F2(VAL X INT, REF Y INT)
+  8:     PROCEDURE F21(VAL X INT, REF Y INT)
+  9: 
+ 10:       PROCEDURE F211(VAL X INT, REF Y INT)
+ 11:       ENDPROCEDURE
+ 12: 
+ 13:       PROCEDURE F212(VAL X INT, REF Y INT)
+ 14:       ENDPROCEDURE
+ 15: 
+ 16:     ENDPROCEDURE
+ 17: 
+ 18:     PROCEDURE F22(VAL X INT, REF Y INT)
+ 19: 
+ 20:       PROCEDURE F221(VAL X INT, REF Y INT)
+ 21:       ENDPROCEDURE
+ 22: 
+ 23:       PROCEDURE F222(VAL X INT, REF Y INT)
+ 24:       Y := Y-1
+ 25:       IF 0 < Y THEN F22(X,Y) ELSE X := 1 ENDIF
+ 26:       ENDPROCEDURE
+ 27: 
+ 28:     IF 0 < X THEN F222(X-1,Y) ELSE X := 2 ENDIF
+ 29:     ENDPROCEDURE
+ 30: 
+ 31:   F1(X, Y)
+ 32:   ENDPROCEDURE
+ 33: 
+ 34:   PROCEDURE F1(VAL X INT, REF Y INT)
+ 35:     PROCEDURE F11(VAL X INT, REF Y INT)
+ 36: 
+ 37:       PROCEDURE F111(VAL X INT, REF Y INT)
+ 38:         WRITE(111)
+ 39:       ENDPROCEDURE
+ 40: 
+ 41:       PROCEDURE F112(VAL X INT, REF Y INT)
+ 42:         WRITE(112)
+ 43:       ENDPROCEDURE
+ 44:       WRITE(11)
+ 45:       F12(X, Y)
+ 46:     ENDPROCEDURE
+ 47: 
+ 48:     PROCEDURE F12(VAL X INT, REF Y INT)
+ 49: 
+ 50:       PROCEDURE F121(VAL X INT, REF Y INT)
+ 51:         WRITE(121)
+ 52:       ENDPROCEDURE
+ 53: 
+ 54:       PROCEDURE F122(VAL X INT, REF Y INT)
+ 55:         WRITE(122)
+ 56:       ENDPROCEDURE
+ 57:       WRITE(12)
+ 58:     ENDPROCEDURE
+ 59:   F11(X, Y)
+ 60:   ENDPROCEDURE
+ 61: X := 1
+ 62: Y := 2
+ 63: F2(X,Y)
+ 64: WRITELN(Y)
+ 65: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |               \__int
+    \__list
+    |      \__procedure
+    |      |           \__ident(F2)
+    |      |           |         \__list
+    |      |           |                \__val
+    |      |           |                |     \__ident(X)
+    |      |           |                |     \__int
+    |      |           |                \__ref
+    |      |           |                      \__ident(Y)
+    |      |           |                      \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |      |           \__ident(F21)
+    |      |           |      |           |          \__list
+    |      |           |      |           |                 \__val
+    |      |           |      |           |                 |     \__ident(X)
+    |      |           |      |           |                 |     \__int
+    |      |           |      |           |                 \__ref
+    |      |           |      |           |                       \__ident(Y)
+    |      |           |      |           |                       \__int
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |           |      \__procedure
+    |      |           |      |           |      |           \__ident(F211)
+    |      |           |      |           |      |           |           \__list
+    |      |           |      |           |      |           |                  \__val
+    |      |           |      |           |      |           |                  |     \__ident(X)
+    |      |           |      |           |      |           |                  |     \__int
+    |      |           |      |           |      |           |                  \__ref
+    |      |           |      |           |      |           |                        \__ident(Y)
+    |      |           |      |           |      |           |                        \__int
+    |      |           |      |           |      |           \__list
+    |      |           |      |           |      |           \__list
+    |      |           |      |           |      |           \__list
+    |      |           |      |           |      \__procedure
+    |      |           |      |           |                  \__ident(F212)
+    |      |           |      |           |                  |           \__list
+    |      |           |      |           |                  |                  \__val
+    |      |           |      |           |                  |                  |     \__ident(X)
+    |      |           |      |           |                  |                  |     \__int
+    |      |           |      |           |                  |                  \__ref
+    |      |           |      |           |                  |                        \__ident(Y)
+    |      |           |      |           |                  |                        \__int
+    |      |           |      |           |                  \__list
+    |      |           |      |           |                  \__list
+    |      |           |      |           |                  \__list
+    |      |           |      |           \__list
+    |      |           |      \__procedure
+    |      |           |                  \__ident(F22)
+    |      |           |                  |          \__list
+    |      |           |                  |                 \__val
+    |      |           |                  |                 |     \__ident(X)
+    |      |           |                  |                 |     \__int
+    |      |           |                  |                 \__ref
+    |      |           |                  |                       \__ident(Y)
+    |      |           |                  |                       \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                  |      \__procedure
+    |      |           |                  |      |           \__ident(F221)
+    |      |           |                  |      |           |           \__list
+    |      |           |                  |      |           |                  \__val
+    |      |           |                  |      |           |                  |     \__ident(X)
+    |      |           |                  |      |           |                  |     \__int
+    |      |           |                  |      |           |                  \__ref
+    |      |           |                  |      |           |                        \__ident(Y)
+    |      |           |                  |      |           |                        \__int
+    |      |           |                  |      |           \__list
+    |      |           |                  |      |           \__list
+    |      |           |                  |      |           \__list
+    |      |           |                  |      \__procedure
+    |      |           |                  |                  \__ident(F222)
+    |      |           |                  |                  |           \__list
+    |      |           |                  |                  |                  \__val
+    |      |           |                  |                  |                  |     \__ident(X)
+    |      |           |                  |                  |                  |     \__int
+    |      |           |                  |                  |                  \__ref
+    |      |           |                  |                  |                        \__ident(Y)
+    |      |           |                  |                  |                        \__int
+    |      |           |                  |                  \__list
+    |      |           |                  |                  \__list
+    |      |           |                  |                  \__list
+    |      |           |                  |                         \__:=
+    |      |           |                  |                         |    \__ident(Y)
+    |      |           |                  |                         |    \__-
+    |      |           |                  |                         |        \__ident(Y)
+    |      |           |                  |                         |        \__intconst(1)
+    |      |           |                  |                         \__if
+    |      |           |                  |                              \__<
+    |      |           |                  |                              |   \__intconst(0)
+    |      |           |                  |                              |   \__ident(Y)
+    |      |           |                  |                              \__list
+    |      |           |                  |                              |      \__(
+    |      |           |                  |                              |          \__ident(F22)
+    |      |           |                  |                              |          \__list
+    |      |           |                  |                              |                 \__ident(X)
+    |      |           |                  |                              |                 \__ident(Y)
+    |      |           |                  |                              \__list
+    |      |           |                  |                                     \__:=
+    |      |           |                  |                                          \__ident(X)
+    |      |           |                  |                                          \__intconst(1)
+    |      |           |                  \__list
+    |      |           |                         \__if
+    |      |           |                              \__<
+    |      |           |                              |   \__intconst(0)
+    |      |           |                              |   \__ident(X)
+    |      |           |                              \__list
+    |      |           |                              |      \__(
+    |      |           |                              |          \__ident(F222)
+    |      |           |                              |          \__list
+    |      |           |                              |                 \__-
+    |      |           |                              |                 |   \__ident(X)
+    |      |           |                              |                 |   \__intconst(1)
+    |      |           |                              |                 \__ident(Y)
+    |      |           |                              \__list
+    |      |           |                                     \__:=
+    |      |           |                                          \__ident(X)
+    |      |           |                                          \__intconst(2)
+    |      |           \__list
+    |      |                  \__(
+    |      |                      \__ident(F1)
+    |      |                      \__list
+    |      |                             \__ident(X)
+    |      |                             \__ident(Y)
+    |      \__procedure
+    |                  \__ident(F1)
+    |                  |         \__list
+    |                  |                \__val
+    |                  |                |     \__ident(X)
+    |                  |                |     \__int
+    |                  |                \__ref
+    |                  |                      \__ident(Y)
+    |                  |                      \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |      |           \__ident(F11)
+    |                  |      |           |          \__list
+    |                  |      |           |                 \__val
+    |                  |      |           |                 |     \__ident(X)
+    |                  |      |           |                 |     \__int
+    |                  |      |           |                 \__ref
+    |                  |      |           |                       \__ident(Y)
+    |                  |      |           |                       \__int
+    |                  |      |           \__list
+    |                  |      |           \__list
+    |                  |      |           |      \__procedure
+    |                  |      |           |      |           \__ident(F111)
+    |                  |      |           |      |           |           \__list
+    |                  |      |           |      |           |                  \__val
+    |                  |      |           |      |           |                  |     \__ident(X)
+    |                  |      |           |      |           |                  |     \__int
+    |                  |      |           |      |           |                  \__ref
+    |                  |      |           |      |           |                        \__ident(Y)
+    |                  |      |           |      |           |                        \__int
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |                  \__write
+    |                  |      |           |      |                          \__intconst(111)
+    |                  |      |           |      \__procedure
+    |                  |      |           |                  \__ident(F112)
+    |                  |      |           |                  |           \__list
+    |                  |      |           |                  |                  \__val
+    |                  |      |           |                  |                  |     \__ident(X)
+    |                  |      |           |                  |                  |     \__int
+    |                  |      |           |                  |                  \__ref
+    |                  |      |           |                  |                        \__ident(Y)
+    |                  |      |           |                  |                        \__int
+    |                  |      |           |                  \__list
+    |                  |      |           |                  \__list
+    |                  |      |           |                  \__list
+    |                  |      |           |                         \__write
+    |                  |      |           |                                 \__intconst(112)
+    |                  |      |           \__list
+    |                  |      |                  \__write
+    |                  |      |                  |       \__intconst(11)
+    |                  |      |                  \__(
+    |                  |      |                      \__ident(F12)
+    |                  |      |                      \__list
+    |                  |      |                             \__ident(X)
+    |                  |      |                             \__ident(Y)
+    |                  |      \__procedure
+    |                  |                  \__ident(F12)
+    |                  |                  |          \__list
+    |                  |                  |                 \__val
+    |                  |                  |                 |     \__ident(X)
+    |                  |                  |                 |     \__int
+    |                  |                  |                 \__ref
+    |                  |                  |                       \__ident(Y)
+    |                  |                  |                       \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  |      \__procedure
+    |                  |                  |      |           \__ident(F121)
+    |                  |                  |      |           |           \__list
+    |                  |                  |      |           |                  \__val
+    |                  |                  |      |           |                  |     \__ident(X)
+    |                  |                  |      |           |                  |     \__int
+    |                  |                  |      |           |                  \__ref
+    |                  |                  |      |           |                        \__ident(Y)
+    |                  |                  |      |           |                        \__int
+    |                  |                  |      |           \__list
+    |                  |                  |      |           \__list
+    |                  |                  |      |           \__list
+    |                  |                  |      |                  \__write
+    |                  |                  |      |                          \__intconst(121)
+    |                  |                  |      \__procedure
+    |                  |                  |                  \__ident(F122)
+    |                  |                  |                  |           \__list
+    |                  |                  |                  |                  \__val
+    |                  |                  |                  |                  |     \__ident(X)
+    |                  |                  |                  |                  |     \__int
+    |                  |                  |                  |                  \__ref
+    |                  |                  |                  |                        \__ident(Y)
+    |                  |                  |                  |                        \__int
+    |                  |                  |                  \__list
+    |                  |                  |                  \__list
+    |                  |                  |                  \__list
+    |                  |                  |                         \__write
+    |                  |                  |                                 \__intconst(122)
+    |                  |                  \__list
+    |                  |                         \__write
+    |                  |                                 \__intconst(12)
+    |                  \__list
+    |                         \__(
+    |                             \__ident(F11)
+    |                             \__list
+    |                                    \__ident(X)
+    |                                    \__ident(Y)
+    \__list
+           \__:=
+           |    \__ident(X)
+           |    \__intconst(1)
+           \__:=
+           |    \__ident(Y)
+           |    \__intconst(2)
+           \__(
+           |   \__ident(F2)
+           |   \__list
+           |          \__ident(X)
+           |          \__ident(Y)
+           \__writeln
+                     \__ident(Y)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+  endvariables
+
+    aload _X t0
+    iload 1 t1
+    stor t1 t0
+    aload _Y t0
+    iload 2 t1
+    stor t1 t0
+    load _X t0
+    pushparam t0
+    aload _Y t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F2
+    killparam
+    killparam
+    killparam
+    load _Y t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_F2_F21_F211
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    retu
+endsubroutine
+
+subroutine program_F2_F21_F212
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    retu
+endsubroutine
+
+subroutine program_F2_F21
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    retu
+endsubroutine
+
+subroutine program_F2_F22_F221
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    retu
+endsubroutine
+
+subroutine program_F2_F22_F222
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _Y t0
+    load _Y t1
+    load t1 t1
+    iload 1 t2
+    subi t1 t2 t1
+    stor t1 t0
+    iload 0 t0
+    load _Y t1
+    load t1 t1
+    lesi t0 t1 t0
+    fjmp t0 else_1
+    load _X t0
+    pushparam t0
+    load _Y t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    pushparam t0
+    call program_F2_F22
+    killparam
+    killparam
+    killparam
+    ujmp endif_1
+  etiq else_1
+    aload _X t0
+    iload 1 t1
+    stor t1 t0
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_F2_F22
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 0 t0
+    load _X t1
+    lesi t0 t1 t0
+    fjmp t0 else_1
+    load _X t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    load _Y t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F2_F22_F222
+    killparam
+    killparam
+    killparam
+    ujmp endif_1
+  etiq else_1
+    aload _X t0
+    iload 2 t1
+    stor t1 t0
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_F2
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _X t0
+    pushparam t0
+    load _Y t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_F1
+    killparam
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_F1_F11_F111
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 111 t0
+    wrii t0
+    retu
+endsubroutine
+
+subroutine program_F1_F11_F112
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 112 t0
+    wrii t0
+    retu
+endsubroutine
+
+subroutine program_F1_F11
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 11 t0
+    wrii t0
+    load _X t0
+    pushparam t0
+    load _Y t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_F1_F12
+    killparam
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_F1_F12_F121
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 121 t0
+    wrii t0
+    retu
+endsubroutine
+
+subroutine program_F1_F12_F122
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 122 t0
+    wrii t0
+    retu
+endsubroutine
+
+subroutine program_F1_F12
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 12 t0
+    wrii t0
+    retu
+endsubroutine
+
+subroutine program_F1
+  parameters
+    _X
+    _Y
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _X t0
+    pushparam t0
+    load _Y t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_F1_F11
+    killparam
+    killparam
+    killparam
+    retu
+endsubroutine
+
+Executing code:
+11122

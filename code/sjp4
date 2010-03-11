@@ -1,0 +1,321 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x int
+  4:     y bool
+  5:     p bool
+  6:   ENDVARS
+  7:   PROCEDURE q()
+  8:     PROCEDURE p(val p int)
+  9:       VARS
+ 10:         x int
+ 11:         y bool
+ 12:         b bool
+ 13:       ENDVARS
+ 14:       p:=3+x/b
+ 15:       p(3)
+ 16:       IF NOT x THEN
+ 17:         WHILE NOT b=b OR 3*x+((-(x/2))-1)=y DO
+ 18:           x:=4---4/(y+3)=b
+ 19:         ENDWHILE
+ 20:         IF NOT -3=-3 OR (b OR b=b AND b) THEN
+ 21:           x:=3+y+x/(3 * 4---x)
+ 22:         ENDIF
+ 23:       ELSE
+ 24:         y:=(3>x) OR (b=b) AND (y=x)
+ 25:         b:=(NOT b OR NOT NOT (x>y))
+ 26:         x:=6/3/(b)
+ 27:       ENDIF
+ 28:       r(p)
+ 29:     ENDPROCEDURE
+ 30:     p:=3
+ 31:     p(p())
+ 32:   ENDPROCEDURE
+ 33:   PROCEDURE r(ref d int)
+ 34:     PROCEDURE p(val r bool,ref r2 bool,val i int,ref i int)
+ 35:       r:=4
+ 36:       r(3)
+ 37:       p:=3
+ 38:       p(y,y,3+y*5,y)
+ 39:     ENDPROCEDURE
+ 40:     r:=3
+ 41:     r(p)
+ 42:     p:=3
+ 43:     p(x,true,3+x*5,4)
+ 44:   ENDPROCEDURE
+ 45:   p:=3
+ 46:   p:=3
+ 47:   p(3)
+ 48: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__bool
+    |      \__ident(p)
+    |               \__bool
+    \__list
+    |      \__procedure
+    |      |           \__ident(q)
+    |      |           |        \__list
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |                  \__ident(p)
+    |      |           |                  |        \__list
+    |      |           |                  |               \__val
+    |      |           |                  |                     \__ident(p)
+    |      |           |                  |                     \__int
+    |      |           |                  \__list
+    |      |           |                  |      \__ident(x)
+    |      |           |                  |      |        \__int
+    |      |           |                  |      \__ident(y)
+    |      |           |                  |      |        \__bool
+    |      |           |                  |      \__ident(b)
+    |      |           |                  |               \__bool
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__:=
+    |      |           |                         |    \__ident(p)
+    |      |           |                         |    \__+
+    |      |           |                         |        \__intconst(3)
+    |      |           |                         |        \__/
+    |      |           |                         |            \__ident(x)
+    |      |           |                         |            \__ident(b)
+    |      |           |                         \__(
+    |      |           |                         |   \__ident(p)
+    |      |           |                         |   \__list
+    |      |           |                         |          \__intconst(3)
+    |      |           |                         \__if
+    |      |           |                         |    \__not
+    |      |           |                         |    |     \__ident(x)
+    |      |           |                         |    \__list
+    |      |           |                         |    |      \__while
+    |      |           |                         |    |      |       \__or
+    |      |           |                         |    |      |       |    \__=
+    |      |           |                         |    |      |       |    |   \__not
+    |      |           |                         |    |      |       |    |   |     \__ident(b)
+    |      |           |                         |    |      |       |    |   \__ident(b)
+    |      |           |                         |    |      |       |    \__=
+    |      |           |                         |    |      |       |        \__+
+    |      |           |                         |    |      |       |        |   \__*
+    |      |           |                         |    |      |       |        |   |   \__intconst(3)
+    |      |           |                         |    |      |       |        |   |   \__ident(x)
+    |      |           |                         |    |      |       |        |   \__-
+    |      |           |                         |    |      |       |        |       \__-
+    |      |           |                         |    |      |       |        |       |   \__/
+    |      |           |                         |    |      |       |        |       |       \__ident(x)
+    |      |           |                         |    |      |       |        |       |       \__intconst(2)
+    |      |           |                         |    |      |       |        |       \__intconst(1)
+    |      |           |                         |    |      |       |        \__ident(y)
+    |      |           |                         |    |      |       \__list
+    |      |           |                         |    |      |              \__:=
+    |      |           |                         |    |      |                   \__ident(x)
+    |      |           |                         |    |      |                   \__=
+    |      |           |                         |    |      |                       \__-
+    |      |           |                         |    |      |                       |   \__intconst(4)
+    |      |           |                         |    |      |                       |   \__/
+    |      |           |                         |    |      |                       |       \__-
+    |      |           |                         |    |      |                       |       |   \__-
+    |      |           |                         |    |      |                       |       |       \__intconst(4)
+    |      |           |                         |    |      |                       |       \__+
+    |      |           |                         |    |      |                       |           \__ident(y)
+    |      |           |                         |    |      |                       |           \__intconst(3)
+    |      |           |                         |    |      |                       \__ident(b)
+    |      |           |                         |    |      \__if
+    |      |           |                         |    |           \__or
+    |      |           |                         |    |           |    \__=
+    |      |           |                         |    |           |    |   \__not
+    |      |           |                         |    |           |    |   |     \__-
+    |      |           |                         |    |           |    |   |         \__intconst(3)
+    |      |           |                         |    |           |    |   \__-
+    |      |           |                         |    |           |    |       \__intconst(3)
+    |      |           |                         |    |           |    \__and
+    |      |           |                         |    |           |          \__or
+    |      |           |                         |    |           |          |    \__ident(b)
+    |      |           |                         |    |           |          |    \__=
+    |      |           |                         |    |           |          |        \__ident(b)
+    |      |           |                         |    |           |          |        \__ident(b)
+    |      |           |                         |    |           |          \__ident(b)
+    |      |           |                         |    |           \__list
+    |      |           |                         |    |                  \__:=
+    |      |           |                         |    |                       \__ident(x)
+    |      |           |                         |    |                       \__+
+    |      |           |                         |    |                           \__+
+    |      |           |                         |    |                           |   \__intconst(3)
+    |      |           |                         |    |                           |   \__ident(y)
+    |      |           |                         |    |                           \__/
+    |      |           |                         |    |                               \__ident(x)
+    |      |           |                         |    |                               \__-
+    |      |           |                         |    |                                   \__*
+    |      |           |                         |    |                                   |   \__intconst(3)
+    |      |           |                         |    |                                   |   \__intconst(4)
+    |      |           |                         |    |                                   \__-
+    |      |           |                         |    |                                       \__-
+    |      |           |                         |    |                                           \__ident(x)
+    |      |           |                         |    \__list
+    |      |           |                         |           \__:=
+    |      |           |                         |           |    \__ident(y)
+    |      |           |                         |           |    \__and
+    |      |           |                         |           |          \__or
+    |      |           |                         |           |          |    \__>
+    |      |           |                         |           |          |    |   \__intconst(3)
+    |      |           |                         |           |          |    |   \__ident(x)
+    |      |           |                         |           |          |    \__=
+    |      |           |                         |           |          |        \__ident(b)
+    |      |           |                         |           |          |        \__ident(b)
+    |      |           |                         |           |          \__=
+    |      |           |                         |           |              \__ident(y)
+    |      |           |                         |           |              \__ident(x)
+    |      |           |                         |           \__:=
+    |      |           |                         |           |    \__ident(b)
+    |      |           |                         |           |    \__or
+    |      |           |                         |           |         \__not
+    |      |           |                         |           |         |     \__ident(b)
+    |      |           |                         |           |         \__not
+    |      |           |                         |           |               \__not
+    |      |           |                         |           |                     \__>
+    |      |           |                         |           |                         \__ident(x)
+    |      |           |                         |           |                         \__ident(y)
+    |      |           |                         |           \__:=
+    |      |           |                         |                \__ident(x)
+    |      |           |                         |                \__/
+    |      |           |                         |                    \__/
+    |      |           |                         |                    |   \__intconst(6)
+    |      |           |                         |                    |   \__intconst(3)
+    |      |           |                         |                    \__ident(b)
+    |      |           |                         \__(
+    |      |           |                             \__ident(r)
+    |      |           |                             \__list
+    |      |           |                                    \__ident(p)
+    |      |           \__list
+    |      |                  \__:=
+    |      |                  |    \__ident(p)
+    |      |                  |    \__intconst(3)
+    |      |                  \__(
+    |      |                      \__ident(p)
+    |      |                      \__list
+    |      |                             \__(
+    |      |                                 \__ident(p)
+    |      |                                 \__list
+    |      \__procedure
+    |                  \__ident(r)
+    |                  |        \__list
+    |                  |               \__ref
+    |                  |                     \__ident(d)
+    |                  |                     \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(p)
+    |                  |                  |        \__list
+    |                  |                  |               \__val
+    |                  |                  |               |     \__ident(r)
+    |                  |                  |               |     \__bool
+    |                  |                  |               \__ref
+    |                  |                  |               |     \__ident(r2)
+    |                  |                  |               |     \__bool
+    |                  |                  |               \__val
+    |                  |                  |               |     \__ident(i)
+    |                  |                  |               |     \__int
+    |                  |                  |               \__ref
+    |                  |                  |                     \__ident(i)
+    |                  |                  |                     \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(r)
+    |                  |                         |    \__intconst(4)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__intconst(3)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__intconst(3)
+    |                  |                         \__(
+    |                  |                             \__ident(p)
+    |                  |                             \__list
+    |                  |                                    \__ident(y)
+    |                  |                                    \__ident(y)
+    |                  |                                    \__+
+    |                  |                                    |   \__intconst(3)
+    |                  |                                    |   \__*
+    |                  |                                    |       \__ident(y)
+    |                  |                                    |       \__intconst(5)
+    |                  |                                    \__ident(y)
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(r)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(p)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                             \__ident(p)
+    |                             \__list
+    |                                    \__ident(x)
+    |                                    \__true
+    |                                    \__+
+    |                                    |   \__intconst(3)
+    |                                    |   \__*
+    |                                    |       \__ident(x)
+    |                                    |       \__intconst(5)
+    |                                    \__intconst(4)
+    \__list
+           \__:=
+           |    \__ident(p)
+           |    \__intconst(3)
+           \__:=
+           |    \__ident(p)
+           |    \__intconst(3)
+           \__(
+               \__ident(p)
+               \__list
+                      \__intconst(3)
+
+
+Type Checking:
+
+L. 14: Operator / with incompatible types.
+L. 15: Operator ( must be applied to a procedure in an instruction.
+L. 16: Operator not with incompatible types.
+L. 17: Operator = with incompatible types.
+L. 18: Operator + with incompatible types.
+L. 18: Operator = with incompatible types.
+L. 18: Assignment with incompatible types.
+L. 20: Operator not with incompatible types.
+L. 20: Operator = with incompatible types.
+L. 21: Operator + with incompatible types.
+L. 24: Operator = with incompatible types.
+L. 25: Operator > with incompatible types.
+L. 26: Operator / with incompatible types.
+L. 30: Left expression of assignment is not referenceable.
+L. 31: Operator ( must be applied to a function in an expression.
+L. 31: The number of parameters in the call do not match.
+L. 34: Identifier i already declared.
+L. 35: Assignment with incompatible types.
+L. 36: Operator ( must be applied to a procedure in an instruction.
+L. 37: Left expression of assignment is not referenceable.
+L. 38: Operator * with incompatible types.
+L. 38: Parameter 4 with incompatible types.
+L. 40: Left expression of assignment is not referenceable.
+L. 41: Parameter 1 is expected to be referenceable but it is not.
+L. 41: Parameter 1 with incompatible types.
+L. 42: Left expression of assignment is not referenceable.
+L. 43: Parameter 1 with incompatible types.
+L. 43: Parameter 2 is expected to be referenceable but it is not.
+L. 43: Parameter 4 is expected to be referenceable but it is not.
+L. 45: Assignment with incompatible types.
+L. 46: Assignment with incompatible types.
+L. 47: Operator ( must be applied to a procedure in an instruction.
+There are errors: no code generated

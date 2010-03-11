@@ -1,0 +1,251 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x Array [5] of Bool
+  4:     y Bool
+  5:     b Struct
+  6:         x Array [5] of Bool
+  7: 	  b Struct
+  8: 		c Int
+  9: 		b Bool
+ 10: 	    EndStruct
+ 11:       EndStruct
+ 12:     c Array [0] of Struct
+ 13:                      c Int
+ 14:                      c Int
+ 15:                    EndStruct
+ 16:   ENDVARS
+ 17:   IF NOT x THEN
+ 18:     WHILE NOT 3>4 DO
+ 19:       IF (0>---(y+3))=b OR -b.b.b THEN
+ 20: 	  b.b.b:=NOT b.b.b
+ 21:         y:=b.b.c+x[y]
+ 22:       ENDIF
+ 23:     ENDWHILE
+ 24:     IF NOT -3=-3 OR (x=b.x) THEN
+ 25:       x[c[1].b.c]:=3+y / (3 * 4---2)
+ 26:     ENDIF
+ 27:   ELSE
+ 28:     y:=(3>x) OR (b=b) AND (x=b.x)
+ 29:     b:=NOT NOT NOT (b.b.b OR (x>c))
+ 30:     x[3]:=6 / 3
+ 31:     x[2]:=b.x[3]+c[0].c
+ 32:     x:=4
+ 33:     b[3]:=x.x
+ 34:   ENDIF
+ 35: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__array
+    |      |                \__intconst(5)
+    |      |                \__bool
+    |      \__ident(y)
+    |      |        \__bool
+    |      \__ident(b)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__array
+    |      |                 |                \__intconst(5)
+    |      |                 |                \__bool
+    |      |                 \__ident(b)
+    |      |                          \__struct
+    |      |                                   \__ident(c)
+    |      |                                   |        \__int
+    |      |                                   \__ident(b)
+    |      |                                            \__bool
+    |      \__ident(c)
+    |               \__array
+    |                       \__intconst(0)
+    |                       \__struct
+    |                                \__ident(c)
+    |                                |        \__int
+    |                                \__ident(c)
+    |                                         \__int
+    \__list
+    \__list
+           \__if
+                \__not
+                |     \__ident(x)
+                \__list
+                |      \__while
+                |      |       \__>
+                |      |       |   \__not
+                |      |       |   |     \__intconst(3)
+                |      |       |   \__intconst(4)
+                |      |       \__list
+                |      |              \__if
+                |      |                   \__or
+                |      |                   |    \__=
+                |      |                   |    |   \__>
+                |      |                   |    |   |   \__intconst(0)
+                |      |                   |    |   |   \__-
+                |      |                   |    |   |       \__-
+                |      |                   |    |   |           \__-
+                |      |                   |    |   |               \__+
+                |      |                   |    |   |                   \__ident(y)
+                |      |                   |    |   |                   \__intconst(3)
+                |      |                   |    |   \__ident(b)
+                |      |                   |    \__-
+                |      |                   |        \__.
+                |      |                   |            \__.
+                |      |                   |            |   \__ident(b)
+                |      |                   |            |   \__ident(b)
+                |      |                   |            \__ident(b)
+                |      |                   \__list
+                |      |                          \__:=
+                |      |                          |    \__.
+                |      |                          |    |   \__.
+                |      |                          |    |   |   \__ident(b)
+                |      |                          |    |   |   \__ident(b)
+                |      |                          |    |   \__ident(b)
+                |      |                          |    \__not
+                |      |                          |          \__.
+                |      |                          |              \__.
+                |      |                          |              |   \__ident(b)
+                |      |                          |              |   \__ident(b)
+                |      |                          |              \__ident(b)
+                |      |                          \__:=
+                |      |                               \__ident(y)
+                |      |                               \__+
+                |      |                                   \__.
+                |      |                                   |   \__.
+                |      |                                   |   |   \__ident(b)
+                |      |                                   |   |   \__ident(b)
+                |      |                                   |   \__ident(c)
+                |      |                                   \__[
+                |      |                                       \__ident(x)
+                |      |                                       \__ident(y)
+                |      \__if
+                |           \__or
+                |           |    \__=
+                |           |    |   \__not
+                |           |    |   |     \__-
+                |           |    |   |         \__intconst(3)
+                |           |    |   \__-
+                |           |    |       \__intconst(3)
+                |           |    \__=
+                |           |        \__ident(x)
+                |           |        \__.
+                |           |            \__ident(b)
+                |           |            \__ident(x)
+                |           \__list
+                |                  \__:=
+                |                       \__[
+                |                       |   \__ident(x)
+                |                       |   \__.
+                |                       |       \__.
+                |                       |       |   \__[
+                |                       |       |   |   \__ident(c)
+                |                       |       |   |   \__intconst(1)
+                |                       |       |   \__ident(b)
+                |                       |       \__ident(c)
+                |                       \__+
+                |                           \__intconst(3)
+                |                           \__/
+                |                               \__ident(y)
+                |                               \__-
+                |                                   \__*
+                |                                   |   \__intconst(3)
+                |                                   |   \__intconst(4)
+                |                                   \__-
+                |                                       \__-
+                |                                           \__intconst(2)
+                \__list
+                       \__:=
+                       |    \__ident(y)
+                       |    \__and
+                       |          \__or
+                       |          |    \__>
+                       |          |    |   \__intconst(3)
+                       |          |    |   \__ident(x)
+                       |          |    \__=
+                       |          |        \__ident(b)
+                       |          |        \__ident(b)
+                       |          \__=
+                       |              \__ident(x)
+                       |              \__.
+                       |                  \__ident(b)
+                       |                  \__ident(x)
+                       \__:=
+                       |    \__ident(b)
+                       |    \__not
+                       |          \__not
+                       |                \__not
+                       |                      \__or
+                       |                           \__.
+                       |                           |   \__.
+                       |                           |   |   \__ident(b)
+                       |                           |   |   \__ident(b)
+                       |                           |   \__ident(b)
+                       |                           \__>
+                       |                               \__ident(x)
+                       |                               \__ident(c)
+                       \__:=
+                       |    \__[
+                       |    |   \__ident(x)
+                       |    |   \__intconst(3)
+                       |    \__/
+                       |        \__intconst(6)
+                       |        \__intconst(3)
+                       \__:=
+                       |    \__[
+                       |    |   \__ident(x)
+                       |    |   \__intconst(2)
+                       |    \__+
+                       |        \__[
+                       |        |   \__.
+                       |        |   |   \__ident(b)
+                       |        |   |   \__ident(x)
+                       |        |   \__intconst(3)
+                       |        \__.
+                       |            \__[
+                       |            |   \__ident(c)
+                       |            |   \__intconst(0)
+                       |            \__ident(c)
+                       \__:=
+                       |    \__ident(x)
+                       |    \__intconst(4)
+                       \__:=
+                            \__[
+                            |   \__ident(b)
+                            |   \__intconst(3)
+                            \__.
+                                \__ident(x)
+                                \__ident(x)
+
+
+Type Checking:
+
+L. 14: Field c already defined in the struct.
+L. 17: Operator not with incompatible types.
+L. 18: Operator not with incompatible types.
+L. 18: Operator > with incompatible types.
+L. 19: Operator + with incompatible types.
+L. 19: Operator = with incompatible types.
+L. 19: Operator - with incompatible types.
+L. 19: Operator or with incompatible types.
+L. 21: Operator [] with incompatible types.
+L. 21: Operator + with incompatible types.
+L. 21: Assignment with incompatible types.
+L. 24: Operator not with incompatible types.
+L. 24: Operator = with incompatible types.
+L. 24: Operator = with incompatible types.
+L. 25: Field b is not defined in the struct.
+L. 25: Operator / with incompatible types.
+L. 25: Assignment with incompatible types.
+L. 28: Operator > with incompatible types.
+L. 28: Operator = with incompatible types.
+L. 28: Operator = with incompatible types.
+L. 29: Operator > with incompatible types.
+L. 29: Assignment with incompatible types.
+L. 30: Assignment with incompatible types.
+L. 31: Operator + with incompatible types.
+L. 31: Assignment with incompatible types.
+L. 32: Assignment with incompatible types.
+L. 33: Operator array[] with incompatible types.
+L. 33: Operator struct. with incompatible types.
+There are errors: no code generated

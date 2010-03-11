@@ -1,0 +1,95 @@
+
+
+  1: Program
+  2:   Vars
+  3:     A Array [10] of Struct
+  4:                       B Bool
+  5:                       X Int
+  6:                     EndStruct
+  7:     S Struct
+  8:         B Bool
+  9:         X Int
+ 10:       EndStruct
+ 11:   EndVars
+ 12:   S.X:=5
+ 13:   A[S.X]:=S
+ 14:   WriteLn(A[5].X)
+ 15: EndProgram
+
+
+program
+    \__list
+    |      \__ident(A)
+    |      |        \__array
+    |      |                \__intconst(10)
+    |      |                \__struct
+    |      |                         \__ident(B)
+    |      |                         |        \__bool
+    |      |                         \__ident(X)
+    |      |                                  \__int
+    |      \__ident(S)
+    |               \__struct
+    |                        \__ident(B)
+    |                        |        \__bool
+    |                        \__ident(X)
+    |                                 \__int
+    \__list
+    \__list
+           \__:=
+           |    \__.
+           |    |   \__ident(S)
+           |    |   \__ident(X)
+           |    \__intconst(5)
+           \__:=
+           |    \__[
+           |    |   \__ident(A)
+           |    |   \__.
+           |    |       \__ident(S)
+           |    |       \__ident(X)
+           |    \__ident(S)
+           \__writeln
+                     \__.
+                         \__[
+                         |   \__ident(A)
+                         |   \__intconst(5)
+                         \__ident(X)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _A 80
+    _S 8
+  endvariables
+
+    aload _S t0
+    addi t0 4 t0
+    iload 5 t1
+    stor t1 t0
+    aload _A t0
+    aload _S t1
+    addi t1 4 t1
+    load t1 t1
+    muli t1 8 t1
+    addi t0 t1 t0
+    aload _S t1
+    copy t1 t0 8
+    aload _A t0
+    iload 5 t1
+    muli t1 8 t1
+    addi t0 t1 t0
+    addi t0 4 t0
+    load t0 t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+Executing code:
+5
