@@ -207,14 +207,21 @@ int main(int argc,char *argv[])
 #token VARS         "VARS"
 #token ENDVARS      "ENDVARS"
 #token INT          "INT"
+#token BOOL         "BOOL"
 #token STRUCT       "STRUCT"
 #token ENDSTRUCT    "ENDSTRUCT"
 #token WRITELN      "WRITELN"
+#token PROCEDURE    "PROCEDURE"
+#token ENDPROCEDURE "ENDPROCEDURE"
+#token VAL          "val"
+#token REF          "ref"
 #token PLUS         "\+"
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
 #token ASIG         ":="
 #token DOT          "."
+#token COMMA        ","
+#token BOOL_VAL     "(true|false)"
 #token IDENT        "[a-zA-Z][a-zA-Z0-9]*"
 #token INTCONST     "[0-9]+"
 #token COMMENT      "//~[\n]*" << printf("%s",zzlextext); zzskip(); >>
@@ -235,22 +242,31 @@ dec_var: IDENT^ constr_type;
 
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 
-dec_bloc: (PROCEDURE^ ENDPROCEDURE |
-           FUNCTION^ ENDFUNCTION)<</*needs modification*/ >>;
+dec_param: (VAL^ | REF^) IDENT constr_type;
 
-constr_type: INT | STRUCT^ (field)* ENDSTRUCT!;
+l_param: (dec_param)* <<#0=createASTlist(_sibling);>>;
+
+dec_bloc: (PROCEDURE^ dec_procedure dec_vars l_dec_blocs l_instrs ENDPROCEDURE! |
+           FUNCTION^ dec_vars l_dec_blocs l_instrs ENDFUNCTION);
+
+dec_procedure: IDENT^ OPENPAR! l_param CLOSEPAR!;
+
+constr_type: INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL;
 
 field: IDENT^ constr_type;
 
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 
 instruction:
-        IDENT ( DOT^ IDENT)* ASIG^ expression
-      |	WRITELN^ OPENPAR! ( expression | STRING ) CLOSEPAR!;
+        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ func_param CLOSEPAR!)
+          | WRITELN^ OPENPAR! ( expression | STRING ) CLOSEPAR!;  
+
+func_param: expression (COMMA expression)*  <<#0=createASTlist(_sibling);>>;
+
+func_call: OPENPAR^ (expression)* CLOSEPAR! <<#0=createASTlist(_sibling);>>;
 
 expression: expsimple (PLUS^ expsimple)*;
 
 expsimple:
-        IDENT^ (DOT^ IDENT)*
-      | INTCONST
-      ;
+        IDENT ((DOT^ IDENT)* | func_call)
+      | INTCONST | BOOL_VAL;

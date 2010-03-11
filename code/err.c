@@ -1,0 +1,114 @@
+/*
+ * A n t l r  S e t s / E r r o r  F i l e  H e a d e r
+ *
+ * Generated from: cl.g
+ *
+ * Terence Parr, Russell Quong, Will Cohen, and Hank Dietz: 1989-2001
+ * Parr Research Corporation
+ * with Purdue University Electrical Engineering
+ * With AHPCRC, University of Minnesota
+ * ANTLR Version 1.33MR33
+ */
+
+#define ANTLR_VERSION	13333
+#include "pcctscfg.h"
+#include "pccts_stdio.h"
+
+#include <string>
+#include <iostream>
+#include <map>
+#include <list>
+#include <vector>
+#include <fstream>
+
+using namespace std;
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "ptype.hh"
+#include "symtab.hh"
+#include "codegest.hh"
+
+/// struct to contain information about a token.
+typedef struct {
+  string kind;
+  string text;
+  int line;
+} Attrib;
+
+/// function called by the scanner when a new token is found
+/// Predeclared here, definition below.
+void zzcr_attr(Attrib *attr,int type,char *text);
+
+/// Include AST node fields declaration
+#include "myASTnode.hh"
+
+/// Macro called by the parser when a new AST node is to be created
+/// createASTnode function doing the actual job is defined below.
+#define zzcr_ast(as,attr,tttype,textt) as=createASTnode(attr,tttype,textt);
+AST* createASTnode(Attrib* attr, int ttype, char *textt);
+#define zzSET_SIZE 4
+#include "antlr.h"
+#include "ast.h"
+#include "tokens.h"
+#include "dlgdef.h"
+#include "err.h"
+
+ANTLRChar *zztokens[31]={
+	/* 00 */	"Invalid",
+	/* 01 */	"INPUTEND",
+	/* 02 */	"PROGRAM",
+	/* 03 */	"ENDPROGRAM",
+	/* 04 */	"VARS",
+	/* 05 */	"ENDVARS",
+	/* 06 */	"INT",
+	/* 07 */	"BOOL",
+	/* 08 */	"STRUCT",
+	/* 09 */	"ENDSTRUCT",
+	/* 10 */	"WRITELN",
+	/* 11 */	"PROCEDURE",
+	/* 12 */	"ENDPROCEDURE",
+	/* 13 */	"VAL",
+	/* 14 */	"REF",
+	/* 15 */	"PLUS",
+	/* 16 */	"OPENPAR",
+	/* 17 */	"CLOSEPAR",
+	/* 18 */	"ASIG",
+	/* 19 */	"DOT",
+	/* 20 */	"COMMA",
+	/* 21 */	"BOOL_VAL",
+	/* 22 */	"IDENT",
+	/* 23 */	"INTCONST",
+	/* 24 */	"COMMENT",
+	/* 25 */	"WHITESPACE",
+	/* 26 */	"NEWLINE",
+	/* 27 */	"LEXICALERROR",
+	/* 28 */	"FUNCTION",
+	/* 29 */	"ENDFUNCTION",
+	/* 30 */	"STRING"
+};
+SetWordType zzerr1[4] = {0x18,0x1c,0x40,0x30};
+SetWordType zzerr2[4] = {0x0,0x60,0x0,0x0};
+SetWordType setwd1[31] = {0x0,0x1,0x0,0x46,0x0,0x18,0x0,
+	0x0,0x0,0x0,0x46,0x26,0x46,0x80,0x80,
+	0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x56,
+	0x0,0x0,0x0,0x0,0x0,0x26,0x46,0x0};
+SetWordType zzerr3[4] = {0x0,0x8,0x0,0x10};
+SetWordType zzerr4[4] = {0xc0,0x1,0x0,0x0};
+SetWordType setwd2[31] = {0x0,0x0,0x0,0x84,0x8,0x10,0x0,
+	0x0,0x0,0x30,0x4c,0xc,0x8c,0x11,0x11,
+	0x0,0x0,0x12,0x0,0x0,0x0,0x0,0x7c,
+	0x0,0x0,0x0,0x0,0x0,0xc,0x84,0x0};
+SetWordType zzerr5[4] = {0x0,0x0,0xd,0x0};
+SetWordType zzerr6[4] = {0x0,0x0,0xe0,0x40};
+SetWordType zzerr7[4] = {0x0,0x4,0x40,0x0};
+SetWordType zzerr8[4] = {0x8,0x94,0xfb,0x20};
+SetWordType zzerr9[4] = {0x0,0x0,0xe0,0x0};
+SetWordType setwd3[31] = {0x0,0x0,0x0,0xe4,0x0,0x0,0x0,
+	0x0,0x0,0x0,0xe4,0x0,0xe4,0x0,0x0,
+	0xa0,0x0,0xe8,0x1,0x81,0xe0,0xf2,0xf6,
+	0xf2,0x0,0x0,0x0,0x0,0x0,0xe4,0x0};
+SetWordType setwd4[31] = {0x0,0x0,0x0,0x1,0x0,0x0,0x0,
+	0x0,0x0,0x0,0x1,0x0,0x1,0x0,0x0,
+	0x1,0x0,0x1,0x0,0x0,0x1,0x1,0x1,
+	0x1,0x0,0x0,0x0,0x0,0x0,0x1,0x0};
