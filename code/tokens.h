@@ -89,9 +89,9 @@ extern void dec_bloc();
 #endif
 
 #ifdef __USE_PROTOS
-void dec_procedure(AST**_root);
+void proc_decl(AST**_root);
 #else
-extern void dec_procedure();
+extern void proc_decl();
 #endif
 
 #ifdef __USE_PROTOS
@@ -125,9 +125,9 @@ extern void func_param();
 #endif
 
 #ifdef __USE_PROTOS
-void func_call(AST**_root);
+void calling_func(AST**_root);
 #else
-extern void func_call();
+extern void calling_func();
 #endif
 
 #ifdef __USE_PROTOS

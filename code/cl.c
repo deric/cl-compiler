@@ -412,8 +412,7 @@ AST **_root;
     zzEXIT(zztasp2);
     }
   }
-  zzmatch(IDENT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
-  constr_type(zzSTR); zzlink(_root, &_sibling, &_tail);
+  field(zzSTR); zzlink(_root, &_sibling, &_tail);
   zzEXIT(zztasp1);
   return;
 fail:
@@ -440,6 +439,18 @@ AST **_root;
     zzMake0;
     {
     while ( (setwd2[LA(1)]&0x1) ) {
+      dec_param(zzSTR); zzlink(_root, &_sibling, &_tail);
+      zzLOOP(zztasp2);
+    }
+    zzEXIT(zztasp2);
+    }
+  }
+  {
+    zzBLOCK(zztasp2);
+    zzMake0;
+    {
+    while ( (LA(1)==COMMA) ) {
+      zzmatch(COMMA); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
       dec_param(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
@@ -474,7 +485,7 @@ AST **_root;
     {
     if ( (LA(1)==PROCEDURE) ) {
       zzmatch(PROCEDURE); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
-      dec_procedure(zzSTR); zzlink(_root, &_sibling, &_tail);
+      proc_decl(zzSTR); zzlink(_root, &_sibling, &_tail);
       dec_vars(zzSTR); zzlink(_root, &_sibling, &_tail);
       l_dec_blocs(zzSTR); zzlink(_root, &_sibling, &_tail);
       l_instrs(zzSTR); zzlink(_root, &_sibling, &_tail);
@@ -504,9 +515,9 @@ fail:
 
 void
 #ifdef __USE_PROTOS
-dec_procedure(AST**_root)
+proc_decl(AST**_root)
 #else
-dec_procedure(_root)
+proc_decl(_root)
 AST **_root;
 #endif
 {
@@ -586,7 +597,7 @@ AST **_root;
   zzBLOCK(zztasp1);
   zzMake0;
   {
-  zzmatch(IDENT); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
+  zzmatch(IDENT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
   constr_type(zzSTR); zzlink(_root, &_sibling, &_tail);
   zzEXIT(zztasp1);
   return;
@@ -667,7 +678,7 @@ AST **_root;
       else {
         if ( (LA(1)==OPENPAR) ) {
           zzmatch(OPENPAR); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
-          func_param(zzSTR); zzlink(_root, &_sibling, &_tail);
+          calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
           zzmatch(CLOSEPAR);  zzCONSUME;
         }
         else {zzFAIL(1,zzerr5,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
@@ -734,7 +745,6 @@ AST **_root;
     zzEXIT(zztasp2);
     }
   }
-  (*_root)=createASTlist(_sibling);
   zzEXIT(zztasp1);
   return;
 fail:
@@ -746,9 +756,9 @@ fail:
 
 void
 #ifdef __USE_PROTOS
-func_call(AST**_root)
+calling_func(AST**_root)
 #else
-func_call(_root)
+calling_func(_root)
 AST **_root;
 #endif
 {
@@ -756,22 +766,18 @@ AST **_root;
   zzBLOCK(zztasp1);
   zzMake0;
   {
-  zzmatch(OPENPAR); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
   {
     zzBLOCK(zztasp2);
     zzMake0;
     {
     while ( (setwd3[LA(1)]&0x10) ) {
-      expression(zzSTR); zzlink(_root, &_sibling, &_tail);
+      func_param(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
     zzEXIT(zztasp2);
     }
   }
-  zzmatch(CLOSEPAR); 
   (*_root)=createASTlist(_sibling);
- zzCONSUME;
-
   zzEXIT(zztasp1);
   return;
 fail:
@@ -849,7 +855,9 @@ AST **_root;
       }
       else {
         if ( (LA(1)==OPENPAR) ) {
-          func_call(zzSTR); zzlink(_root, &_sibling, &_tail);
+          zzmatch(OPENPAR); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
+          calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
+          zzmatch(CLOSEPAR);  zzCONSUME;
         }
         else {zzFAIL(1,zzerr8,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
       }

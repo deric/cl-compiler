@@ -221,7 +221,7 @@ int main(int argc,char *argv[])
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","
-#token BOOL_VAL     "(true|false)"
+#token BOOL_VAL     "true|false"
 #token IDENT        "[a-zA-Z][a-zA-Z0-9]*"
 #token INTCONST     "[0-9]+"
 #token COMMENT      "//~[\n]*" << printf("%s",zzlextext); zzskip(); >>
@@ -242,31 +242,32 @@ dec_var: IDENT^ constr_type;
 
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 
-dec_param: (VAL^ | REF^) IDENT constr_type;
+dec_param: (VAL^ | REF^) field;
 
-l_param: (dec_param)* <<#0=createASTlist(_sibling);>>;
+l_param: (dec_param)* (COMMA dec_param)* <<#0=createASTlist(_sibling);>>;
 
-dec_bloc: (PROCEDURE^ dec_procedure dec_vars l_dec_blocs l_instrs ENDPROCEDURE! |
+dec_bloc: (PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE! |
            FUNCTION^ dec_vars l_dec_blocs l_instrs ENDFUNCTION);
 
-dec_procedure: IDENT^ OPENPAR! l_param CLOSEPAR!;
+proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR!;
 
 constr_type: INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL;
 
-field: IDENT^ constr_type;
+field: IDENT constr_type;
 
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 
 instruction:
-        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ func_param CLOSEPAR!)
+        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ calling_func CLOSEPAR!)
           | WRITELN^ OPENPAR! ( expression | STRING ) CLOSEPAR!;  
 
-func_param: expression (COMMA expression)*  <<#0=createASTlist(_sibling);>>;
+func_param: expression (COMMA expression)*;
 
-func_call: OPENPAR^ (expression)* CLOSEPAR! <<#0=createASTlist(_sibling);>>;
+calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
+
 
 expression: expsimple (PLUS^ expsimple)*;
 
 expsimple:
-        IDENT ((DOT^ IDENT)* | func_call)
+        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
       | INTCONST | BOOL_VAL;

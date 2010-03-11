@@ -168,7 +168,7 @@ ref
 		NLA = COMMA;
 	>>
 
-(true|false)
+true|false
 	<<
 		NLA = BOOL_VAL;
 	>>
