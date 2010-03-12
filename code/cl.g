@@ -247,7 +247,7 @@ l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 
 dec_param: (VAL^ | REF^) field;
 
-l_param: (dec_param)* (COMMA dec_param)* <<#0=createASTlist(_sibling);>>;
+l_param: (dec_param)* (COMMA! dec_param)* <<#0=createASTlist(_sibling);>>;
 
 dec_bloc: (PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE! |
            FUNCTION^ dec_vars l_dec_blocs l_instrs ENDFUNCTION);
@@ -264,7 +264,7 @@ instruction:
         IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ calling_func CLOSEPAR!)
           | WRITELN^ OPENPAR! ( expression | STRING ) CLOSEPAR!;  
 
-func_param: expression (COMMA expression)*;
+func_param: expression (COMMA! expression)*;
 
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 

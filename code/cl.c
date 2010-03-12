@@ -447,7 +447,7 @@ AST **_root;
     zzMake0;
     {
     while ( (LA(1)==COMMA) ) {
-      zzmatch(COMMA); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+      zzmatch(COMMA);  zzCONSUME;
       dec_param(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
@@ -735,7 +735,7 @@ AST **_root;
     zzMake0;
     {
     while ( (LA(1)==COMMA) ) {
-      zzmatch(COMMA); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+      zzmatch(COMMA);  zzCONSUME;
       expression(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
