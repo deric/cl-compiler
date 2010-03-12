@@ -1,0 +1,255 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x Int
+  4:     y Array [10] of Int
+  5:   ENDVARS
+  6:   PROCEDURE q()
+  7:     PROCEDURE p(ref p array[20] of Int)
+  8: 	If(x<21) Then
+  9:          p[x]:=True
+ 10: 	EndIf
+ 11: 	r(p)
+ 12:     ENDPROCEDURE
+ 13:     p(y+1)
+ 14:     p(y)
+ 15:     r(y)
+ 16:   ENDPROCEDURE
+ 17:   PROCEDURE r(val p array[10] of Bool)
+ 18:     VARS
+ 19: 	a Array [3] of Int
+ 20:     ENDVARS
+ 21:     PROCEDURE p(ref y Array [10] of Int)
+ 22:       r:=4
+ 23:       r(3)
+ 24:       r(p)
+ 25:       r(y)
+ 26:       p:=3
+ 27:       y[1]:=3
+ 28:       y[1]:=true
+ 29:       y[11]:=8
+ 30:       y[5]:=y
+ 31:       y[x+1]:=y[x]
+ 32:       p(3)
+ 33:     ENDPROCEDURE
+ 34:     r:=3
+ 35:     r(3)
+ 36:     r(p)
+ 37:     r(y)
+ 38:     r(x)
+ 39:     p:=3
+ 40:     p(p)
+ 41:     p(y)
+ 42:   ENDPROCEDURE
+ 43:   p:=3
+ 44:   q(3)
+ 45:   x:=q()
+ 46: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |               \__array
+    |                       \__intconst(10)
+    |                       \__int
+    \__list
+    |      \__procedure
+    |      |           \__ident(q)
+    |      |           |        \__list
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |                  \__ident(p)
+    |      |           |                  |        \__list
+    |      |           |                  |               \__ref
+    |      |           |                  |                     \__ident(p)
+    |      |           |                  |                     \__array
+    |      |           |                  |                             \__intconst(20)
+    |      |           |                  |                             \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__if
+    |      |           |                         |    \__<
+    |      |           |                         |    |   \__ident(x)
+    |      |           |                         |    |   \__intconst(21)
+    |      |           |                         |    \__list
+    |      |           |                         |           \__:=
+    |      |           |                         |                \__[
+    |      |           |                         |                |   \__ident(p)
+    |      |           |                         |                |   \__ident(x)
+    |      |           |                         |                \__true
+    |      |           |                         \__(
+    |      |           |                             \__ident(r)
+    |      |           |                             \__list
+    |      |           |                                    \__ident(p)
+    |      |           \__list
+    |      |                  \__(
+    |      |                  |   \__ident(p)
+    |      |                  |   \__list
+    |      |                  |          \__+
+    |      |                  |              \__ident(y)
+    |      |                  |              \__intconst(1)
+    |      |                  \__(
+    |      |                  |   \__ident(p)
+    |      |                  |   \__list
+    |      |                  |          \__ident(y)
+    |      |                  \__(
+    |      |                      \__ident(r)
+    |      |                      \__list
+    |      |                             \__ident(y)
+    |      \__procedure
+    |                  \__ident(r)
+    |                  |        \__list
+    |                  |               \__val
+    |                  |                     \__ident(p)
+    |                  |                     \__array
+    |                  |                             \__intconst(10)
+    |                  |                             \__bool
+    |                  \__list
+    |                  |      \__ident(a)
+    |                  |               \__array
+    |                  |                       \__intconst(3)
+    |                  |                       \__int
+    |                  \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(p)
+    |                  |                  |        \__list
+    |                  |                  |               \__ref
+    |                  |                  |                     \__ident(y)
+    |                  |                  |                     \__array
+    |                  |                  |                             \__intconst(10)
+    |                  |                  |                             \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(r)
+    |                  |                         |    \__intconst(4)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__intconst(3)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(p)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(y)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__intconst(3)
+    |                  |                         \__:=
+    |                  |                         |    \__[
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__intconst(1)
+    |                  |                         |    \__intconst(3)
+    |                  |                         \__:=
+    |                  |                         |    \__[
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__intconst(1)
+    |                  |                         |    \__true
+    |                  |                         \__:=
+    |                  |                         |    \__[
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__intconst(11)
+    |                  |                         |    \__intconst(8)
+    |                  |                         \__:=
+    |                  |                         |    \__[
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__intconst(5)
+    |                  |                         |    \__ident(y)
+    |                  |                         \__:=
+    |                  |                         |    \__[
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__+
+    |                  |                         |    |       \__ident(x)
+    |                  |                         |    |       \__intconst(1)
+    |                  |                         |    \__[
+    |                  |                         |        \__ident(y)
+    |                  |                         |        \__ident(x)
+    |                  |                         \__(
+    |                  |                             \__ident(p)
+    |                  |                             \__list
+    |                  |                                    \__intconst(3)
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(r)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(p)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(y)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(x)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(p)
+    |                         |   \__list
+    |                         |          \__ident(p)
+    |                         \__(
+    |                             \__ident(p)
+    |                             \__list
+    |                                    \__ident(y)
+    \__list
+           \__:=
+           |    \__ident(p)
+           |    \__intconst(3)
+           \__(
+           |   \__ident(q)
+           |   \__list
+           |          \__intconst(3)
+           \__:=
+                \__ident(x)
+                \__(
+                    \__ident(q)
+                    \__list
+
+
+Type Checking:
+
+L. 9: Assignment with incompatible types.
+L. 11: Parameter 1 with incompatible types.
+L. 13: Operator + with incompatible types.
+L. 13: Parameter 1 is expected to be referenceable but it is not.
+L. 13: Parameter 1 with incompatible types.
+L. 14: Parameter 1 with incompatible types.
+L. 15: Parameter 1 with incompatible types.
+L. 21: Identifier p already declared.
+L. 22: Left expression of assignment is not referenceable.
+L. 23: Parameter 1 with incompatible types.
+L. 25: Parameter 1 with incompatible types.
+L. 26: Assignment with incompatible types.
+L. 28: Assignment with incompatible types.
+L. 30: Assignment with incompatible types.
+L. 32: Operator ( must be applied to a procedure in an instruction.
+L. 34: Left expression of assignment is not referenceable.
+L. 35: Parameter 1 with incompatible types.
+L. 37: Parameter 1 with incompatible types.
+L. 38: Parameter 1 with incompatible types.
+L. 39: Assignment with incompatible types.
+L. 40: Operator ( must be applied to a procedure in an instruction.
+L. 41: Operator ( must be applied to a procedure in an instruction.
+L. 43: Identifier p is undeclared.
+L. 43: Left expression of assignment is not referenceable.
+L. 44: The number of parameters in the call do not match.
+L. 45: Operator ( must be applied to a function in an expression.
+There are errors: no code generated

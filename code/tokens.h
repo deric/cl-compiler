@@ -24,21 +24,24 @@
 #define VAL 13
 #define REF 14
 #define PLUS 15
-#define OPENPAR 16
-#define CLOSEPAR 17
-#define ASIG 18
-#define DOT 19
-#define COMMA 20
-#define BOOL_VAL 21
-#define IDENT 22
-#define INTCONST 23
-#define COMMENT 24
-#define WHITESPACE 25
-#define NEWLINE 26
-#define LEXICALERROR 27
-#define FUNCTION 28
-#define ENDFUNCTION 29
-#define STRING 30
+#define MINUS 16
+#define TIMES 17
+#define DIVIDE 18
+#define OPENPAR 19
+#define CLOSEPAR 20
+#define ASIG 21
+#define DOT 22
+#define COMMA 23
+#define BOOL_VAL 24
+#define IDENT 25
+#define INTCONST 26
+#define COMMENT 27
+#define WHITESPACE 28
+#define NEWLINE 29
+#define LEXICALERROR 30
+#define FUNCTION 31
+#define ENDFUNCTION 32
+#define STRING 33
 
 #ifdef __USE_PROTOS
 void program(AST**_root);
@@ -59,9 +62,9 @@ extern void l_dec_vars();
 #endif
 
 #ifdef __USE_PROTOS
-void dec_var(AST**_root);
+void var_def(AST**_root);
 #else
-extern void dec_var();
+extern void var_def();
 #endif
 
 #ifdef __USE_PROTOS
@@ -137,6 +140,12 @@ extern void expression();
 #endif
 
 #ifdef __USE_PROTOS
+void term(AST**_root);
+#else
+extern void term();
+#endif
+
+#ifdef __USE_PROTOS
 void expsimple(AST**_root);
 #else
 extern void expsimple();
@@ -144,15 +153,14 @@ extern void expsimple();
 
 #endif
 extern SetWordType zzerr1[];
-extern SetWordType zzerr2[];
 extern SetWordType setwd1[];
+extern SetWordType zzerr2[];
 extern SetWordType zzerr3[];
 extern SetWordType zzerr4[];
 extern SetWordType setwd2[];
 extern SetWordType zzerr5[];
 extern SetWordType zzerr6[];
+extern SetWordType setwd3[];
 extern SetWordType zzerr7[];
 extern SetWordType zzerr8[];
-extern SetWordType zzerr9[];
-extern SetWordType setwd3[];
 extern SetWordType setwd4[];

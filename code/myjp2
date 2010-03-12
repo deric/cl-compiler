@@ -1,0 +1,43 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x int
+  4:     y bool
+  5:     b bool
+  6:   ENDVARS
+  7:   PROCEDURE p()
+  8:     PROCEDURE p1(val p int)
+  9:       PROCEDURE p11(ref z int)
+ 10:         p:=3
+ 11:         p12()
+ 12:         p2()
+ 13:         p2(v,x,5)
+ 14:         p2(y,3)
+ 15:         p2(y,3,y,b)
+ 16:         p22()
+ 17:       ENDPROCEDURE
+ 18:       PROCEDURE p12()
+ 19:         p11(x+3)
+ 20:         p11(y)
+ 21:       ENDPROCEDURE
+ 22:     ENDPROCEDURE
+ 23:     PROCEDURE p2(ref z bool,val t int,val u bool)
+ 24:       VARS
+ 25:         v int
+ 26:         w bool
+ 27:       ENDVARS
+ 28:       PROCEDURE p22()
+ 29:         w:=v+t
+ 30:         w:=z+tLexical error: symbol '-' ignored!
+u
+ 31:         v:=3Lexical error: symbol '/' ignored!
+u
+ 32:         
+ 33:         p()
+ 34:       ENDPROCEDURE
+ 35:     ENDPROCEDURE
+ 36:   
+ 37:   
+ 38: 
+There were lexical errors.

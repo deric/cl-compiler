@@ -216,6 +216,9 @@ int main(int argc,char *argv[])
 #token VAL          "val"
 #token REF          "ref"
 #token PLUS         "\+"
+#token MINUS        "\-"
+#token TIMES        "\*"
+#token DIVIDE       "\/"
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
 #token ASIG         ":="
@@ -234,11 +237,11 @@ int main(int argc,char *argv[])
 
 program: PROGRAM^ dec_vars l_dec_blocs l_instrs ENDPROGRAM! INPUTEND!;
 
-dec_vars: (VARS! l_dec_vars ENDVARS! | ) <<#0=createASTlist(_sibling);>>;
+dec_vars: (VARS! l_dec_vars ENDVARS!)* <<#0=createASTlist(_sibling);>>;
 
-l_dec_vars: (dec_var)* ;
+l_dec_vars: (var_def)+ ;
 
-dec_var: IDENT^ constr_type;
+var_def: IDENT^ constr_type;
 
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 
@@ -265,9 +268,11 @@ func_param: expression (COMMA expression)*;
 
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
+expression: term (PLUS^ term | MINUS^ term)*;
 
-expression: expsimple (PLUS^ expsimple)*;
+term: expsimple (TIMES^ expsimple | DIVIDE^ expsimple)*;
 
 expsimple:
-        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
-      | INTCONST | BOOL_VAL;
+        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) 
+          | INTCONST | BOOL_VAL;
+

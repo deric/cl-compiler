@@ -1,0 +1,140 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x int
+  4:     y bool
+  5:     b bool
+  6:   ENDVARS
+  7:   IF NOT x THEN
+  8:     WHILE NOT 3>4 DO
+  9:       IF (---4=(y+3))=b OR b THEN
+ 10:         x:=b>(3>4)
+ 11:       ENDIF
+ 12:     ENDWHILE
+ 13:     IF NOT -3=-3 OR (b OR b AND b) THEN
+ 14:       x:=3+y+x / (3 * 4---x)
+ 15:     ENDIF
+ 16:   ELSE
+ 17:     y:=(3>x) OR (b=b) AND (y=x)
+ 18:     b:=NOT NOT NOT (b OR (x>y))
+ 19:     x:=6/3
+ 20:   ENDIF
+ 21: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__bool
+    |      \__ident(b)
+    |               \__bool
+    \__list
+    \__list
+           \__if
+                \__not
+                |     \__ident(x)
+                \__list
+                |      \__while
+                |      |       \__>
+                |      |       |   \__not
+                |      |       |   |     \__intconst(3)
+                |      |       |   \__intconst(4)
+                |      |       \__list
+                |      |              \__if
+                |      |                   \__or
+                |      |                   |    \__=
+                |      |                   |    |   \__=
+                |      |                   |    |   |   \__-
+                |      |                   |    |   |   |   \__-
+                |      |                   |    |   |   |       \__-
+                |      |                   |    |   |   |           \__intconst(4)
+                |      |                   |    |   |   \__+
+                |      |                   |    |   |       \__ident(y)
+                |      |                   |    |   |       \__intconst(3)
+                |      |                   |    |   \__ident(b)
+                |      |                   |    \__ident(b)
+                |      |                   \__list
+                |      |                          \__:=
+                |      |                               \__ident(x)
+                |      |                               \__>
+                |      |                                   \__ident(b)
+                |      |                                   \__>
+                |      |                                       \__intconst(3)
+                |      |                                       \__intconst(4)
+                |      \__if
+                |           \__or
+                |           |    \__=
+                |           |    |   \__not
+                |           |    |   |     \__-
+                |           |    |   |         \__intconst(3)
+                |           |    |   \__-
+                |           |    |       \__intconst(3)
+                |           |    \__and
+                |           |          \__or
+                |           |          |    \__ident(b)
+                |           |          |    \__ident(b)
+                |           |          \__ident(b)
+                |           \__list
+                |                  \__:=
+                |                       \__ident(x)
+                |                       \__+
+                |                           \__+
+                |                           |   \__intconst(3)
+                |                           |   \__ident(y)
+                |                           \__/
+                |                               \__ident(x)
+                |                               \__-
+                |                                   \__*
+                |                                   |   \__intconst(3)
+                |                                   |   \__intconst(4)
+                |                                   \__-
+                |                                       \__-
+                |                                           \__ident(x)
+                \__list
+                       \__:=
+                       |    \__ident(y)
+                       |    \__and
+                       |          \__or
+                       |          |    \__>
+                       |          |    |   \__intconst(3)
+                       |          |    |   \__ident(x)
+                       |          |    \__=
+                       |          |        \__ident(b)
+                       |          |        \__ident(b)
+                       |          \__=
+                       |              \__ident(y)
+                       |              \__ident(x)
+                       \__:=
+                       |    \__ident(b)
+                       |    \__not
+                       |          \__not
+                       |                \__not
+                       |                      \__or
+                       |                           \__ident(b)
+                       |                           \__>
+                       |                               \__ident(x)
+                       |                               \__ident(y)
+                       \__:=
+                            \__ident(x)
+                            \__/
+                                \__intconst(6)
+                                \__intconst(3)
+
+
+Type Checking:
+
+L. 7: Operator not with incompatible types.
+L. 8: Operator not with incompatible types.
+L. 8: Operator > with incompatible types.
+L. 9: Operator + with incompatible types.
+L. 10: Operator > with incompatible types.
+L. 10: Assignment with incompatible types.
+L. 13: Operator not with incompatible types.
+L. 13: Operator = with incompatible types.
+L. 14: Operator + with incompatible types.
+L. 17: Operator = with incompatible types.
+L. 18: Operator > with incompatible types.
+There are errors: no code generated

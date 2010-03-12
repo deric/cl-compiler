@@ -1,0 +1,131 @@
+
+
+  1: Program
+  2:   Vars
+  3:     x Int
+  4:     y Struct
+  5:       x bool
+  6:       y Int
+  7:       EndStruct
+  8:     z Array [10] Of bool
+  9:   EndVars
+ 10:   Procedure P(ref a Array [10] Of bool,
+ 11:               val b Struct x Bool y Int EndStruct,
+ 12:               ref x Array [4] Of Int)
+ 13:     Vars
+ 14:       x Array [10] Of bool
+ 15:       y Array [4] of Int
+ 16:     EndVars
+ 17:     x[3]:=45+z[y.x]
+ 18:     x:=a
+ 19:     x:=y
+ 20:   EndProcedure 
+ 21:   x:=z[3]
+ 22:   z[y.y+2]:=
+ 23:             z[x]+
+ 24:             y.x[3].y
+ 25: EndProgram
+ 26: 
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__bool
+    |      |                 \__ident(y)
+    |      |                          \__int
+    |      \__ident(z)
+    |               \__array
+    |                       \__intconst(10)
+    |                       \__bool
+    \__list
+    |      \__procedure
+    |                  \__ident(P)
+    |                  |        \__list
+    |                  |               \__ref
+    |                  |               |     \__ident(a)
+    |                  |               |     \__array
+    |                  |               |             \__intconst(10)
+    |                  |               |             \__bool
+    |                  |               \__val
+    |                  |               |     \__ident(b)
+    |                  |               |     \__struct
+    |                  |               |              \__ident(x)
+    |                  |               |              |        \__bool
+    |                  |               |              \__ident(y)
+    |                  |               |                       \__int
+    |                  |               \__ref
+    |                  |                     \__ident(x)
+    |                  |                     \__array
+    |                  |                             \__intconst(4)
+    |                  |                             \__int
+    |                  \__list
+    |                  |      \__ident(x)
+    |                  |      |        \__array
+    |                  |      |                \__intconst(10)
+    |                  |      |                \__bool
+    |                  |      \__ident(y)
+    |                  |               \__array
+    |                  |                       \__intconst(4)
+    |                  |                       \__int
+    |                  \__list
+    |                  \__list
+    |                         \__:=
+    |                         |    \__[
+    |                         |    |   \__ident(x)
+    |                         |    |   \__intconst(3)
+    |                         |    \__+
+    |                         |        \__intconst(45)
+    |                         |        \__[
+    |                         |            \__ident(z)
+    |                         |            \__.
+    |                         |                \__ident(y)
+    |                         |                \__ident(x)
+    |                         \__:=
+    |                         |    \__ident(x)
+    |                         |    \__ident(a)
+    |                         \__:=
+    |                              \__ident(x)
+    |                              \__ident(y)
+    \__list
+           \__:=
+           |    \__ident(x)
+           |    \__[
+           |        \__ident(z)
+           |        \__intconst(3)
+           \__:=
+                \__[
+                |   \__ident(z)
+                |   \__+
+                |       \__.
+                |       |   \__ident(y)
+                |       |   \__ident(y)
+                |       \__intconst(2)
+                \__+
+                    \__[
+                    |   \__ident(z)
+                    |   \__ident(x)
+                    \__.
+                        \__[
+                        |   \__.
+                        |   |   \__ident(y)
+                        |   |   \__ident(x)
+                        |   \__intconst(3)
+                        \__ident(y)
+
+
+Type Checking:
+
+L. 14: Identifier x already declared.
+L. 17: Operator struct. with incompatible types.
+L. 17: Operator + with incompatible types.
+L. 18: Assignment with incompatible types.
+L. 21: Assignment with incompatible types.
+L. 24: Operator array[] with incompatible types.
+L. 23: Operator + with incompatible types.
+L. 22: Assignment with incompatible types.
+There are errors: no code generated

@@ -1,0 +1,16 @@
+Program
+  Vars
+    X Int
+    Y bool
+    B bool
+  EndVars
+  Function P(Val Z Int,Ref T bool) Return Int
+    Return T
+  EndFunction
+  Procedure Q(Val X Int,Ref W Int)
+    X:=Q(X,X)+
+       Q(X)
+    Y:=P(Y,Y)+Y
+    B:=P(Q(X,Y),P(X,X))
+  EndProcedure
+EndProgram
