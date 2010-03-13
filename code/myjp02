@@ -42,11 +42,11 @@
 
 program
     \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__bool
     |      \__ident(b)
-    |               \__ident(y)
-    |               |        \__ident(x)
-    |               |        |        \__int
-    |               |        \__bool
     |               \__bool
     \__list
     |      \__procedure
@@ -76,10 +76,8 @@ program
     |                  |      |           |      |                  |    \__intconst(3)
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p12)
-    |                  |      |           |      |                  |   \__list
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p2)
-    |                  |      |           |      |                  |   \__list
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p2)
     |                  |      |           |      |                  |   \__list
@@ -100,7 +98,6 @@ program
     |                  |      |           |      |                  |          \__ident(b)
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                      \__ident(p22)
-    |                  |      |           |      |                      \__list
     |                  |      |           |      \__procedure
     |                  |      |           |                  \__ident(p12)
     |                  |      |           |                  |          \__list
@@ -131,9 +128,9 @@ program
     |                  |                  |                      \__ident(u)
     |                  |                  |                      \__bool
     |                  |                  \__list
+    |                  |                  |      \__ident(v)
+    |                  |                  |      |        \__int
     |                  |                  |      \__ident(w)
-    |                  |                  |               \__ident(v)
-    |                  |                  |               |        \__int
     |                  |                  |               \__bool
     |                  |                  \__list
     |                  |                  |      \__procedure
@@ -165,17 +162,14 @@ program
     |                  |                  |                         |          \__intconst(3)
     |                  |                  |                         \__(
     |                  |                  |                             \__ident(p)
-    |                  |                  |                             \__list
     |                  |                  \__list
     |                  \__list
     \__list
            \__(
                \__ident(p22)
-               \__list
 
 
 Type Checking:
 
-L. 4: Identifier y is undeclared.
 BIG PROBLEM! No case defined for kind (
-There are errors: no code generated
+Generating code:

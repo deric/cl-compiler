@@ -43,11 +43,11 @@
 
 program
     \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__int
     |      \__ident(p)
-    |               \__ident(y)
-    |               |        \__ident(x)
-    |               |        |        \__int
-    |               |        \__int
     |               \__bool
     \__list
     |      \__procedure
@@ -141,7 +141,6 @@ program
     |                         |   \__list
     |                         |          \__(
     |                         |              \__ident(p)
-    |                         |              \__list
     |                         \__(
     |                         |   \__ident(r)
     |                         |   \__list
@@ -175,7 +174,7 @@ program
 
 Type Checking:
 
-L. 4: Identifier y is undeclared.
+L. 36: Assignment with incompatible types.
 BIG PROBLEM! No case defined for kind true
 BIG PROBLEM! No case defined for kind (
 There are errors: no code generated

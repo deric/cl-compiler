@@ -280,7 +280,7 @@ proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR! ;
 ///defintion of a variable
 ///ex. var1 INT
 field: IDENT^ field_type;
-field_type: (INT | STRUCT (field)* ENDSTRUCT! | BOOL);
+field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL);
 
 ///list of instructions
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
@@ -297,7 +297,7 @@ instruction:
 func_param: expression (COMMA! expression)* <<#0=createASTlist(_sibling);>>;
 
 ///a list of functio parameters
-calling_func: (func_param)* ;
+calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
 ///an expression can be anything OPERATOR anything
 expression: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | SMALLER^ expressionvalue | BIGGER^ expressionvalue)*;

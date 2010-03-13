@@ -30,24 +30,24 @@
 
 program
     \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__int
+    |      |                 \__ident(y)
+    |      |                          \__int
+    |      \__ident(b)
+    |      |        \__struct
+    |      |                 \__ident(n)
+    |      |                          \__int
     |      \__ident(a)
-    |               \__ident(b)
-    |               |        \__ident(y)
-    |               |        |        \__ident(x)
-    |               |        |        |        \__int
-    |               |        |        \__struct
-    |               |        |                 \__ident(x)
-    |               |        |                 \__int
-    |               |        |                 \__ident(y)
-    |               |        |                 \__int
-    |               |        \__struct
-    |               |                 \__ident(n)
-    |               |                 \__int
     |               \__struct
     |                        \__ident(n)
-    |                        \__int
+    |                        |        \__int
     |                        \__ident(n)
-    |                        \__int
+    |                                 \__int
     \__list
     \__list
            \__:=
@@ -119,36 +119,13 @@ program
 
 Type Checking:
 
-L. 8: Identifier b is undeclared.
+L. 13: Field n already defined in the struct.
 L. 16: Identifier w is undeclared.
 L. 16: Identifier v is undeclared.
 L. 16: Identifier p12 is undeclared.
 L. 16: Left expression of assignment is not referenceable.
 L. 17: Identifier v is undeclared.
-L. 17: Identifier y is undeclared.
-L. 17: Identifier y is undeclared.
 L. 17: Left expression of assignment is not referenceable.
-L. 18: Identifier x is undeclared.
-L. 18: Identifier y is undeclared.
-L. 18: Left expression of assignment is not referenceable.
-L. 19: Identifier x is undeclared.
-L. 19: Identifier y is undeclared.
-L. 19: Left expression of assignment is not referenceable.
-L. 20: Identifier b is undeclared.
-L. 20: Identifier b is undeclared.
-L. 20: Left expression of assignment is not referenceable.
-L. 21: Identifier b is undeclared.
-L. 21: Identifier y is undeclared.
-L. 21: Identifier y is undeclared.
-L. 21: Left expression of assignment is not referenceable.
-L. 22: Identifier y is undeclared.
-L. 22: Identifier y is undeclared.
-L. 22: Left expression of assignment is not referenceable.
-L. 23: Identifier y is undeclared.
-L. 23: Identifier y is undeclared.
-L. 23: Identifier x is undeclared.
-L. 23: Left expression of assignment is not referenceable.
-L. 24: Identifier y is undeclared.
-L. 24: Identifier y is undeclared.
-L. 24: Left expression of assignment is not referenceable.
+L. 20: Field x is not defined in the struct.
+L. 21: Assignment with incompatible types.
 There are errors: no code generated
