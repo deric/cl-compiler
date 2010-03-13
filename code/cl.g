@@ -206,25 +206,38 @@ int main(int argc,char *argv[])
 #token ENDPROGRAM   "ENDPROGRAM"
 #token VARS         "VARS"
 #token ENDVARS      "ENDVARS"
+#token PROCEDURE    "PROCEDURE"
+#token ENDPROCEDURE "ENDPROCEDURE"
+
+#token IF           "IF"
+#token THEN         "THEN"
+#token ENDIF        "ENDIF"
+
+#token WHILE        "WHILE"
+#token DO        "DO"
+#token ENDWHILE     "ENDWHILE"
+
 #token INT          "INT"
 #token BOOL         "BOOL"
+#token BOOL_VALUE   "TRUE|FALSE"
+#token NOT          "NOT"
+
+#token VAL          "VAL"
+#token REF          "REF"
 #token STRUCT       "STRUCT"
 #token ENDSTRUCT    "ENDSTRUCT"
 #token WRITELN      "WRITELN"
-#token PROCEDURE    "PROCEDURE"
-#token ENDPROCEDURE "ENDPROCEDURE"
-#token VAL          "val"
-#token REF          "ref"
+
 #token PLUS         "\+"
 #token MINUS        "\-"
 #token TIMES        "\*"
 #token DIVIDE       "\/"
+
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","
-#token BOOL_VAL     "true|false"
 #token IDENT        "[a-zA-Z][a-zA-Z0-9]*"
 #token INTCONST     "[0-9]+"
 #token COMMENT      "//~[\n]*" << printf("%s",zzlextext); zzskip(); >>
@@ -235,44 +248,60 @@ int main(int argc,char *argv[])
                                zzskip(); >>
 #token INPUTEND   "@"
 
+///The start and the end of the program code
 program: PROGRAM^ dec_vars l_dec_blocs l_instrs ENDPROGRAM! INPUTEND!;
 
+///Inside the program variables can be declared
 dec_vars: (VARS! l_dec_vars ENDVARS!)* <<#0=createASTlist(_sibling);>>;
-
-l_dec_vars: (var_def)+ ;
-
-var_def: IDENT^ constr_type;
-
+l_dec_vars: (IDENT^ constr_type)* ;
+///a block is a procedure or a function including variables, declarations or more blocks
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
+dec_bloc: ( dec_bloc_proc |
+           dec_bloc_if | dec_bloc_while);
 
+dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
+dec_bloc_if: IF^ (NOT)* expression THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
+dec_bloc_while: WHILE^ (NOT)* expression DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
+
+///used to recognize parameters inside a function
+///ex. test(VAL arg INT)
 dec_param: (VAL^ | REF^) field;
+l_param: (dec_param)* (COMMA! dec_param)*  <<#0=createASTlist(_sibling);>>;
 
-l_param: (dec_param)* (COMMA! dec_param)* <<#0=createASTlist(_sibling);>>;
-
-dec_bloc: (PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE! |
-           FUNCTION^ dec_vars l_dec_blocs l_instrs ENDFUNCTION);
-
+///function call
+///ex. test(VAL arg1 INT, VAL arg2 BOOL)
 proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR!;
 
-constr_type: INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL;
 
+///defintion of a variable type
+constr_type: INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL ;
+
+///defintion of a variable
+///ex. var1 INT
 field: IDENT constr_type;
 
+///list of instructions
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 
+///an instruction can contain
+///- an assigment to a variable
+///- a function
+///- a newline with a function or a STRING
 instruction:
-        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ calling_func CLOSEPAR!)
-          | WRITELN^ OPENPAR! ( expression | STRING ) CLOSEPAR!;  
+        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ (calling_func | STRING) CLOSEPAR!)
+          | WRITELN^ OPENPAR! ( calling_func | STRING ) CLOSEPAR!;  
 
+///function parameters can be calculations such as 3+a or 3+3
 func_param: expression (COMMA! expression)*;
 
+///a list of functio parameters
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
-expression: term (PLUS^ term | MINUS^ term)*;
+///an expression can be anything OPERATOR anything
+expression: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue)*;
 
-term: expsimple (TIMES^ expsimple | DIVIDE^ expsimple)*;
-
-expsimple:
-        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) 
-          | INTCONST | BOOL_VAL;
-
+///anything that can be validated to be inside an expressions
+///such as a variable, a function, a constant or a boolean
+expressionvalue:
+        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
+	| INTCONST | BOOL_VALUE;
