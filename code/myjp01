@@ -141,6 +141,7 @@ program
     |                         |   \__list
     |                         |          \__(
     |                         |              \__ident(p)
+    |                         |              \__list
     |                         \__(
     |                         |   \__ident(r)
     |                         |   \__list

@@ -76,8 +76,10 @@ program
     |                  |      |           |      |                  |    \__intconst(3)
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p12)
+    |                  |      |           |      |                  |   \__list
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p2)
+    |                  |      |           |      |                  |   \__list
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                  |   \__ident(p2)
     |                  |      |           |      |                  |   \__list
@@ -98,6 +100,7 @@ program
     |                  |      |           |      |                  |          \__ident(b)
     |                  |      |           |      |                  \__(
     |                  |      |           |      |                      \__ident(p22)
+    |                  |      |           |      |                      \__list
     |                  |      |           |      \__procedure
     |                  |      |           |                  \__ident(p12)
     |                  |      |           |                  |          \__list
@@ -162,11 +165,13 @@ program
     |                  |                  |                         |          \__intconst(3)
     |                  |                  |                         \__(
     |                  |                  |                             \__ident(p)
+    |                  |                  |                             \__list
     |                  |                  \__list
     |                  \__list
     \__list
            \__(
                \__ident(p22)
+               \__list
 
 
 Type Checking:

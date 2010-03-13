@@ -294,9 +294,10 @@ instruction:
           | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;  
 
 ///function parameters can be calculations such as 3+a or 3+3
-func_param: expression (COMMA! expression)* <<#0=createASTlist(_sibling);>>;
+func_param: expression (COMMA! expression)*;
 
-///a list of functio parameters
+///a list of function parameters
+///must generate an empty list even if no parameter
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
 ///an expression can be anything OPERATOR anything
