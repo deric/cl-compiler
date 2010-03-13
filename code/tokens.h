@@ -37,16 +37,17 @@
 #define DIVIDE 26
 #define OPENPAR 27
 #define CLOSEPAR 28
-#define ASIG 29
-#define DOT 30
-#define COMMA 31
-#define IDENT 32
-#define INTCONST 33
-#define COMMENT 34
-#define WHITESPACE 35
-#define NEWLINE 36
-#define LEXICALERROR 37
-#define STRING 38
+#define SMALLER 29
+#define BIGGER 30
+#define ASIG 31
+#define DOT 32
+#define COMMA 33
+#define IDENT 34
+#define INTCONST 35
+#define COMMENT 36
+#define WHITESPACE 37
+#define NEWLINE 38
+#define LEXICALERROR 39
 
 #ifdef __USE_PROTOS
 void program(AST**_root);
@@ -115,15 +116,15 @@ extern void proc_decl();
 #endif
 
 #ifdef __USE_PROTOS
-void constr_type(AST**_root);
-#else
-extern void constr_type();
-#endif
-
-#ifdef __USE_PROTOS
 void field(AST**_root);
 #else
 extern void field();
+#endif
+
+#ifdef __USE_PROTOS
+void field_type(AST**_root);
+#else
+extern void field_type();
 #endif
 
 #ifdef __USE_PROTOS
@@ -170,9 +171,7 @@ extern SetWordType zzerr3[];
 extern SetWordType setwd2[];
 extern SetWordType zzerr4[];
 extern SetWordType zzerr5[];
+extern SetWordType setwd3[];
 extern SetWordType zzerr6[];
 extern SetWordType zzerr7[];
-extern SetWordType setwd3[];
-extern SetWordType zzerr8[];
-extern SetWordType zzerr9[];
 extern SetWordType setwd4[];

@@ -309,8 +309,7 @@ AST **_root;
     zzMake0;
     {
     while ( (LA(1)==IDENT) ) {
-      zzmatch(IDENT); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
-      constr_type(zzSTR); zzlink(_root, &_sibling, &_tail);
+      field(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
     zzEXIT(zztasp2);
@@ -533,7 +532,8 @@ AST **_root;
     zzEXIT(zztasp2);
     }
   }
-  field(zzSTR); zzlink(_root, &_sibling, &_tail);
+  zzmatch(IDENT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+  field_type(zzSTR); zzlink(_root, &_sibling, &_tail);
   zzEXIT(zztasp1);
   return;
 fail:
@@ -615,9 +615,9 @@ fail:
 
 void
 #ifdef __USE_PROTOS
-constr_type(AST**_root)
+field(AST**_root)
 #else
-constr_type(_root)
+field(_root)
 AST **_root;
 #endif
 {
@@ -625,32 +625,8 @@ AST **_root;
   zzBLOCK(zztasp1);
   zzMake0;
   {
-  if ( (LA(1)==INT) ) {
-    zzmatch(INT); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
-  }
-  else {
-    if ( (LA(1)==STRUCT) ) {
-      zzmatch(STRUCT); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
-      {
-        zzBLOCK(zztasp2);
-        zzMake0;
-        {
-        while ( (LA(1)==IDENT) ) {
-          field(zzSTR); zzlink(_root, &_sibling, &_tail);
-          zzLOOP(zztasp2);
-        }
-        zzEXIT(zztasp2);
-        }
-      }
-      zzmatch(ENDSTRUCT);  zzCONSUME;
-    }
-    else {
-      if ( (LA(1)==BOOL) ) {
-        zzmatch(BOOL); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
-      }
-      else {zzFAIL(1,zzerr3,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
-    }
-  }
+  zzmatch(IDENT); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
+  field_type(zzSTR); zzlink(_root, &_sibling, &_tail);
   zzEXIT(zztasp1);
   return;
 fail:
@@ -662,9 +638,9 @@ fail:
 
 void
 #ifdef __USE_PROTOS
-field(AST**_root)
+field_type(AST**_root)
 #else
-field(_root)
+field_type(_root)
 AST **_root;
 #endif
 {
@@ -672,8 +648,39 @@ AST **_root;
   zzBLOCK(zztasp1);
   zzMake0;
   {
-  zzmatch(IDENT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
-  constr_type(zzSTR); zzlink(_root, &_sibling, &_tail);
+  {
+    zzBLOCK(zztasp2);
+    zzMake0;
+    {
+    if ( (LA(1)==INT) ) {
+      zzmatch(INT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+    }
+    else {
+      if ( (LA(1)==STRUCT) ) {
+        zzmatch(STRUCT); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+        {
+          zzBLOCK(zztasp3);
+          zzMake0;
+          {
+          while ( (LA(1)==IDENT) ) {
+            field(zzSTR); zzlink(_root, &_sibling, &_tail);
+            zzLOOP(zztasp3);
+          }
+          zzEXIT(zztasp3);
+          }
+        }
+        zzmatch(ENDSTRUCT);  zzCONSUME;
+      }
+      else {
+        if ( (LA(1)==BOOL) ) {
+          zzmatch(BOOL); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
+        }
+        else {zzFAIL(1,zzerr3,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
+      }
+    }
+    zzEXIT(zztasp2);
+    }
+  }
   zzEXIT(zztasp1);
   return;
 fail:
@@ -757,21 +764,13 @@ AST **_root;
             zzBLOCK(zztasp3);
             zzMake0;
             {
-            if ( (setwd3[LA(1)]&0x4) ) {
-              calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
-            }
-            else {
-              if ( (LA(1)==STRING) ) {
-                zzmatch(STRING); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
-              }
-              else {zzFAIL(1,zzerr4,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
-            }
+            calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
             zzEXIT(zztasp3);
             }
           }
           zzmatch(CLOSEPAR);  zzCONSUME;
         }
-        else {zzFAIL(1,zzerr5,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
+        else {zzFAIL(1,zzerr4,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
       }
       zzEXIT(zztasp2);
       }
@@ -785,28 +784,20 @@ AST **_root;
         zzBLOCK(zztasp2);
         zzMake0;
         {
-        if ( (setwd3[LA(1)]&0x8) ) {
-          calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
-        }
-        else {
-          if ( (LA(1)==STRING) ) {
-            zzmatch(STRING); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
-          }
-          else {zzFAIL(1,zzerr6,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
-        }
+        calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
         zzEXIT(zztasp2);
         }
       }
       zzmatch(CLOSEPAR);  zzCONSUME;
     }
-    else {zzFAIL(1,zzerr7,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
+    else {zzFAIL(1,zzerr5,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
   }
   zzEXIT(zztasp1);
   return;
 fail:
   zzEXIT(zztasp1);
   zzsyn(zzMissText, zzBadTok, (ANTLRChar *)"", zzMissSet, zzMissTok, zzErrk, zzBadText);
-  zzresynch(setwd3, 0x10);
+  zzresynch(setwd3, 0x4);
   }
 }
 
@@ -835,12 +826,13 @@ AST **_root;
     zzEXIT(zztasp2);
     }
   }
+  (*_root)=createASTlist(_sibling);
   zzEXIT(zztasp1);
   return;
 fail:
   zzEXIT(zztasp1);
   zzsyn(zzMissText, zzBadTok, (ANTLRChar *)"", zzMissSet, zzMissTok, zzErrk, zzBadText);
-  zzresynch(setwd3, 0x20);
+  zzresynch(setwd3, 0x8);
   }
 }
 
@@ -860,20 +852,19 @@ AST **_root;
     zzBLOCK(zztasp2);
     zzMake0;
     {
-    while ( (setwd3[LA(1)]&0x40) ) {
+    while ( (setwd3[LA(1)]&0x10) ) {
       func_param(zzSTR); zzlink(_root, &_sibling, &_tail);
       zzLOOP(zztasp2);
     }
     zzEXIT(zztasp2);
     }
   }
-  (*_root)=createASTlist(_sibling);
   zzEXIT(zztasp1);
   return;
 fail:
   zzEXIT(zztasp1);
   zzsyn(zzMissText, zzBadTok, (ANTLRChar *)"", zzMissSet, zzMissTok, zzErrk, zzBadText);
-  zzresynch(setwd3, 0x80);
+  zzresynch(setwd3, 0x20);
   }
 }
 
@@ -895,7 +886,7 @@ AST **_root;
     zzMake0;
     {
     for (;;) {
-      if ( !((setwd4[LA(1)]&0x1))) break;
+      if ( !((setwd3[LA(1)]&0x40))) break;
       if ( (LA(1)==TIMES) ) {
         zzmatch(TIMES); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
         expressionvalue(zzSTR); zzlink(_root, &_sibling, &_tail);
@@ -915,7 +906,19 @@ AST **_root;
               zzmatch(MINUS); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
               expressionvalue(zzSTR); zzlink(_root, &_sibling, &_tail);
             }
-            else break; /* MR6 code for exiting loop "for sure" */
+            else {
+              if ( (LA(1)==SMALLER) ) {
+                zzmatch(SMALLER); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
+                expressionvalue(zzSTR); zzlink(_root, &_sibling, &_tail);
+              }
+              else {
+                if ( (LA(1)==BIGGER) ) {
+                  zzmatch(BIGGER); zzsubroot(_root, &_sibling, &_tail); zzCONSUME;
+                  expressionvalue(zzSTR); zzlink(_root, &_sibling, &_tail);
+                }
+                else break; /* MR6 code for exiting loop "for sure" */
+              }
+            }
           }
         }
       }
@@ -929,7 +932,7 @@ AST **_root;
 fail:
   zzEXIT(zztasp1);
   zzsyn(zzMissText, zzBadTok, (ANTLRChar *)"", zzMissSet, zzMissTok, zzErrk, zzBadText);
-  zzresynch(setwd4, 0x2);
+  zzresynch(setwd3, 0x80);
   }
 }
 
@@ -951,7 +954,7 @@ AST **_root;
       zzBLOCK(zztasp2);
       zzMake0;
       {
-      if ( (setwd4[LA(1)]&0x4) ) {
+      if ( (setwd4[LA(1)]&0x1) ) {
         {
           zzBLOCK(zztasp3);
           zzMake0;
@@ -971,7 +974,7 @@ AST **_root;
           calling_func(zzSTR); zzlink(_root, &_sibling, &_tail);
           zzmatch(CLOSEPAR);  zzCONSUME;
         }
-        else {zzFAIL(1,zzerr8,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
+        else {zzFAIL(1,zzerr6,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
       }
       zzEXIT(zztasp2);
       }
@@ -985,7 +988,7 @@ AST **_root;
       if ( (LA(1)==BOOL_VALUE) ) {
         zzmatch(BOOL_VALUE); zzsubchild(_root, &_sibling, &_tail); zzCONSUME;
       }
-      else {zzFAIL(1,zzerr9,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
+      else {zzFAIL(1,zzerr7,&zzMissSet,&zzMissText,&zzBadTok,&zzBadText,&zzErrk); goto fail;}
     }
   }
   zzEXIT(zztasp1);
@@ -993,6 +996,6 @@ AST **_root;
 fail:
   zzEXIT(zztasp1);
   zzsyn(zzMissText, zzBadTok, (ANTLRChar *)"", zzMissSet, zzMissTok, zzErrk, zzBadText);
-  zzresynch(setwd4, 0x8);
+  zzresynch(setwd4, 0x2);
   }
 }

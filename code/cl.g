@@ -235,6 +235,10 @@ int main(int argc,char *argv[])
 
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
+
+#token SMALLER      "\<"
+#token BIGGER       "\>"
+
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","
@@ -253,7 +257,8 @@ program: PROGRAM^ dec_vars l_dec_blocs l_instrs ENDPROGRAM! INPUTEND!;
 
 ///Inside the program variables can be declared
 dec_vars: (VARS! l_dec_vars ENDVARS!)* <<#0=createASTlist(_sibling);>>;
-l_dec_vars: (IDENT^ constr_type)* ;
+l_dec_vars: (field)* ;
+
 ///a block is a procedure or a function including variables, declarations or more blocks
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 dec_bloc: ( dec_bloc_proc |
@@ -265,20 +270,17 @@ dec_bloc_while: WHILE^ (NOT)* expression DO! dec_vars l_dec_blocs l_instrs ENDWH
 
 ///used to recognize parameters inside a function
 ///ex. test(VAL arg INT)
-dec_param: (VAL^ | REF^) field;
+dec_param: (VAL^ | REF^) IDENT field_type;
 l_param: (dec_param)* (COMMA! dec_param)*  <<#0=createASTlist(_sibling);>>;
 
 ///function call
 ///ex. test(VAL arg1 INT, VAL arg2 BOOL)
-proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR!;
-
-
-///defintion of a variable type
-constr_type: INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL ;
+proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR! ;
 
 ///defintion of a variable
 ///ex. var1 INT
-field: IDENT constr_type;
+field: IDENT^ field_type;
+field_type: (INT | STRUCT (field)* ENDSTRUCT! | BOOL);
 
 ///list of instructions
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
@@ -288,20 +290,21 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a function
 ///- a newline with a function or a STRING
 instruction:
-        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ (calling_func | STRING) CLOSEPAR!)
-          | WRITELN^ OPENPAR! ( calling_func | STRING ) CLOSEPAR!;  
+        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ (calling_func) CLOSEPAR!)
+          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;  
 
 ///function parameters can be calculations such as 3+a or 3+3
-func_param: expression (COMMA! expression)*;
+func_param: expression (COMMA! expression)* <<#0=createASTlist(_sibling);>>;
 
 ///a list of functio parameters
-calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
+calling_func: (func_param)* ;
 
 ///an expression can be anything OPERATOR anything
-expression: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue)*;
+expression: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | SMALLER^ expressionvalue | BIGGER^ expressionvalue)*;
 
 ///anything that can be validated to be inside an expressions
 ///such as a variable, a function, a constant or a boolean
 expressionvalue:
         IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
-	| INTCONST | BOOL_VALUE;
+        | INTCONST
+        | BOOL_VALUE;
