@@ -12,10 +12,8 @@ printf "\n### Loaded %d test files\n" ${#array[*]}
 for item in ${array[*]}
 do
 	printf "### Executing %s\n" $item
-	./cl <$item >tmp
-	colordiff s$item tmp
+	./cl <$item >my$item
+	colordiff s$item my$item
 done
-
-rm tmp
 echo "#### Tests completed ####"
 
