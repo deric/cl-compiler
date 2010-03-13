@@ -42,11 +42,11 @@
 
 program
     \__list
-    |      \__ident(x)
-    |      |        \__int
-    |      \__ident(y)
-    |      |        \__bool
     |      \__ident(b)
+    |               \__ident(y)
+    |               |        \__ident(x)
+    |               |        |        \__int
+    |               |        \__bool
     |               \__bool
     \__list
     |      \__procedure
@@ -131,9 +131,9 @@ program
     |                  |                  |                      \__ident(u)
     |                  |                  |                      \__bool
     |                  |                  \__list
-    |                  |                  |      \__ident(v)
-    |                  |                  |      |        \__int
     |                  |                  |      \__ident(w)
+    |                  |                  |               \__ident(v)
+    |                  |                  |               |        \__int
     |                  |                  |               \__bool
     |                  |                  \__list
     |                  |                  |      \__procedure
@@ -176,5 +176,6 @@ program
 
 Type Checking:
 
+L. 4: Identifier y is undeclared.
 BIG PROBLEM! No case defined for kind (
-Generating code:
+There are errors: no code generated

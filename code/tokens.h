@@ -14,34 +14,39 @@
 #define ENDPROGRAM 3
 #define VARS 4
 #define ENDVARS 5
-#define INT 6
-#define BOOL 7
-#define STRUCT 8
-#define ENDSTRUCT 9
-#define WRITELN 10
-#define PROCEDURE 11
-#define ENDPROCEDURE 12
-#define VAL 13
-#define REF 14
-#define PLUS 15
-#define MINUS 16
-#define TIMES 17
-#define DIVIDE 18
-#define OPENPAR 19
-#define CLOSEPAR 20
-#define ASIG 21
-#define DOT 22
-#define COMMA 23
-#define BOOL_VAL 24
-#define IDENT 25
-#define INTCONST 26
-#define COMMENT 27
-#define WHITESPACE 28
-#define NEWLINE 29
-#define LEXICALERROR 30
-#define FUNCTION 31
-#define ENDFUNCTION 32
-#define STRING 33
+#define PROCEDURE 6
+#define ENDPROCEDURE 7
+#define IF 8
+#define THEN 9
+#define ENDIF 10
+#define WHILE 11
+#define DO 12
+#define ENDWHILE 13
+#define INT 14
+#define BOOL 15
+#define BOOL_VALUE 16
+#define NOT 17
+#define VAL 18
+#define REF 19
+#define STRUCT 20
+#define ENDSTRUCT 21
+#define WRITELN 22
+#define PLUS 23
+#define MINUS 24
+#define TIMES 25
+#define DIVIDE 26
+#define OPENPAR 27
+#define CLOSEPAR 28
+#define ASIG 29
+#define DOT 30
+#define COMMA 31
+#define IDENT 32
+#define INTCONST 33
+#define COMMENT 34
+#define WHITESPACE 35
+#define NEWLINE 36
+#define LEXICALERROR 37
+#define STRING 38
 
 #ifdef __USE_PROTOS
 void program(AST**_root);
@@ -62,15 +67,33 @@ extern void l_dec_vars();
 #endif
 
 #ifdef __USE_PROTOS
-void var_def(AST**_root);
-#else
-extern void var_def();
-#endif
-
-#ifdef __USE_PROTOS
 void l_dec_blocs(AST**_root);
 #else
 extern void l_dec_blocs();
+#endif
+
+#ifdef __USE_PROTOS
+void dec_bloc(AST**_root);
+#else
+extern void dec_bloc();
+#endif
+
+#ifdef __USE_PROTOS
+void dec_bloc_proc(AST**_root);
+#else
+extern void dec_bloc_proc();
+#endif
+
+#ifdef __USE_PROTOS
+void dec_bloc_if(AST**_root);
+#else
+extern void dec_bloc_if();
+#endif
+
+#ifdef __USE_PROTOS
+void dec_bloc_while(AST**_root);
+#else
+extern void dec_bloc_while();
 #endif
 
 #ifdef __USE_PROTOS
@@ -83,12 +106,6 @@ extern void dec_param();
 void l_param(AST**_root);
 #else
 extern void l_param();
-#endif
-
-#ifdef __USE_PROTOS
-void dec_bloc(AST**_root);
-#else
-extern void dec_bloc();
 #endif
 
 #ifdef __USE_PROTOS
@@ -140,15 +157,9 @@ extern void expression();
 #endif
 
 #ifdef __USE_PROTOS
-void term(AST**_root);
+void expressionvalue(AST**_root);
 #else
-extern void term();
-#endif
-
-#ifdef __USE_PROTOS
-void expsimple(AST**_root);
-#else
-extern void expsimple();
+extern void expressionvalue();
 #endif
 
 #endif
@@ -156,11 +167,12 @@ extern SetWordType zzerr1[];
 extern SetWordType setwd1[];
 extern SetWordType zzerr2[];
 extern SetWordType zzerr3[];
-extern SetWordType zzerr4[];
 extern SetWordType setwd2[];
+extern SetWordType zzerr4[];
 extern SetWordType zzerr5[];
 extern SetWordType zzerr6[];
-extern SetWordType setwd3[];
 extern SetWordType zzerr7[];
+extern SetWordType setwd3[];
 extern SetWordType zzerr8[];
+extern SetWordType zzerr9[];
 extern SetWordType setwd4[];

@@ -1,0 +1,181 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x int
+  4:     y int
+  5:     p bool
+  6:   ENDVARS
+  7:   PROCEDURE q()
+  8:     PROCEDURE p(val p int)
+  9:       p:=3
+ 10:       p:=true
+ 11:     ENDPROCEDURE
+ 12:     p:=3
+ 13:     p(3)
+ 14:     p(true)
+ 15:   ENDPROCEDURE
+ 16:   PROCEDURE r(ref p int)
+ 17:     PROCEDURE p(val r int)
+ 18:       r:=4
+ 19:       r(3)
+ 20:       r(p)
+ 21:       r(y)
+ 22:       r(x)
+ 23:       p:=3
+ 24:       p:=true
+ 25:       p(3)
+ 26:     ENDPROCEDURE
+ 27:     r:=3
+ 28:     r(3)
+ 29:     r(p())
+ 30:     r(y)
+ 31:     r(x)
+ 32:     p:=3
+ 33:     p:=true
+ 34:     p(p)
+ 35:   ENDPROCEDURE
+ 36:   p:=3
+ 37:   p:=true
+ 38:   p(3)
+ 39: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(p)
+    |               \__ident(y)
+    |               |        \__ident(x)
+    |               |        |        \__int
+    |               |        \__int
+    |               \__bool
+    \__list
+    |      \__procedure
+    |      |           \__ident(q)
+    |      |           |        \__list
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |                  \__ident(p)
+    |      |           |                  |        \__list
+    |      |           |                  |               \__val
+    |      |           |                  |                     \__ident(p)
+    |      |           |                  |                     \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__:=
+    |      |           |                         |    \__ident(p)
+    |      |           |                         |    \__intconst(3)
+    |      |           |                         \__:=
+    |      |           |                              \__ident(p)
+    |      |           |                              \__true
+    |      |           \__list
+    |      |                  \__:=
+    |      |                  |    \__ident(p)
+    |      |                  |    \__intconst(3)
+    |      |                  \__(
+    |      |                  |   \__ident(p)
+    |      |                  |   \__list
+    |      |                  |          \__intconst(3)
+    |      |                  \__(
+    |      |                      \__ident(p)
+    |      |                      \__list
+    |      |                             \__true
+    |      \__procedure
+    |                  \__ident(r)
+    |                  |        \__list
+    |                  |               \__ref
+    |                  |                     \__ident(p)
+    |                  |                     \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(p)
+    |                  |                  |        \__list
+    |                  |                  |               \__val
+    |                  |                  |                     \__ident(r)
+    |                  |                  |                     \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(r)
+    |                  |                         |    \__intconst(4)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__intconst(3)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(p)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(y)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(x)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__intconst(3)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__true
+    |                  |                         \__(
+    |                  |                             \__ident(p)
+    |                  |                             \__list
+    |                  |                                    \__intconst(3)
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(r)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__(
+    |                         |              \__ident(p)
+    |                         |              \__list
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(y)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(x)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__intconst(3)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__true
+    |                         \__(
+    |                             \__ident(p)
+    |                             \__list
+    |                                    \__ident(p)
+    \__list
+           \__:=
+           |    \__ident(p)
+           |    \__intconst(3)
+           \__:=
+           |    \__ident(p)
+           |    \__true
+           \__(
+               \__ident(p)
+               \__list
+                      \__intconst(3)
+
+
+Type Checking:
+
+L. 4: Identifier y is undeclared.
+BIG PROBLEM! No case defined for kind true
+BIG PROBLEM! No case defined for kind (
+There are errors: no code generated
