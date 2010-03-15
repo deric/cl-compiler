@@ -6,3 +6,4 @@ cl.c
 err.c
 scan.c
 tokens.h
+myjp*
