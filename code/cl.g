@@ -214,13 +214,16 @@ int main(int argc,char *argv[])
 #token ENDIF        "ENDIF"
 
 #token WHILE        "WHILE"
-#token DO        "DO"
+#token DO           "DO"
 #token ENDWHILE     "ENDWHILE"
 
 #token INT          "INT"
 #token BOOL         "BOOL"
 #token BOOL_VALUE   "TRUE|FALSE"
+
 #token NOT          "NOT"
+#token OR          "OR"
+#token AND          "AND"
 
 #token VAL          "VAL"
 #token REF          "REF"
@@ -238,6 +241,9 @@ int main(int argc,char *argv[])
 
 #token SMALLER      "\<"
 #token BIGGER       "\>"
+
+#token UNARY         "\-\-"
+#token EQUAL         "\="
 
 #token ASIG         ":="
 #token DOT          "."
@@ -265,8 +271,8 @@ dec_bloc: ( dec_bloc_proc |
            dec_bloc_if | dec_bloc_while);
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
-dec_bloc_if: IF^ (NOT)* expression THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
-dec_bloc_while: WHILE^ (NOT)* expression DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
+dec_bloc_if: IF^ expression THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
+dec_bloc_while: WHILE^ expression DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
 
 ///used to recognize parameters inside a function
 ///ex. test(VAL arg INT)
@@ -300,12 +306,13 @@ func_param: expression (COMMA! expression)*;
 ///must generate an empty list even if no parameter
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
+///adding the OR statement
+expression: (NOT^)* (expression_operators ((OR^|AND^) expression_operators)*);
+
 ///an expression can be anything OPERATOR anything
-expression: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | SMALLER^ expressionvalue | BIGGER^ expressionvalue)*;
+expression_operators: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
 
 ///anything that can be validated to be inside an expressions
 ///such as a variable, a function, a constant or a boolean
 expressionvalue:
-        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
-        | INTCONST
-        | BOOL_VALUE;
+        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) | INTCONST | BOOL_VALUE;
