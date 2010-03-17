@@ -332,5 +332,5 @@ faktor: (UNARY^ prim |NOT^ prim | prim);
 prim: term;
 
 term:
-    IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
+    IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR!)* | OPENPAR! expr CLOSEPAR!
           | INTCONST | BOOL_VALUE;
