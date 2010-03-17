@@ -239,10 +239,10 @@ int main(int argc,char *argv[])
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
 
-#token SMALLER      "\<"
+#token LESSER      "\<"
 #token GREATER      "\>"
 
-#token UNARY         "\-\-"
+#token UNARY         "\-"
 #token EQUAL         "\="
 
 #token ASIG         ":="
@@ -309,14 +309,17 @@ calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 ///adding the OR statement
 ///expr: (NOT^)* (expr_q ((OR^|AND^) expr_q)*);
 
+expr: expr_comp ( (AND^ | OR^ ) expr_comp)*;
+expr_comp: expr_op ((GREATER^ | LESSER^ | EQUAL^) expr_op)*;
+
 ///operator + and - has lowest priority
-expr: elem (PLUS^ elem | MINUS^ elem)*;
+expr_op: elem (PLUS^ elem | MINUS^ elem)*;
 
 ///higher priority of * and /
 elem: faktor (TIMES^ faktor | DIVIDE^ faktor)*;
 
 ///unary minus
-faktor: (MINUS^|NOT^ prim) | prim;
+faktor: (UNARY^ prim |NOT^ prim | prim);
 
 
 ///expr_op: elem (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | ///SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
