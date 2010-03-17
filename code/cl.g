@@ -79,7 +79,7 @@ AST* createASTnode(Attrib* attr, int ttype, char *textt) {
    as->sc=0;
    as->tp=create_type("error",0,0);
    as->ref=0;
-   return as;   
+   return as;
 }
 
 /// create a new "list" AST node with one element
@@ -92,14 +92,14 @@ AST* createASTlist(AST *child) {
 }
 
 
-/// create a new empty "list" AST node 
+/// create a new empty "list" AST node
 AST* createASTlist() {
  AST *as=new AST;
  as->kind="list";
  as->right=NULL;
  as->down=NULL;
  return as;
-} 
+}
 
 
 /// get nth child of a tree. Count starts at 0.
@@ -108,7 +108,7 @@ AST* child(AST *a,int n) {
  AST *c=a->down;
  for (int i=0; c!=NULL && i<n; i++) c=c->right;
  return c;
-} 
+}
 
 
 void ASTPrintIndent(AST *a,string s)
@@ -125,7 +125,7 @@ void ASTPrintIndent(AST *a,string s)
     ASTPrintIndent(i,s+"  |"+string(i->kind.size()+i->text.size(),' '));
     i=i->right;
   }
-  
+
   if (i!=NULL) {
       cout<<s+"  \\__";
       ASTPrintIndent(i,s+"   "+string(i->kind.size()+i->text.size(),' '));
@@ -133,7 +133,7 @@ void ASTPrintIndent(AST *a,string s)
   }
 }
 
-/// print AST 
+/// print AST
 void ASTPrint(AST *a)
 {
   cout<<endl;
@@ -157,7 +157,7 @@ int main(int argc,char *argv[])
   if (zzLexErrCount>0) {
     cout<<endl<<"There were lexical errors."<<endl;
     exit(0);
-  } 
+  }
   if (zzSyntaxErrCount>0) {
     cout<<endl<<"There were syntax errors."<<endl;
     exit(0);
@@ -174,14 +174,14 @@ int main(int argc,char *argv[])
   if (TypeError) {
     cout<<"There are errors: no code generated"<<endl;
     exit(0);
-  } 
+  }
 
   // no errors found. Generate code
   cout<<"Generating code:"<<endl;
   codeglobal cg;
   CodeGen(root,cg);
   writecodeglobal(cg);
-  
+
   if (argc==2 && string(argv[1])=="execute") {
     cout<<endl<<"Executing code:"<<endl;
     executecodeglobal(cg,10000,0);
@@ -240,7 +240,7 @@ int main(int argc,char *argv[])
 #token CLOSEPAR     "\)"
 
 #token SMALLER      "\<"
-#token BIGGER       "\>"
+#token GREATER      "\>"
 
 #token UNARY         "\-\-"
 #token EQUAL         "\="
@@ -271,8 +271,8 @@ dec_bloc: ( dec_bloc_proc |
            dec_bloc_if | dec_bloc_while);
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
-dec_bloc_if: IF^ expression THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
-dec_bloc_while: WHILE^ expression DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
+dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
+dec_bloc_while: WHILE^ expr DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
 
 ///used to recognize parameters inside a function
 ///ex. test(VAL arg INT)
@@ -296,23 +296,38 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a function
 ///- a newline with a function or a STRING
 instruction:
-        IDENT (( DOT^ IDENT)* ASIG^ expression | OPENPAR^ (calling_func) CLOSEPAR!)
-          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;  
+        IDENT (( DOT^ IDENT)* ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
+          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;
 
 ///function parameters can be calculations such as 3+a or 3+3
-func_param: expression (COMMA! expression)*;
+func_param: expr (COMMA! expr)*;
 
 ///a list of function parameters
 ///must generate an empty list even if no parameter
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
 ///adding the OR statement
-expression: (NOT^)* (expression_operators ((OR^|AND^) expression_operators)*);
+///expr: (NOT^)* (expr_q ((OR^|AND^) expr_q)*);
 
-///an expression can be anything OPERATOR anything
-expression_operators: expressionvalue (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
+///operator + and - has lowest priority
+expr: elem (PLUS^ elem | MINUS^ elem)*;
+
+///higher priority of * and /
+elem: faktor (TIMES^ faktor | DIVIDE^ faktor)*;
+
+///unary minus
+faktor: (MINUS^|NOT^ prim) | prim;
+
+
+///expr_op: elem (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | ///SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
 
 ///anything that can be validated to be inside an expressions
 ///such as a variable, a function, a constant or a boolean
-expressionvalue:
-        IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) | INTCONST | BOOL_VALUE;
+
+///brackets round expression
+///prim: term| OPENPAR^ expr CLOSEPAR!;
+prim: term;
+
+term:
+    IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!)
+          | INTCONST | BOOL_VALUE;
