@@ -211,6 +211,7 @@ int main(int argc,char *argv[])
 
 #token IF           "IF"
 #token THEN         "THEN"
+#token ELSE         "ELSE"
 #token ENDIF        "ENDIF"
 
 #token WHILE        "WHILE"
@@ -269,7 +270,7 @@ dec_bloc: ( dec_bloc_proc |
            dec_bloc_if | dec_bloc_while);
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
-dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs ENDIF! ;
+dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs (ELSE! dec_vars l_dec_blocs l_instrs|) ENDIF!;
 dec_bloc_while: WHILE^ expr DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
 
 ///used to recognize parameters inside a function
