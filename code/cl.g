@@ -241,8 +241,6 @@ int main(int argc,char *argv[])
 
 #token LESSER      "\<"
 #token GREATER      "\>"
-
-#token UNARY         "\-"
 #token EQUAL         "\="
 
 #token ASIG         ":="
@@ -296,7 +294,7 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a function
 ///- a newline with a function or a STRING
 instruction:
-        IDENT (( DOT^ IDENT)* ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
+        IDENT ( DOT^ IDENT)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
           | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;
 
 ///function parameters can be calculations such as 3+a or 3+3
@@ -319,7 +317,7 @@ expr_op: elem (PLUS^ elem | MINUS^ elem)*;
 elem: faktor (TIMES^ faktor | DIVIDE^ faktor)*;
 
 ///unary minus
-faktor: (UNARY^ prim |NOT^ prim | prim);
+faktor: (MINUS^ faktor |NOT^ faktor | prim);
 
 
 ///expr_op: elem (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | ///SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
@@ -332,5 +330,5 @@ faktor: (UNARY^ prim |NOT^ prim | prim);
 prim: term;
 
 term:
-    IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR!)* | OPENPAR! expr CLOSEPAR!
+    (IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR!)*) | (OPENPAR! expr CLOSEPAR!)
           | INTCONST | BOOL_VALUE;
