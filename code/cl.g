@@ -266,11 +266,11 @@ l_dec_vars: (field)* ;
 
 ///a block is a procedure or a function including variables, declarations or more blocks
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
-dec_bloc: ( dec_bloc_proc |
-           dec_bloc_if | dec_bloc_while);
+dec_bloc: ( dec_bloc_proc);
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
-dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs (ELSE! dec_vars l_dec_blocs l_instrs|) ENDIF!;
+dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs
+               (ELSE! dec_vars l_dec_blocs l_instrs|) ENDIF! <<#0=createASTlist(_sibling);>>;
 dec_bloc_while: WHILE^ expr DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
 
 ///used to recognize parameters inside a function
@@ -296,7 +296,7 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a newline with a function or a STRING
 instruction:
         IDENT ( DOT^ IDENT)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
-          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!;
+          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!|dec_bloc_if | dec_bloc_while;
 
 ///function parameters can be calculations such as 3+a or 3+3
 func_param: expr (COMMA! expr)*;
@@ -305,9 +305,7 @@ func_param: expr (COMMA! expr)*;
 ///must generate an empty list even if no parameter
 calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
 
-///adding the OR statement
-///expr: (NOT^)* (expr_q ((OR^|AND^) expr_q)*);
-
+///adding the AND, OR statement
 expr: expr_comp ( (AND^ | OR^ ) expr_comp)*;
 expr_comp: expr_op ((GREATER^ | LESSER^ | EQUAL^) expr_op)*;
 
