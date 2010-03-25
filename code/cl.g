@@ -206,8 +206,11 @@ int main(int argc,char *argv[])
 #token ENDPROGRAM   "ENDPROGRAM"
 #token VARS         "VARS"
 #token ENDVARS      "ENDVARS"
+
 #token PROCEDURE    "PROCEDURE"
 #token ENDPROCEDURE "ENDPROCEDURE"
+#token FUNCTION     "FUNCTION"
+#token ENDFUNCTION  "ENDFUNCTION"
 
 #token IF           "IF"
 #token THEN         "THEN"
@@ -231,6 +234,7 @@ int main(int argc,char *argv[])
 #token STRUCT       "STRUCT"
 #token ENDSTRUCT    "ENDSTRUCT"
 #token WRITELN      "WRITELN"
+#token RETURN       "RETURN"
 
 #token PLUS         "\+"
 #token MINUS        "\-"
@@ -266,7 +270,11 @@ l_dec_vars: (field)* ;
 
 ///a block is a procedure or a function including variables, declarations or more blocks
 l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
-dec_bloc: ( dec_bloc_proc);
+dec_bloc: ( dec_bloc_proc | dec_function);
+
+dec_function: FUNCTION^ header_func dec_vars l_dec_blocs l_instrs RETURN! expr ENDFUNCTION!;
+header_func: IDENT^ OPENPAR! l_param CLOSEPAR! func_return;
+func_return: RETURN! field_type;
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
 dec_bloc_if: IF^ expr THEN! l_instrs
@@ -281,6 +289,7 @@ l_param: (dec_param)* (COMMA! dec_param)*  <<#0=createASTlist(_sibling);>>;
 ///function call
 ///ex. test(VAL arg1 INT, VAL arg2 BOOL)
 proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR! ;
+
 
 ///defintion of a variable
 ///ex. var1 INT
