@@ -269,9 +269,9 @@ l_dec_blocs: ( dec_bloc )* <<#0=createASTlist(_sibling);>> ;
 dec_bloc: ( dec_bloc_proc);
 
 dec_bloc_proc: PROCEDURE^ proc_decl dec_vars l_dec_blocs l_instrs ENDPROCEDURE!;
-dec_bloc_if: IF^ expr THEN! dec_vars l_dec_blocs l_instrs
-               (ELSE! dec_vars l_dec_blocs l_instrs|) ENDIF! <<#0=createASTlist(_sibling);>>;
-dec_bloc_while: WHILE^ expr DO! dec_vars l_dec_blocs l_instrs ENDWHILE! ;
+dec_bloc_if: IF^ expr THEN! l_instrs
+               (ELSE! l_instrs|) ENDIF!;
+dec_bloc_while: WHILE^ expr DO! l_instrs ENDWHILE! ;
 
 ///used to recognize parameters inside a function
 ///ex. test(VAL arg INT)
@@ -299,11 +299,9 @@ instruction:
           | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!|dec_bloc_if | dec_bloc_while;
 
 ///function parameters can be calculations such as 3+a or 3+3
-func_param: expr (COMMA! expr)*;
-
 ///a list of function parameters
 ///must generate an empty list even if no parameter
-calling_func: (func_param)* <<#0=createASTlist(_sibling);>>;
+calling_func: (expr (COMMA! expr)* | ) <<#0=createASTlist(_sibling);>>;
 
 ///adding the AND, OR statement
 expr: expr_comp ( (AND^ | OR^ ) expr_comp)*;
@@ -316,7 +314,7 @@ expr_op: elem (PLUS^ elem | MINUS^ elem)*;
 elem: faktor (TIMES^ faktor | DIVIDE^ faktor)*;
 
 ///unary minus
-faktor: (MINUS^ faktor |NOT^ faktor | prim);
+faktor: (MINUS^ faktor) | (NOT^ faktor) | term;
 
 
 ///expr_op: elem (TIMES^ expressionvalue | DIVIDE^ expressionvalue | PLUS^ expressionvalue | MINUS^ expressionvalue | ///SMALLER^ expressionvalue | BIGGER^ expressionvalue | EQUAL^ expressionvalue)*;
@@ -325,9 +323,6 @@ faktor: (MINUS^ faktor |NOT^ faktor | prim);
 ///such as a variable, a function, a constant or a boolean
 
 ///brackets round expression
-///prim: term| OPENPAR^ expr CLOSEPAR!;
-prim: term;
+term: IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) | prim | (OPENPAR! expr CLOSEPAR!) ;
 
-term:
-    (IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR!)*) | (OPENPAR! expr CLOSEPAR!)
-          | INTCONST | BOOL_VALUE;
+prim: INTCONST | BOOL_VALUE;
