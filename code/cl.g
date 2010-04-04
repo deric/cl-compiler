@@ -235,6 +235,8 @@ int main(int argc,char *argv[])
 #token ENDSTRUCT    "ENDSTRUCT"
 #token WRITELN      "WRITELN"
 #token RETURN       "RETURN"
+#token ARRAY        "Array"
+#token OF           "of"
 
 #token PLUS         "\+"
 #token MINUS        "\-"
@@ -243,6 +245,9 @@ int main(int argc,char *argv[])
 
 #token OPENPAR      "\("
 #token CLOSEPAR     "\)"
+
+#token OPENSQ       "\["
+#token CLOSESQ      "\]"
 
 #token LESSER      "\<"
 #token GREATER      "\>"
@@ -294,7 +299,7 @@ proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR! ;
 ///defintion of a variable
 ///ex. var1 INT
 field: IDENT^ field_type;
-field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL);
+field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL | ARRAY OPENSQ^ INTCONST CLOSESQ! OF field_type);
 
 ///list of instructions
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
