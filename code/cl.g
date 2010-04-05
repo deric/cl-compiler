@@ -299,7 +299,7 @@ proc_decl: IDENT^ OPENPAR! l_param CLOSEPAR! ;
 ///defintion of a variable
 ///ex. var1 INT
 field: IDENT^ field_type;
-field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL | ARRAY OPENSQ^ INTCONST CLOSESQ! OF field_type);
+field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL | ARRAY^ OPENSQ! INTCONST CLOSESQ! OF! field_type);
 
 ///list of instructions
 l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
@@ -309,7 +309,7 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a function
 ///- a newline with a function or a STRING
 instruction:
-        IDENT ( DOT^ IDENT)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
+        IDENT ( DOT^ IDENT | OPENSQ^ expr CLOSESQ!)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
           | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!|dec_bloc_if | dec_bloc_while;
 
 ///function parameters can be calculations such as 3+a or 3+3
@@ -337,6 +337,6 @@ faktor: (MINUS^ faktor) | (NOT^ faktor) | term;
 ///such as a variable, a function, a constant or a boolean
 
 ///brackets round expression
-term: IDENT ((DOT^ IDENT)* | OPENPAR^ calling_func CLOSEPAR!) | prim | (OPENPAR! expr CLOSEPAR!) ;
+term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!) ;
 
 prim: INTCONST | BOOL_VALUE;
