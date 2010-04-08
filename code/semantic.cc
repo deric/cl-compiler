@@ -126,10 +126,12 @@ bool isbasickind(string kind) {
 }
 
 
-
+/**
+* parametres of procedure or function
+*/
 void check_params(AST *a,ptype tp,int line,int numparam)
 {
-  //...
+cout << "{check_param} line: " << line << " num: " <<numparam<< " type: " << a->tp->kind << endl;
 }
 
 void insert_vars(AST *a)
@@ -137,7 +139,19 @@ void insert_vars(AST *a)
   if (!a) return;
   TypeCheck(child(a,0));
   InsertintoST(a->line,"idvarlocal",a->text,child(a,0)->tp);
-  insert_vars(a->right); 
+  insert_vars(a->right);
+}
+
+void insert_params(AST *a) {
+  if (!a) return;
+
+  if (a->kind=="ref")
+    InsertintoST(a->line,"idparref",a->down->text,a->down->right->tp);
+
+  else if (a->kind=="val")
+    InsertintoST(a->line,"idparval",a->down->text,a->down->right->tp);
+
+  insert_params(a->right);
 }
 
 void construct_struct(AST *a)
@@ -159,14 +173,49 @@ void construct_struct(AST *a)
 
 void create_header(AST *a)
 {
-  //...
+  if (a->kind == "procedure")
+    a->tp = create_type("procedure",0,0);
+
+  else if (a->kind == "function")
+    a->tp = create_type("function",0,0);
+
+  AST * param = a->down->down->down;
+        /// proc->ident->list->val_or_ref
+  int i=0;
+  ///first param
+  ptype plist = a->tp;
+  while(param != 0){
+      TypeCheck(param);
+      plist->right = param->tp;
+
+      ///type of param -- val V ident > int
+      TypeCheck(param->down->right);
+      plist->right->down = param->down->right->tp;
+     // cout << "typechecked: "<< param->down->tp->kind << endl;
+//      check_params(param->down->right,param->down->right->tp,param->down->right->line,i++);
+      ///next param of procedure
+      param = param->right;
+      plist = plist->right;
+  }
+  a->tp->down = a->tp->right;
+
+  if (a->kind == "procedure") {
+    a->tp->right = 0;
+  }
 }
 
 
-void insert_header(AST *a)
-{
-  //...
+void insert_header(AST *a) {
+  create_header(a);
+
+  if (a->kind=="procedure")
+    InsertintoST(a->line,"idproc",a->down->text,a->tp);
+
+  else if (a->kind=="function")
+    InsertintoST(a->line,"idfunc",a->down->text,a->tp);
+
 }
+
 
 void insert_headers(AST *a)
 {
@@ -183,31 +232,49 @@ void TypeCheck(AST *a,string info)
     return;
   }
 
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  ///cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  /** START of PROGRAM */
   if (a->kind=="program") {
     a->sc=symboltable.push();
+    ///down->down
     insert_vars(child(child(a,0),0));
-    //insert_headers(child(child(a,1),0));
-    //TypeCheck(child(a,1));
+    ///down->right->down
+    insert_headers(child(child(a,1),0));
+    ///symboltable.write();
+    TypeCheck(child(a,1));
     TypeCheck(child(a,2),"instruction");
 
     symboltable.pop();
-  } 
+  }
   else if (a->kind=="list") {
     // At this point only instruction, procedures or parameters lists are possible.
     for (AST *a1=a->down;a1!=0;a1=a1->right) {
       TypeCheck(a1,info);
     }
-  } 
+  }
   else if (a->kind=="ident") {
-    if (!symboltable.find(a->text)) {
-      errornondeclaredident(a->line, a->text);
-    } 
-    else {
-      a->tp=symboltable[a->text].tp;
-      a->ref=1;
-    }
-  } 
+	  if (!symboltable.find(a->text)) {
+		  errornondeclaredident(a->line, a->text);
+	  }
+	  else {
+		  a->tp=symboltable[a->text].tp;
+		  a->ref=1;
+	  }
+  }
+  else if (a->kind == "procedure" || a->kind == "function"){
+   // cout << "context "<< a->down->text << endl;
+    a->sc=symboltable.push();
+   // insert_vars(child(child(a,0),0));
+    insert_params(a->down->down->down);
+    insert_vars(a->down->right->down);
+    //            a->down->right->right->down
+    insert_headers(child(child(a,2),0));
+   // symboltable.write();
+    TypeCheck(child(a,2)); ///blocks
+    TypeCheck(child(a,3),"instruction");///instruction
+
+    symboltable.pop();
+  }
   else if (a->kind=="struct") {
     construct_struct(a);
   }
@@ -219,24 +286,32 @@ void TypeCheck(AST *a,string info)
     }
     else if (child(a,0)->tp->kind!="error" && child(a,1)->tp->kind!="error" &&
 	     !equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
-      errorincompatibleassignment(a->line);
-    } 
+          errorincompatibleassignment(a->line);
+       }
     else {
       a->tp=child(a,0)->tp;
     }
-  } 
+  }
   else if (a->kind=="intconst") {
     a->tp=create_type("int",0,0);
-  } 
+  }
+  else if(a->kind == "true" || a->kind == "false"){
+    a->tp=create_type("bool",0,0);
+  }
   else if (a->kind=="+" || (a->kind=="-" && child(a,1)!=0) || a->kind=="*"
 	   || a->kind=="/") {
     TypeCheck(child(a,0));
     TypeCheck(child(a,1));
     if ((child(a,0)->tp->kind!="error" && child(a,0)->tp->kind!="int") ||
-	(child(a,1)->tp->kind!="error" && child(a,1)->tp->kind!="int")) {
+           (child(a,1)->tp->kind!="error" && child(a,1)->tp->kind!="int")) {
       errorincompatibleoperator(a->line,a->kind);
     }
     a->tp=create_type("int",0,0);
+  }
+  else if (a->kind=="ref"){
+      a->tp=create_type("parref",0,0);
+  }else if(a->kind == "val"){
+      a->tp=create_type("parval",0,0);
   }
   else if (isbasickind(a->kind)) {
     a->tp=create_type(a->kind,0,0);
@@ -246,26 +321,28 @@ void TypeCheck(AST *a,string info)
     if (child(a,0)->tp->kind!="error" && !isbasickind(child(a,0)->tp->kind)) {
       errorreadwriterequirebasic(a->line,a->kind);
     }
-  }
-  else if (a->kind==".") {
+  }else if (a->kind == "("){
+
+
+  } else if (a->kind==".") {
     TypeCheck(child(a,0));
     a->ref=child(a,0)->ref;
     if (child(a,0)->tp->kind!="error") {
       if (child(a,0)->tp->kind!="struct") {
-	errorincompatibleoperator(a->line,"struct.");
+          errorincompatibleoperator(a->line,"struct.");
       }
       else if (child(a,0)->tp->struct_field.find(child(a,1)->text)==
 	       child(a,0)->tp->struct_field.end()) {
-	errornonfielddefined(a->line,child(a,1)->text);
-      } 
+         errornonfielddefined(a->line,child(a,1)->text);
+      }
       else {
-	a->tp=child(a,0)->tp->struct_field[child(a,1)->text];
+          a->tp=child(a,0)->tp->struct_field[child(a,1)->text];
       }
     }
-  } 
+  }
   else {
     cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
   }
-
-  //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
+  ///symboltable.write();
+ /// cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }

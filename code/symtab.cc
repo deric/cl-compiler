@@ -25,7 +25,7 @@ void symtab::createsymbol(string id)
 infosym &symtab::operator[](string id)
 {
   scope *sc=current;
-  
+
   while (sc!=0) {
     if (sc->m.find(id)!=sc->m.end()) {
 			return sc->m[id];
@@ -40,7 +40,7 @@ infosym &symtab::operator[](string id)
 bool symtab::find(string id)
 {
   scope *sc=current;
-  
+
   while (sc!=0) {
     if (sc->m.find(id)!=sc->m.end()) {
       return true;
@@ -55,10 +55,10 @@ bool symtab::find(string id)
 scope *symtab::push()
 {
   scope *sc=new scope;
-  
+
   sc->previous=current;
   current=sc;
-	
+
   return current;
 }
 
@@ -81,7 +81,7 @@ int symtab::jumped_scopes(string id)
 {
   scope *sc=current;
   int d=0;
-  
+
   while (sc!=0) {
     if (sc->m.find(id)!=sc->m.end()) {
       return d;
@@ -89,7 +89,7 @@ int symtab::jumped_scopes(string id)
     sc=sc->previous;
     d++;
   }
-  
+
   return -1;
 }
 
@@ -100,7 +100,7 @@ void symtab::write()
 
   cout<<"Contents of symbol table:"<<endl;
   while (sc!=0) {
-    cout<<"----------------"<<endl;
+    cout<<"================"<<endl;
     for (list<string>::iterator it=sc->ids.begin();
 	 it!=sc->ids.end();it++) {
       cout<<*it<<":"<<sc->m[*it].kind<<",";
@@ -116,14 +116,14 @@ void symtab::write()
 string symtab::idtable(string id)
 {
   scope *sc=current;
-  
+
   while (sc!=0) {
     if (sc->m.find(id)!=sc->m.end()) {
       return sc->idtable;
     }
     sc=sc->previous;
   }
-  
+
   return "";
 }
 
