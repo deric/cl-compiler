@@ -24,9 +24,9 @@ class symtab {
   scope *current;
 
 public:
-  
+
   symtab();
-  
+
   // Creates a new symbol in the current scope.
   void createsymbol(string id);
   // Returns the infosym related to id, that is looked for
@@ -34,14 +34,14 @@ public:
   // it does not exists, then creates it in the
   // last scope.
   infosym &operator[](string id);
-  
+
   // Returns true if the id occurs in the symbol table,
   // and false otherwise.
   bool find(string id);
-  
+
   // Push a new scope under the last one, and returns it.
   scope *push();
-  
+
   // Push the received scope as the current scope.
   void push(scope *sc);
 
@@ -50,7 +50,7 @@ public:
 
   // Returns the current scope.
   scope *top();
-  
+
   // Returns the number of jumped scopes until finding the
   // declaration of id, and -1 if it is not found.
   int jumped_scopes(string id);

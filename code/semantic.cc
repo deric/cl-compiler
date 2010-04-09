@@ -240,7 +240,7 @@ void TypeCheck(AST *a,string info)
     insert_vars(child(child(a,0),0));
     ///down->right->down
     insert_headers(child(child(a,1),0));
-    ///symboltable.write();
+   // symboltable.write();
     TypeCheck(child(a,1));
     TypeCheck(child(a,2),"instruction");
 
@@ -262,14 +262,14 @@ void TypeCheck(AST *a,string info)
 	  }
   }
   else if (a->kind == "procedure" || a->kind == "function"){
-   // cout << "context "<< a->down->text << endl;
     a->sc=symboltable.push();
    // insert_vars(child(child(a,0),0));
     insert_params(a->down->down->down);
     insert_vars(a->down->right->down);
     //            a->down->right->right->down
     insert_headers(child(child(a,2),0));
-   // symboltable.write();
+	//cout << "context "<< a->down->text << endl;
+    //symboltable.write();
     TypeCheck(child(a,2)); ///blocks
     TypeCheck(child(a,3),"instruction");///instruction
 
@@ -322,7 +322,25 @@ void TypeCheck(AST *a,string info)
       errorreadwriterequirebasic(a->line,a->kind);
     }
   }else if (a->kind == "("){
+	/**
+	* at this point we don't know if this is a procedure(function) call, or an expression
+	* in case of call, we have to check if that it proprerly defined
+	*/
 
+	 if (info == "instruction") {
+	   ///we need to check if  a->down->text is a callable
+	   if (symboltable[a->down->text].tp->kind != "procedure")
+					errorisnotprocedure(a->line);
+	///  cout << a->down->text << ": "<< info;
+	///bool ret = symboltable.find(a->down->text);
+	//if(ret){
+	//	cout << "< "<<ret<< endl;
+	//}
+
+	 }else{
+
+
+	 }
 
   } else if (a->kind==".") {
     TypeCheck(child(a,0));
