@@ -257,8 +257,17 @@ void TypeCheck(AST *a,string info)
 		  errornondeclaredident(a->line, a->text);
 	  }
 	  else {
-		  a->tp=symboltable[a->text].tp;
-		  a->ref=1;
+		if ((symboltable[a->text].tp->kind == "procedure") ||
+					(symboltable[a->text].tp->kind == "function")) {
+			/// we can not assign a value to funcion or procedure -> is not referenceble
+			a->ref = 0;
+
+		}else{
+			///other identifiers; variables etc.
+			a->ref=1;
+		}
+		a->tp=symboltable[a->text].tp;
+
 	  }
   }
   else if (a->kind == "procedure" || a->kind == "function"){
@@ -279,18 +288,19 @@ void TypeCheck(AST *a,string info)
     construct_struct(a);
   }
   else if (a->kind==":=") {
-    TypeCheck(child(a,0));
-    TypeCheck(child(a,1));
-    if (!child(a,0)->ref) {
-      errornonreferenceableleft(a->line,child(a,0)->text);
-    }
-    else if (child(a,0)->tp->kind!="error" && child(a,1)->tp->kind!="error" &&
-	     !equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
-          errorincompatibleassignment(a->line);
-       }
-    else {
-      a->tp=child(a,0)->tp;
-    }
+	TypeCheck(child(a,0));
+	TypeCheck(child(a,1));
+	if (!child(a,0)->ref) {
+		errornonreferenceableleft(a->line,child(a,0)->text);
+	}
+	else if (child(a,0)->tp->kind!="error" && child(a,1)->tp->kind!="error" &&
+		!equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
+			errorincompatibleassignment(a->line);
+		}
+	else {
+		a->tp=child(a,0)->tp;
+	}
+	//cout << "# " << a->line<<"- "<< child(a,0)->tp->kind << " = "<< child(a,1)->tp->kind<< endl;
   }
   else if (a->kind=="intconst") {
     a->tp=create_type("int",0,0);
@@ -324,7 +334,7 @@ void TypeCheck(AST *a,string info)
   }else if (a->kind == "("){
 	/**
 	* at this point we don't know if this is a procedure(function) call, or an expression
-	* in case of call, we have to check if that it proprerly defined
+	* in case of call, we have to check if that it proprerly defined  in symboltable
 	*/
 
 	 if (info == "instruction") {
