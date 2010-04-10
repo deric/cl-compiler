@@ -125,15 +125,6 @@ bool isbasickind(string kind) {
   return kind=="int" || kind=="bool";
 }
 
-
-/**
-* parametres of procedure or function
-*/
-void check_params(AST *a,ptype tp,int line,int numparam)
-{
-cout << "{check_param} line: " << line << " num: " <<numparam<< " type: " << a->tp->kind << endl;
-}
-
 void insert_vars(AST *a)
 {
   if (!a) return;
@@ -182,6 +173,7 @@ void create_header(AST *a)
   AST * param = a->down->down->down;
         /// proc->ident->list->val_or_ref
   int i=0;
+  //ASTPrint(param);
   ///first param
   ptype plist = a->tp;
   while(param != 0){
@@ -196,12 +188,52 @@ void create_header(AST *a)
       ///next param of procedure
       param = param->right;
       plist = plist->right;
+	  i = i++;
   }
-  a->tp->down = a->tp->right;
+  a->tp->numparams = i;
+  a->tp->down = plist;
+  //TpPrint(a->tp);
 
   if (a->kind == "procedure") {
     a->tp->right = 0;
+  }else{
+	///function has a return value
   }
+}
+
+
+void TpPrintIndent(ptype t,string s)
+{
+  if (t==NULL) return;
+
+  cout<<t->kind<< " ("<< t->numparams << ")" <<endl;
+
+    if ((int)(t->ids.size())!=0) {
+    cout<<"(";
+    list<string>::iterator it=t->ids.begin();
+    for (;it!=t->ids.end();) {
+      cout<<"<"<<*it<<",";
+      TpPrintIndent(t->struct_field[*it], s);
+      cout<<">";
+      it++;
+      if (it!=t->ids.end()) cout<<",";
+    }
+    cout<<")";
+  }
+   if (t->down!=0) {
+    cout<<s+"  \\__";
+    TpPrintIndent(t->down,s+"  |"+string(t->kind.size(),' '));
+  }
+  if (t->right!=0) {
+    cout<<s+"  \\__";
+    TpPrintIndent(t->right, s+"   "+string(t->kind.size(),' '));
+  }
+}
+
+void TpPrint(ptype t)
+{
+  cout<<endl;
+  TpPrintIndent(t,"  ");
 }
 
 
@@ -261,7 +293,6 @@ void TypeCheck(AST *a,string info)
 					(symboltable[a->text].tp->kind == "function")) {
 			/// we can not assign a value to funcion or procedure -> is not referenceble
 			a->ref = 0;
-
 		}else{
 			///other identifiers; variables etc.
 			a->ref=1;
@@ -271,7 +302,8 @@ void TypeCheck(AST *a,string info)
 	  }
   }
   else if (a->kind == "procedure" || a->kind == "function"){
-    a->sc=symboltable.push();
+    ///push the context
+	a->sc=symboltable.push();
    // insert_vars(child(child(a,0),0));
     insert_params(a->down->down->down);
     insert_vars(a->down->right->down);
@@ -280,8 +312,8 @@ void TypeCheck(AST *a,string info)
 	//cout << "context "<< a->down->text << endl;
     //symboltable.write();
     TypeCheck(child(a,2)); ///blocks
-    TypeCheck(child(a,3),"instruction");///instruction
-
+    TypeCheck(child(a,3),"instruction");///instructions
+	///going out of context
     symboltable.pop();
   }
   else if (a->kind=="struct") {
@@ -339,14 +371,42 @@ void TypeCheck(AST *a,string info)
 
 	 if (info == "instruction") {
 	   ///we need to check if  a->down->text is a callable
-	   if (symboltable[a->down->text].tp->kind != "procedure")
-					errorisnotprocedure(a->line);
-	///  cout << a->down->text << ": "<< info;
+
+	   ///this is defition of function which will be applied to this call
+	   a->tp = symboltable[a->down->text].tp;
+	   if (a->tp->kind != "procedure" && a->tp->kind != "function" ){
+				errorisnotprocedure(a->line);
+	   }else{
+		   ///procedure or function
+		   /** a =
+		   (
+			\__ident(p)
+			\__list
+					\__intconst(3)	   */
+		   AST * param = a->down->right->down;
+		   ptype tp = a->tp;
+		   /** tp is sth like this
+		   procedure (1)
+				\__parval (0)
+						\__int (0)
+		   */
+		    //ASTPrint(param);
+			//TpPrint(tp);
+		   int i= 0;
+           int n = a->tp->numparams;
+		   ///we have to check number of params and their types
+		   while(i < n){
+			   TypeCheck(param);
+			   check_params(param,tp,a->line,++i);
+			   param = param->right;
+			   tp = tp->right;
+		   }
+			//cout << a->down->text << ": "<< info << endl;
+	   }
 	///bool ret = symboltable.find(a->down->text);
 	//if(ret){
 	//	cout << "< "<<ret<< endl;
 	//}
-
 	 }else{
 
 
@@ -374,3 +434,22 @@ void TypeCheck(AST *a,string info)
   ///symboltable.write();
  /// cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
+
+/**
+* parametres of procedure or function
+* @param *a is node of fcn call with it's params
+* @param tp is definition of fcn, wich is applied in this scope,
+*           we need to check is the param is same as expected
+*/
+void check_params(AST *a,ptype tp,int line,int numparam)
+{
+ //  cout << "[check_param] line: " << line << " num: " <<numparam<< " ";
+ //  cout << a->tp->kind << " x "<< tp->down->down->kind << endl;
+   if (tp->kind == "parref" && !a->ref)
+		errorreferenceableparam(line,numparam);
+
+	if (!equivalent_types( a->tp,tp->down->down) && a->tp->kind !=  "error")
+		errorincompatibleparam(line,numparam);
+}
+
+

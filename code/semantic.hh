@@ -13,6 +13,8 @@ void TypeCheck(AST *a,string info="");
 bool isbasickind(string kind);
 
 void check_params(AST *a,ptype tp,int line,int numparam);
+void TpPrintIndent(ptype t,string s);
+void TpPrint(ptype t);
 void insert_vars(AST *a);
 void insert_params(AST *a);
 void construct_struct(AST *a);

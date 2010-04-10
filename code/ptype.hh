@@ -27,6 +27,7 @@ typedef struct ttypenode {
   // elems of the arra (for example kept in "down"),
   // and the number of elements (numelemsarray).
   int numelemsarray;
+  int numparams;
   // Used only during code generation:
   int size; // The size of the type.
   map<string,int> offset; // For fields of structs.
