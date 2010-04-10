@@ -198,6 +198,7 @@ void create_header(AST *a)
     a->tp->right = 0;
   }else if (a->kind == "function"){
 	///function has a return value
+
   }
 }
 
@@ -239,13 +240,11 @@ void TpPrint(ptype t)
 
 void insert_header(AST *a) {
   create_header(a);
-
   if (a->kind=="procedure")
     InsertintoST(a->line,"idproc",a->down->text,a->tp);
 
   else if (a->kind=="function")
     InsertintoST(a->line,"idfunc",a->down->text,a->tp);
-
 }
 
 
@@ -368,15 +367,16 @@ void TypeCheck(AST *a,string info)
 	* at this point we don't know if this is a procedure(function) call, or an expression
 	* in case of call, we have to check if that it proprerly defined  in symboltable
 	*/
+	   ///this is defition of function which will be applied to this call
+	   a->tp = symboltable[a->down->text].tp;
 
 	 if (info == "instruction") {
 	   ///we need to check if  a->down->text is a callable
 
-	   ///this is defition of function which will be applied to this call
-	   a->tp = symboltable[a->down->text].tp;
-	   if (a->tp->kind != "procedure" && a->tp->kind != "function" ){
-				errorisnotprocedure(a->line);
-	   }else{
+
+	   if (a->tp->kind != "procedure"){
+			errorisnotprocedure(a->line);
+	   } else{
 		   ///procedure or function
 		   /** a =
 		   (
@@ -408,8 +408,10 @@ void TypeCheck(AST *a,string info)
 	//	cout << "< "<<ret<< endl;
 	//}
 	 }else{
-
-
+		///we are inside expression and it MUST return a value
+		if (a->tp->kind != "function"){
+			errorisnotfunction(a->line);
+		}
 	 }
 
   } else if (a->kind==".") {
