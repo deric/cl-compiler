@@ -196,7 +196,7 @@ void create_header(AST *a)
 
   if (a->kind == "procedure") {
     a->tp->right = 0;
-  }else{
+  }else if (a->kind == "function"){
 	///function has a return value
   }
 }
@@ -445,7 +445,9 @@ void check_params(AST *a,ptype tp,int line,int numparam)
 {
  //  cout << "[check_param] line: " << line << " num: " <<numparam<< " ";
  //  cout << a->tp->kind << " x "<< tp->down->down->kind << endl;
-   if (tp->kind == "parref" && !a->ref)
+   /// according to fcn defition we should be able to assign a value
+   /// to this param
+   if (tp->down->kind == "parref" && !a->ref)
 		errorreferenceableparam(line,numparam);
 
 	if (!equivalent_types( a->tp,tp->down->down) && a->tp->kind !=  "error")
