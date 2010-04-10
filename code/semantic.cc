@@ -240,9 +240,9 @@ void TpPrint(ptype t)
 
 void insert_header(AST *a) {
   create_header(a);
-  if (a->kind=="procedure")
-    InsertintoST(a->line,"idproc",a->down->text,a->tp);
-
+  if (a->kind=="procedure"){
+     InsertintoST(a->line,"idproc",a->down->text,a->tp);
+  }
   else if (a->kind=="function")
     InsertintoST(a->line,"idfunc",a->down->text,a->tp);
 }
@@ -297,19 +297,18 @@ void TypeCheck(AST *a,string info)
 			a->ref=1;
 		}
 		a->tp=symboltable[a->text].tp;
-
 	  }
   }
   else if (a->kind == "procedure" || a->kind == "function"){
     ///push the context
 	a->sc=symboltable.push();
-   // insert_vars(child(child(a,0),0));
+    insert_vars(child(child(a,0),0));
     insert_params(a->down->down->down);
     insert_vars(a->down->right->down);
     //            a->down->right->right->down
     insert_headers(child(child(a,2),0));
-	//cout << "context "<< a->down->text << endl;
-    //symboltable.write();
+	cout << "context "<< a->down->text << endl;
+    symboltable.write();
     TypeCheck(child(a,2)); ///blocks
     TypeCheck(child(a,3),"instruction");///instructions
 	///going out of context
@@ -407,32 +406,100 @@ void TypeCheck(AST *a,string info)
 	//if(ret){
 	//	cout << "< "<<ret<< endl;
 	//}
-	 }else{
-		///we are inside expression and it MUST return a value
-		if (a->tp->kind != "function"){
-			errorisnotfunction(a->line);
+		}else{
+			///we are inside expression and it MUST return a value
+			if (a->tp->kind != "function"){
+				errorisnotfunction(a->line);
+			}
 		}
-	 }
 
-  } else if (a->kind==".") {
-    TypeCheck(child(a,0));
-    a->ref=child(a,0)->ref;
-    if (child(a,0)->tp->kind!="error") {
-      if (child(a,0)->tp->kind!="struct") {
-          errorincompatibleoperator(a->line,"struct.");
-      }
-      else if (child(a,0)->tp->struct_field.find(child(a,1)->text)==
-	       child(a,0)->tp->struct_field.end()) {
-         errornonfielddefined(a->line,child(a,1)->text);
-      }
-      else {
-          a->tp=child(a,0)->tp->struct_field[child(a,1)->text];
-      }
-    }
-  }
-  else {
-    cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
-  }
+	}else if(a->kind == "not"){
+		TypeCheck(child(a,0));
+		if (child(a,0)->tp->kind != "bool" &&
+				child(a,0)->tp->kind != "error") {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		a->tp = create_type("bool",0,0);
+	}else if(a->kind == "or" || a->kind == "and"){
+		TypeCheck(child(a,0));
+		TypeCheck(child(a,1));
+		if (child(a,0)->tp->kind != "bool" ||
+				child(a,1)->tp->kind != "bool" ||
+				child(a,0)->tp->kind == "error" ||
+				child(a,1)->tp->kind == "error") {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		a->tp = create_type("bool",0,0);
+	}else if(a->kind == "="){
+		TypeCheck(child(a,0));
+		TypeCheck(child(a,1));
+		///we can accept here probably bool and int
+		if (child(a,0)->tp->kind == "error" ||
+				child(a,1)->tp->kind == "error"||
+				!equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		a->tp = create_type("bool",0,0);
+	}else if(a->kind == ">" || a->kind == "<"){
+		TypeCheck(child(a,0));
+		TypeCheck(child(a,1));
+		if (child(a,0)->tp->kind != "int" ||
+				child(a,1)->tp->kind != "int" ||
+				child(a,0)->tp->kind == "error" ||
+				child(a,1)->tp->kind == "error") {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		if(!equivalent_types(child(a,0)->tp,child(a,1)->tp)){
+			a->tp = create_type("error",0,0);
+		}else{
+			a->tp = create_type("bool",0,0);
+		}
+	}else if(a->kind== "if" || a->kind == "while"){
+		TypeCheck(child(a,0));
+		TypeCheck(child(a,1));
+	}else if(a->kind =="+"){
+		TypeCheck(child(a,0));
+		TypeCheck(child(a,1));
+		if (child(a,0)->tp->kind != "int" ||
+				child(a,1)->tp->kind != "int" ||
+				child(a,0)->tp->kind == "error" ||
+				child(a,1)->tp->kind == "error") {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		a->tp = child(a,0)->tp;
+	}else if(a->kind == "-"){
+		TypeCheck(child(a,0));
+		///unary minus
+		if (child(a,0)->tp->kind != "int" ||
+				child(a,0)->tp->kind == "error") {
+			errorincompatibleoperator(a->line, a->kind);
+		}
+		a->tp = child(a,0)->tp;
+		///binary operator
+		if(child(a,1) != 0){
+			TypeCheck(child(a,1));
+			if (child(a,1)->tp->kind != "int" ||
+				child(a,1)->tp->kind == "error") {
+				errorincompatibleoperator(a->line, a->kind);
+			}
+		}
+	}else if (a->kind==".") {
+		TypeCheck(child(a,0));
+		a->ref=child(a,0)->ref;
+		if (child(a,0)->tp->kind!="error") {
+			if (child(a,0)->tp->kind!="struct") {
+				errorincompatibleoperator(a->line,"struct.");
+			}
+			else if (child(a,0)->tp->struct_field.find(child(a,1)->text)==
+					child(a,0)->tp->struct_field.end()) {
+				errornonfielddefined(a->line,child(a,1)->text);
+			}else {
+				a->tp=child(a,0)->tp->struct_field[child(a,1)->text];
+			}
+		}
+	}else {
+		cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
+	}
   ///symboltable.write();
  /// cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
