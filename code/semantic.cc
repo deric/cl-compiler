@@ -191,7 +191,8 @@ void create_header(AST *a)
 	  i = i++;
   }
   a->tp->numparams = i;
-  a->tp->down = plist;
+  //a->tp->down = plist;
+  a->tp->down = a->tp->right;
   //TpPrint(a->tp);
 
   if (a->kind == "procedure") {
@@ -266,10 +267,11 @@ void TypeCheck(AST *a,string info)
   ///cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   /** START of PROGRAM */
   if (a->kind=="program") {
+	///initialized scope of symbol table
     a->sc=symboltable.push();
-    ///down->down
+    ///variables
     insert_vars(child(child(a,0),0));
-    ///down->right->down
+    ///scanning for names of procedures
     insert_headers(child(child(a,1),0));
    // symboltable.write();
     TypeCheck(child(a,1));
@@ -302,13 +304,12 @@ void TypeCheck(AST *a,string info)
   else if (a->kind == "procedure" || a->kind == "function"){
     ///push the context
 	a->sc=symboltable.push();
-    insert_vars(child(child(a,0),0));
     insert_params(a->down->down->down);
     insert_vars(a->down->right->down);
     //            a->down->right->right->down
     insert_headers(child(child(a,2),0));
-	cout << "context "<< a->down->text << endl;
-    symboltable.write();
+	//cout << "context "<< a->down->text << endl;
+   // symboltable.write();
     TypeCheck(child(a,2)); ///blocks
     TypeCheck(child(a,3),"instruction");///instructions
 	///going out of context
@@ -413,10 +414,10 @@ void TypeCheck(AST *a,string info)
 			}
 		}
 
-	}else if(a->kind == "not"){
-		TypeCheck(child(a,0));
-		if (child(a,0)->tp->kind != "bool" &&
-				child(a,0)->tp->kind != "error") {
+	}else if(a->kind == "not" && a->down->right==0){
+		TypeCheck(a->down);
+		if (child(a,0)->tp->kind != "bool" ||
+				child(a,0)->tp->kind == "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp = create_type("bool",0,0);
@@ -430,15 +431,23 @@ void TypeCheck(AST *a,string info)
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp = create_type("bool",0,0);
+
 	}else if(a->kind == "="){
 		TypeCheck(child(a,0));
 		TypeCheck(child(a,1));
 		///we can accept here probably bool and int
-		if (child(a,0)->tp->kind == "error" ||
+	/*	if (child(a,0)->tp->kind == "error" ||
 				child(a,1)->tp->kind == "error"||
 				!equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
 			errorincompatibleoperator(a->line, a->kind);
+		}*/
+		if ((a->down->tp->kind != a->down->right->tp->kind
+			&& a->down->tp->kind!="error" && a->down->right->tp->kind!="error")
+			|| (!isbasickind(a->down->tp->kind) || !isbasickind(a->down->right->tp->kind)))
+		{
+			errorincompatibleoperator(a->line,a->kind);
 		}
+
 		a->tp = create_type("bool",0,0);
 	}else if(a->kind == ">" || a->kind == "<"){
 		TypeCheck(child(a,0));
@@ -449,15 +458,29 @@ void TypeCheck(AST *a,string info)
 				child(a,1)->tp->kind == "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
-		if(!equivalent_types(child(a,0)->tp,child(a,1)->tp)){
-			a->tp = create_type("error",0,0);
-		}else{
-			a->tp = create_type("bool",0,0);
-		}
-	}else if(a->kind== "if" || a->kind == "while"){
+		a->tp = create_type("bool",0,0);
+	}else if(a->kind == "while"){
 		TypeCheck(child(a,0));
-		TypeCheck(child(a,1));
-	}else if(a->kind =="+"){
+		if(a->down->tp->kind!="error" && a->down->tp->kind!="bool")
+		{
+			errorbooleanrequired(a->line,a->kind);
+		}
+		///list of instructions
+		TypeCheck(a->down->right, "instruction");
+	}else if(a->kind== "if"){
+		TypeCheck(child(a,0));
+		if(a->down->tp->kind!="error" && a->down->tp->kind!="bool")
+		{
+			errorbooleanrequired(a->line,a->kind);
+		}
+		///list of instructions
+		TypeCheck(child(a,1), "instruction");
+		///ELSE clause
+		if(child(a,2) !=0){
+			TypeCheck(child(a,2));
+		}
+	}
+	else if(a->kind =="+"){
 		TypeCheck(child(a,0));
 		TypeCheck(child(a,1));
 		if (child(a,0)->tp->kind != "int" ||
@@ -466,7 +489,7 @@ void TypeCheck(AST *a,string info)
 				child(a,1)->tp->kind == "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
-		a->tp = child(a,0)->tp;
+		a->tp=create_type("int",0,0);
 	}else if(a->kind == "-"){
 		TypeCheck(child(a,0));
 		///unary minus
@@ -474,7 +497,6 @@ void TypeCheck(AST *a,string info)
 				child(a,0)->tp->kind == "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
-		a->tp = child(a,0)->tp;
 		///binary operator
 		if(child(a,1) != 0){
 			TypeCheck(child(a,1));
@@ -483,6 +505,7 @@ void TypeCheck(AST *a,string info)
 				errorincompatibleoperator(a->line, a->kind);
 			}
 		}
+		a->tp=create_type("int",0,0);
 	}else if (a->kind==".") {
 		TypeCheck(child(a,0));
 		a->ref=child(a,0)->ref;
