@@ -434,35 +434,35 @@ void TypeCheck(AST *a,string info)
 	* in case of call, we have to check if that it proprerly defined  in symboltable
 	*/
 	   ///this is defition of function which will be applied to this call
-	 ptype stdef = symboltable[a->down->text].tp;
-
-	 if (info == "instruction") {
-		///we need to check if  a->down->text is a callable
-		if (stdef->kind != "procedure"){
-				errorisnotprocedure(a->line);
+		if(!symboltable.find(a->down->text)){
+				///Identifier is not declared
+				errornondeclaredident(a->line, a->down->text);
 		}else{
-			///validate params of procedure
-			validate_params(a, stdef, a->line, stdef->numparams);
-		}
-	}else{
-	/// info!="instruction"
-		///we are inside expression and it MUST return a value
-		if (stdef->kind != "function" ){
-			errorisnotfunction(a->line);
-		}
-			if(stdef->kind=="function")
-			{
-				if(info=="instruction")
-				{
-					errorisnotprocedure(a->line);
+			ptype stdef = symboltable[a->down->text].tp;
+			if (info == "instruction") {
+				///we need to check if  a->down->text is a callable
+				if (stdef->kind != "procedure"){
+						errorisnotprocedure(a->line);
+				}else{
+					///validate params of procedure
+					validate_params(a, stdef, a->line, stdef->numparams);
 				}
-				else
-				{
-					a->tp=stdef->right;
-					a->ref=1; //function should be referenciable
+			}else{
+			/// info!="instruction"
+				///we are inside expression and it MUST return a value
+				if (stdef->kind != "function" ){
+					errorisnotfunction(a->line);
 				}
-			}
-			validate_params(a, stdef, a->line, stdef->numparams);
+					if(stdef->kind=="function"){
+						if(info=="instruction")
+							errorisnotprocedure(a->line);
+						else{
+							a->tp=stdef->right;
+							a->ref=1; //function should be referenciable
+						}
+					}
+					validate_params(a, stdef, a->line, stdef->numparams);
+				}
 		}
 	}else if(a->kind == "not" && a->down->right==0){
 		TypeCheck(a->down);
@@ -581,14 +581,13 @@ void validate_params(AST *a,ptype tp,int line,int numparam) {
 	ptype tp1=tp->down;
 	int n = count_params(a->down->right->down);
 
-	//cout<<"got "<<n<<" params"<<"expected "<<numparam<< endl;
 	///check number of params
 	if(n!=numparam)
 		errornumparam(line);
 	else
 	{ ///check is the parameters are the same
 		tp1=tp->down;
-		a1=a->down->right->down; //primer parametro d la llamada
+		a1=a->down->right->down; ///first parameter
 		while(tp1!=0 && a1!=0)
 		{
 			param++;
