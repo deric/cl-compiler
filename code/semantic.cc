@@ -576,20 +576,14 @@ void TypeCheck(AST *a,string info)
 
 
 void validate_params(AST *a,ptype tp,int line,int numparam) {
-	int numParamTP=0;
 	int param=0;
 	AST *a1=a->down->right->down;
 	ptype tp1=tp->down;
+	int n = count_params(a->down->right->down);
 
-	///count parameters
-	while(tp1!=0)
-	{
-		numParamTP++;
-		tp1=tp1->right;
-	}
-
+	//cout<<"got "<<n<<" params"<<"expected "<<numparam<< endl;
 	///check number of params
-	if(numParamTP!=numparam)
+	if(n!=numparam)
 		errornumparam(line);
 	else
 	{ ///check is the parameters are the same
