@@ -344,6 +344,21 @@ void TypeCheck(AST *a,string info)
     insert_headers(child(child(a,2),0));
 	//cout << "context "<< a->down->text << endl;
    // symboltable.write();
+	if(a->kind == "function"){
+		///return value
+		//TypeCheck(a->down->down->right);
+		AST* tmp = child(a,3);
+		AST* prev;
+		while(tmp!=0){
+			prev= tmp;
+			tmp= tmp->right;
+		}
+		///last command of function
+		TypeCheck(prev);
+		if(!equivalent_types(prev->tp, a->tp->right)){
+			errorincompatiblereturn(prev->line);
+		}
+	}
     TypeCheck(child(a,2)); ///blocks
     TypeCheck(child(a,3),"instruction");///instructions
 	///going out of context
@@ -440,6 +455,7 @@ void TypeCheck(AST *a,string info)
 		}else{
 			ptype stdef = symboltable[a->down->text].tp;
 			if (info == "instruction") {
+
 				///we need to check if  a->down->text is a callable
 				if (stdef->kind != "procedure"){
 						errorisnotprocedure(a->line);
@@ -453,6 +469,7 @@ void TypeCheck(AST *a,string info)
 				if (stdef->kind != "function" ){
 					errorisnotfunction(a->line);
 				}
+
 					if(stdef->kind=="function"){
 						if(info=="instruction")
 							errorisnotprocedure(a->line);
