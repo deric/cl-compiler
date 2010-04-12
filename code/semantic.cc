@@ -384,10 +384,7 @@ void TypeCheck(AST *a,string info)
 	{
       errorincompatibleoperator(a->line,a->kind);
     }
-
 	a->tp=create_type("int",0,0);
-
-
   }
   else if (a->kind=="ref"){
       a->tp=create_type("parref",0,0);
@@ -450,7 +447,7 @@ void TypeCheck(AST *a,string info)
 	}else{
 	/// info!="instruction"
 		///we are inside expression and it MUST return a value
-		if (stdef->kind == "procedure" ){
+		if (stdef->kind != "function" ){
 			errorisnotfunction(a->line);
 		}
 			if(stdef->kind=="function")
