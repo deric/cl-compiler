@@ -19,6 +19,8 @@ void insert_vars(AST *a);
 void insert_params(AST *a);
 void construct_struct(AST *a);
 void insert_headers(AST *a);
-
+void create_header(AST *a);
+int count_params(AST *a);
+void validate_params(AST *a,ptype tp,int line,int numparam);
 #endif
 

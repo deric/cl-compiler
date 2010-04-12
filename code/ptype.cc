@@ -17,6 +17,7 @@ ptype create_type(string kind,ptype down,ptype right)
   t->down=down;
   t->right=right;
   t->numelemsarray=0;
+  t->numparams=0;
   // By default we assume a basic kind.
   t->size=4;
   return t;
@@ -73,7 +74,7 @@ bool equivalent_types(ptype t1,ptype t2)
   if (t1==0) return false;
   if (t2==0) return false;
 
-  bool equiv=t1->kind==t2->kind && 
+  bool equiv=t1->kind==t2->kind &&
     equivalent_types(t1->down,t2->down) &&
     equivalent_types(t1->right,t2->right) &&
     t1->numelemsarray==t2->numelemsarray;

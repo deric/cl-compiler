@@ -162,55 +162,13 @@ void construct_struct(AST *a)
   }
 }
 
-void create_header(AST *a)
-{
-  if (a->kind == "procedure")
-    a->tp = create_type("procedure",0,0);
-
-  else if (a->kind == "function")
-    a->tp = create_type("function",0,0);
-
-  AST * param = a->down->down->down;
-        /// proc->ident->list->val_or_ref
-  int i=0;
-  //ASTPrint(param);
-  ///first param
-  ptype plist = a->tp;
-  while(param != 0){
-      TypeCheck(param);
-      plist->right = param->tp;
-
-      ///type of param -- val V ident > int
-      TypeCheck(param->down->right);
-      plist->right->down = param->down->right->tp;
-     // cout << "typechecked: "<< param->down->tp->kind << endl;
-//      check_params(param->down->right,param->down->right->tp,param->down->right->line,i++);
-      ///next param of procedure
-      param = param->right;
-      plist = plist->right;
-	  i = i++;
-  }
-  a->tp->numparams = i;
-  //a->tp->down = plist;
-  a->tp->down = a->tp->right;
-  //TpPrint(a->tp);
-
-  if (a->kind == "procedure") {
-    a->tp->right = 0;
-  }else if (a->kind == "function"){
-	///function has a return value
-
-  }
-}
-
-
 void TpPrintIndent(ptype t,string s)
 {
   if (t==NULL) return;
 
-  cout<<t->kind<< " ("<< t->numparams << ")" <<endl;
+  cout<<t->kind<< endl;
 
-    if ((int)(t->ids.size())!=0) {
+   /* if ((int)(t->ids.size())!=0) {
     cout<<"(";
     list<string>::iterator it=t->ids.begin();
     for (;it!=t->ids.end();) {
@@ -221,8 +179,8 @@ void TpPrintIndent(ptype t,string s)
       if (it!=t->ids.end()) cout<<",";
     }
     cout<<")";
-  }
-   if (t->down!=0) {
+  }*/
+  if (t->down!=0) {
     cout<<s+"  \\__";
     TpPrintIndent(t->down,s+"  |"+string(t->kind.size(),' '));
   }
@@ -237,15 +195,91 @@ void TpPrint(ptype t)
   cout<<endl;
   TpPrintIndent(t,"  ");
 }
+/*
+void parse_param(AST *param){
+	int i=0;
+	if(param == 0) return;
+	 parse_param(param->right);
+
+	  ///type of param
+     TypeCheck(param->down->right);
+	  /// val or ref
+	 if(param->right == 0){
+	 ///this is the only parameter
+		if(param->kind=="val"){
+			param->tp=create_type("parval", param->down->right->tp, 0);
+		}else if(param->kind=="ref"){
+			param->tp=create_type("parref", param->down->right->tp, 0);
+		}
+	 }else{
+		if(param->kind=="val"){
+			param->tp=create_type("parval", param->down->right->tp, param->right->tp);
+		}else if(param->kind=="ref"){
+			param->tp=create_type("parref", param->down->right->tp, param->right->tp);
+		}
+	 }
+	///result of typecheck
+  //  param->tp->down->down = param->down->right->tp;
+	//cout << "tp "<<endl;
+	//TpPrint(param->tp);
+}*/
+
+void parse_param(AST* a){
+    if(a==0) return; //cuando no tenemos mas
+
+    parse_param(a->right); //empezamos por el de mas a la derecha
+    TypeCheck(a->down->right); //miramos tipo del parametro y creamos tp
+
+    if(a->right==0) //no hay más parametros a la dcha
+    {
+	if(a->kind=="val") a->tp=create_type("parval", a->down->right->tp, 0);
+	else if(a->kind=="ref") a->tp=create_type("parref", a->down->right->tp, 0);
+    }
+    else //tiene hermano, lo enlazo con el hermano dcha
+    {
+	if(a->kind=="val") a->tp=create_type("parval", a->down->right->tp, a->right->tp);
+	else if(a->kind=="ref") a->tp=create_type("parref", a->down->right->tp, a->right->tp);
+    }
+}
+
+void create_header(AST *a)
+{
+ ///first param
+  AST * param = a->down->down->down;
+
+  if(param != 0){
+	parse_param(param);
+  }
+}
 
 
 void insert_header(AST *a) {
-  create_header(a);
-  if (a->kind=="procedure"){
-     InsertintoST(a->line,"idproc",a->down->text,a->tp);
-  }
-  else if (a->kind=="function")
-    InsertintoST(a->line,"idfunc",a->down->text,a->tp);
+	if (a->kind=="procedure"){
+		//a->tp = create_type("procedure",0,0);
+		create_header(a);
+		///we have some parameters
+		if(a->down->down->down != 0){
+			a->tp = create_type("procedure",a->down->down->down->tp,0);
+			a->tp->numparams = count_params(a->down->down->down);
+		}else
+			a->tp = create_type("procedure",0,0);
+		//a->tp->down = a->down->down->down->tp;
+		//TpPrint(a->down->down->down->tp);
+		///insert into symbol table
+		InsertintoST(a->line,"idproc",a->down->text,a->tp);
+	}
+	else if (a->kind=="function"){
+		TypeCheck(a->down->down->right); ///return statement
+		create_header(a);
+		///we have some parameters
+		if(a->down->down->down != 0){
+			a->tp = create_type("function",a->down->down->down->tp,a->down->down->right->tp);
+			a->tp->numparams = count_params(a->down->down->down);
+		}else{
+			a->tp = create_type("function",0,a->down->down->right->tp);
+		}
+		InsertintoST(a->line,"idfunc",a->down->text,a->tp);
+	}
 }
 
 
@@ -264,7 +298,7 @@ void TypeCheck(AST *a,string info)
     return;
   }
 
-  ///cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  //cout<<"Starting with node \""<<a->kind<<"\" "<< a->text <<endl;
   /** START of PROGRAM */
   if (a->kind=="program") {
 	///initialized scope of symbol table
@@ -343,6 +377,7 @@ void TypeCheck(AST *a,string info)
 	   || a->kind=="/") {
     TypeCheck(child(a,0));
     TypeCheck(child(a,1));
+//  cout <<a->kind<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
     if ((child(a,0)->tp->kind!="error" && child(a,0)->tp->kind!="int") ||
            (child(a,1)->tp->kind!="error" && child(a,1)->tp->kind!="int")) {
       errorincompatibleoperator(a->line,a->kind);
@@ -368,52 +403,36 @@ void TypeCheck(AST *a,string info)
 	* in case of call, we have to check if that it proprerly defined  in symboltable
 	*/
 	   ///this is defition of function which will be applied to this call
-	   a->tp = symboltable[a->down->text].tp;
+	 ptype stdef = symboltable[a->down->text].tp;
 
 	 if (info == "instruction") {
-	   ///we need to check if  a->down->text is a callable
-
-
-	   if (a->tp->kind != "procedure"){
-			errorisnotprocedure(a->line);
-	   } else{
-		   ///procedure or function
-		   /** a =
-		   (
-			\__ident(p)
-			\__list
-					\__intconst(3)	   */
-		   AST * param = a->down->right->down;
-		   ptype tp = a->tp;
-		   /** tp is sth like this
-		   procedure (1)
-				\__parval (0)
-						\__int (0)
-		   */
-		    //ASTPrint(param);
-			//TpPrint(tp);
-		   int i= 0;
-           int n = a->tp->numparams;
-		   ///we have to check number of params and their types
-		   while(i < n){
-			   TypeCheck(param);
-			   check_params(param,tp,a->line,++i);
-			   param = param->right;
-			   tp = tp->right;
-		   }
-			//cout << a->down->text << ": "<< info << endl;
-	   }
-	///bool ret = symboltable.find(a->down->text);
-	//if(ret){
-	//	cout << "< "<<ret<< endl;
-	//}
+		///we need to check if  a->down->text is a callable
+		if (stdef->kind != "procedure"){
+				errorisnotprocedure(a->line);
 		}else{
-			///we are inside expression and it MUST return a value
-			if (a->tp->kind != "function"){
-				errorisnotfunction(a->line);
-			}
+			///validate params of procedure
+			validate_params(a, stdef, a->line, stdef->numparams);
 		}
-
+	}else{
+	/// info!="instruction"
+		///we are inside expression and it MUST return a value
+		if (stdef->kind == "procedure" ){
+			errorisnotfunction(a->line);
+		}
+			if(stdef->kind=="function")
+			{
+				if(info=="instruction")
+				{
+					errorisnotprocedure(a->line);
+				}
+				else
+				{
+					a->tp=stdef->right;
+					a->ref=1; //function should be referenciable
+				}
+			}
+			validate_params(a, stdef, a->line, stdef->numparams);
+		}
 	}else if(a->kind == "not" && a->down->right==0){
 		TypeCheck(a->down);
 		if (child(a,0)->tp->kind != "bool" ||
@@ -527,6 +546,50 @@ void TypeCheck(AST *a,string info)
  /// cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
 
+
+void validate_params(AST *a,ptype tp,int line,int numparam) {
+	int numParamTP=0;
+	int param=0;
+	AST *a1=a->down->right->down;
+	ptype tp1=tp->down;
+
+	///count parameters
+	while(tp1!=0)
+	{
+		numParamTP++;
+		tp1=tp1->right;
+	}
+
+	///check number of params
+	if(numParamTP!=numparam)
+		errornumparam(line);
+	else
+	{ ///check is the parameters are the same
+		tp1=tp->down;
+		a1=a->down->right->down; //primer parametro d la llamada
+		while(tp1!=0 && a1!=0)
+		{
+			param++;
+			///check tree of first param
+			TypeCheck(a1);
+			///check if we can assign param a value
+			if(tp1->kind=="parref" && (!a1->ref))
+				errorreferenceableparam(line,param);
+
+			///compare types to definition
+			if(!equivalent_types(tp1->down,a1->tp) && a1->tp->kind!="error")
+			{
+				errorincompatibleparam(line,param);
+				a->ref=0;
+			}
+			tp1=tp1->right;
+			a1=a1->right;
+		}
+	}
+}
+
+
+
 /**
 * parametres of procedure or function
 * @param *a is node of fcn call with it's params
@@ -536,7 +599,7 @@ void TypeCheck(AST *a,string info)
 void check_params(AST *a,ptype tp,int line,int numparam)
 {
  //  cout << "[check_param] line: " << line << " num: " <<numparam<< " ";
- //  cout << a->tp->kind << " x "<< tp->down->down->kind << endl;
+  // cout << a->tp->kind << " x "<< tp->down->down->kind << endl;
    /// according to fcn defition we should be able to assign a value
    /// to this param
    if (tp->down->kind == "parref" && !a->ref)
@@ -545,5 +608,17 @@ void check_params(AST *a,ptype tp,int line,int numparam)
 	if (!equivalent_types( a->tp,tp->down->down) && a->tp->kind !=  "error")
 		errorincompatibleparam(line,numparam);
 }
+
+int count_params(AST *a)
+{
+	int i=0;
+	AST *tmp = a;
+	while(tmp!=0){
+		i++;
+		tmp = tmp->right;
+	}
+	return i;
+}
+
 
 
