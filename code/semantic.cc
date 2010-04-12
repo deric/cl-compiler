@@ -358,9 +358,9 @@ void TypeCheck(AST *a,string info)
 	if (!child(a,0)->ref) {
 		errornonreferenceableleft(a->line,child(a,0)->text);
 	}
-	else if (child(a,0)->tp->kind =="error" || child(a,1)->tp->kind=="error" ||
-		!equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
-			errorincompatibleassignment(a->line);
+	else if ((a->down->tp->kind!="error" && a->down->right->tp->kind!="error") &&
+	       !equivalent_types(a->down->tp,a->down->right->tp)){
+				errorincompatibleassignment(a->line);
 		}
 	else {
 		a->tp=child(a,0)->tp;
@@ -378,11 +378,16 @@ void TypeCheck(AST *a,string info)
     TypeCheck(child(a,0));
     TypeCheck(child(a,1));
   //cout <<a->kind<<" "<<a->line<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
-    if (child(a,0)->tp->kind == "error" || child(a,0)->tp->kind!="int" ||
-           child(a,1)->tp->kind=="error" || child(a,1)->tp->kind!="int") {
+   // DO NOT CHANGE THIS
+	if ((a->down->tp->kind!="error" && a->down->tp->kind!="int") ||
+			(a->down->right->tp->kind!="error" && a->down->right->tp->kind!="int"))
+	{
       errorincompatibleoperator(a->line,a->kind);
     }
-    a->tp=create_type("int",0,0);
+
+	a->tp=create_type("int",0,0);
+
+
   }
   else if (a->kind=="ref"){
       a->tp=create_type("parref",0,0);
@@ -472,10 +477,9 @@ void TypeCheck(AST *a,string info)
 	}else if(a->kind == "or" || a->kind == "and"){
 		TypeCheck(child(a,0));
 		TypeCheck(child(a,1));
-		if (child(a,0)->tp->kind != "bool" ||
-				child(a,1)->tp->kind != "bool" ||
-				child(a,0)->tp->kind == "error" ||
-				child(a,1)->tp->kind == "error") {
+		if ((a->down->tp->kind!="error" && a->down->tp->kind!="bool") ||
+		(a->down->right->tp->kind!="error" && a->down->right->tp->kind!="bool"))
+		{
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp = create_type("bool",0,0);
