@@ -365,7 +365,6 @@ void TypeCheck(AST *a,string info)
 	else {
 		a->tp=child(a,0)->tp;
 	}
-	a->tp=child(a,0)->tp;
 	//cout << "# " << a->line<<"- "<< child(a,0)->tp->kind << " = "<< child(a,1)->tp->kind<< endl;
   }
   else if (a->kind=="intconst") {
