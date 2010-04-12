@@ -358,13 +358,14 @@ void TypeCheck(AST *a,string info)
 	if (!child(a,0)->ref) {
 		errornonreferenceableleft(a->line,child(a,0)->text);
 	}
-	else if (child(a,0)->tp->kind!="error" && child(a,1)->tp->kind!="error" &&
+	else if (child(a,0)->tp->kind =="error" || child(a,1)->tp->kind=="error" ||
 		!equivalent_types(child(a,0)->tp,child(a,1)->tp)) {
 			errorincompatibleassignment(a->line);
 		}
 	else {
 		a->tp=child(a,0)->tp;
 	}
+	a->tp=child(a,0)->tp;
 	//cout << "# " << a->line<<"- "<< child(a,0)->tp->kind << " = "<< child(a,1)->tp->kind<< endl;
   }
   else if (a->kind=="intconst") {
@@ -377,9 +378,9 @@ void TypeCheck(AST *a,string info)
 	   || a->kind=="/") {
     TypeCheck(child(a,0));
     TypeCheck(child(a,1));
-//  cout <<a->kind<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
-    if ((child(a,0)->tp->kind!="error" && child(a,0)->tp->kind!="int") ||
-           (child(a,1)->tp->kind!="error" && child(a,1)->tp->kind!="int")) {
+  //cout <<a->kind<<" "<<a->line<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
+    if (child(a,0)->tp->kind == "error" || child(a,0)->tp->kind!="int" ||
+           child(a,1)->tp->kind=="error" || child(a,1)->tp->kind!="int") {
       errorincompatibleoperator(a->line,a->kind);
     }
     a->tp=create_type("int",0,0);
@@ -388,8 +389,37 @@ void TypeCheck(AST *a,string info)
       a->tp=create_type("parref",0,0);
   }else if(a->kind == "val"){
       a->tp=create_type("parval",0,0);
-  }
-  else if (isbasickind(a->kind)) {
+  }else if(a->kind == "array"){
+		///number of elements in array
+	    TypeCheck(child(a,0));
+		a->tp=create_type("array", a->down->right->tp, 0);
+		///type of array members
+		TypeCheck(child(a,1));
+		a->tp->numelemsarray=atoi(a->down->text.c_str());
+
+  }else if(a->kind == "["){
+	  TypeCheck(child(a,0));
+	  TypeCheck(child(a,1));
+	  a->ref=1;
+	    if(child(a,0)->tp->kind!="error" && child(a,0)->tp->kind!="array"){
+			errorincompatibleoperator(a->down->line,"array[]");
+		}else{
+			if(child(a,0)->tp->kind=="error"){
+				a->tp=a->down->tp;
+				a->ref=0;
+			}
+			else{
+				a->tp=child(a,0)->tp->down;
+			}
+		}
+
+		if(a->down->right->tp->kind!="error" && a->down->right->tp->kind!="int")
+		{
+			errorincompatibleoperator(a->line, "[]");
+		}
+
+
+  }else if (isbasickind(a->kind)) {
     a->tp=create_type(a->kind,0,0);
   }
   else if (a->kind=="writeln") {
@@ -502,10 +532,8 @@ void TypeCheck(AST *a,string info)
 	else if(a->kind =="+"){
 		TypeCheck(child(a,0));
 		TypeCheck(child(a,1));
-		if (child(a,0)->tp->kind != "int" ||
-				child(a,1)->tp->kind != "int" ||
-				child(a,0)->tp->kind == "error" ||
-				child(a,1)->tp->kind == "error") {
+		if ((child(a,0)->tp->kind != "int" && child(a,0)->tp->kind != "error") ||
+				(child(a,1)->tp->kind != "int" && child(a,1)->tp->kind == "error")) {
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp=create_type("int",0,0);
