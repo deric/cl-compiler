@@ -344,6 +344,10 @@ void TypeCheck(AST *a,string info)
     insert_headers(child(child(a,2),0));
 	//cout << "context "<< a->down->text << endl;
    // symboltable.write();
+
+    TypeCheck(child(a,2)); ///blocks
+    TypeCheck(child(a,3),"instruction");///instructions
+
 	if(a->kind == "function"){
 		///return value
 		//TypeCheck(a->down->down->right);
@@ -359,8 +363,7 @@ void TypeCheck(AST *a,string info)
 			errorincompatiblereturn(prev->line);
 		}
 	}
-    TypeCheck(child(a,2)); ///blocks
-    TypeCheck(child(a,3),"instruction");///instructions
+
 	///going out of context
     symboltable.pop();
   }
@@ -392,10 +395,10 @@ void TypeCheck(AST *a,string info)
 	   || a->kind=="/") {
     TypeCheck(child(a,0));
     TypeCheck(child(a,1));
-  //cout <<a->kind<<" "<<a->line<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
+ // cout <<a->kind<<" "<<a->line<<" "<<child(a,0)->tp->kind<<" x "<<child(a,1)->tp->kind<<endl;
    // DO NOT CHANGE THIS
-	if ((a->down->tp->kind!="error" && a->down->tp->kind!="int") ||
-			(a->down->right->tp->kind!="error" && a->down->right->tp->kind!="int"))
+	if ((child(a,0)->tp->kind!="error" &&child(a,0)->tp->kind!="int") ||
+			(child(a,1)->tp->kind!="error" && child(a,1)->tp->kind!="int"))
 	{
       errorincompatibleoperator(a->line,a->kind);
     }
@@ -407,12 +410,11 @@ void TypeCheck(AST *a,string info)
       a->tp=create_type("parval",0,0);
   }else if(a->kind == "array"){
 		///number of elements in array
-	    TypeCheck(child(a,0));
+	    TypeCheck(child(a,1));
+		//ASTPrint(a);
+		//cout<<a->line<<" "<<a->tp->kind<<endl;
 		a->tp=create_type("array", a->down->right->tp, 0);
-		///type of array members
-		TypeCheck(child(a,1));
 		a->tp->numelemsarray=atoi(a->down->text.c_str());
-
   }else if(a->kind == "["){
 	  TypeCheck(child(a,0));
 	  TypeCheck(child(a,1));
@@ -433,8 +435,6 @@ void TypeCheck(AST *a,string info)
 		{
 			errorincompatibleoperator(a->line, "[]");
 		}
-
-
   }else if (isbasickind(a->kind)) {
     a->tp=create_type(a->kind,0,0);
   }
@@ -475,7 +475,7 @@ void TypeCheck(AST *a,string info)
 							errorisnotprocedure(a->line);
 						else{
 							a->tp=stdef->right;
-							a->ref=1; //function should be referenciable
+							a->ref=1;
 						}
 					}
 					validate_params(a, stdef, a->line, stdef->numparams);
@@ -483,8 +483,8 @@ void TypeCheck(AST *a,string info)
 		}
 	}else if(a->kind == "not" && a->down->right==0){
 		TypeCheck(a->down);
-		if (child(a,0)->tp->kind != "bool" ||
-				child(a,0)->tp->kind == "error") {
+		if (child(a,0)->tp->kind != "bool" &&
+				child(a,0)->tp->kind != "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp = create_type("bool",0,0);
@@ -557,15 +557,15 @@ void TypeCheck(AST *a,string info)
 	}else if(a->kind == "-"){
 		TypeCheck(child(a,0));
 		///unary minus
-		if (child(a,0)->tp->kind != "int" ||
-				child(a,0)->tp->kind == "error") {
+		if (child(a,0)->tp->kind != "int" &&
+				child(a,0)->tp->kind != "error") {
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		///binary operator
 		if(child(a,1) != 0){
 			TypeCheck(child(a,1));
-			if (child(a,1)->tp->kind != "int" ||
-				child(a,1)->tp->kind == "error") {
+			if (child(a,1)->tp->kind != "int" &&
+				child(a,1)->tp->kind != "error") {
 				errorincompatibleoperator(a->line, a->kind);
 			}
 		}
@@ -584,6 +584,7 @@ void TypeCheck(AST *a,string info)
 				a->tp=child(a,0)->tp->struct_field[child(a,1)->text];
 			}
 		}
+		//cout << a->line <<" "<<a->tp->kind<<" "<<a->text<<"["<<child(a,1)->text<<"]"<< child(a,1)->tp->kind <<endl;
 	}else {
 		cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
 	}
@@ -626,27 +627,6 @@ void validate_params(AST *a,ptype tp,int line,int numparam) {
 	}
 }
 
-
-
-/**
-* parametres of procedure or function
-* @param *a is node of fcn call with it's params
-* @param tp is definition of fcn, wich is applied in this scope,
-*           we need to check is the param is same as expected
-*/
-void check_params(AST *a,ptype tp,int line,int numparam)
-{
- //  cout << "[check_param] line: " << line << " num: " <<numparam<< " ";
-  // cout << a->tp->kind << " x "<< tp->down->down->kind << endl;
-   /// according to fcn defition we should be able to assign a value
-   /// to this param
-   if (tp->down->kind == "parref" && !a->ref)
-		errorreferenceableparam(line,numparam);
-
-	if (!equivalent_types( a->tp,tp->down->down) && a->tp->kind !=  "error")
-		errorincompatibleparam(line,numparam);
-}
-
 int count_params(AST *a)
 {
 	int i=0;
@@ -657,6 +637,4 @@ int count_params(AST *a)
 	}
 	return i;
 }
-
-
 
