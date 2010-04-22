@@ -111,7 +111,7 @@ codechain GenRight(AST *a,int t);
 void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremoveparam,int t)
 {
   if (!a) return;
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+ //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
 
   //...to be done.
 
@@ -154,24 +154,118 @@ codechain GenRight(AST *a,int t)
   }
 
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  /*Is referencable*/
   if (a->ref) {
     if (a->kind=="ident" && symboltable.jumped_scopes(a->text)==0 &&
-	isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
-	c="load _"+a->text+" t"+itostring(t);
+      isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
+      c="load _"+a->text+" t"+itostring(t);
     }
+    /* Basic types */
     else if (isbasickind(a->tp->kind)) {
-      c=GenLeft(a,t)||"load t"+itostring(t)+" t"+itostring(t);
+
+      c=GenLeft(a,t)||
+      "load t"+itostring(t)+" t"+itostring(t);
+    /* Not basic types! */
+    } else {
+      int size = compute_size(a->tp);
+      c=GenLeft(a,t+1)||
+      "aload aux_space t"+itostring(t)||
+      "addi t"+itostring(t)+" "+ itostring(offsetauxspace)+ " t"+itostring(t)||
+      "copy t"+itostring(t+1) +" t"+itostring(t) +" "+ itostring(size);
+      offsetauxspace+=size;
     }
-    else {//...to be done
-    }    
-  } 
-  else if (a->kind=="intconst") {
+
+  /* Non referencable types from this point */
+  /* INTCONST */
+  } else if (a->kind=="intconst") {
     c="iload "+a->text+" t"+itostring(t);
+  /* BOOLEAN - TRUE */
+  } else if (a->kind=="true") {
+    c = "iload 1 t"+itostring (t);
+  /* BOOLEAN - FALSE */
+  } else if (a->kind=="false") {
+    c = "iload 0 t"+itostring (t);
   }
   else if (a->kind=="+") {
-    c=GenRight(child(a,0),t)||
-      GenRight(child(a,1),t+1)||
-      "addi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+    c=GenRight(child(a,0),t) ||
+    GenRight(child(a,1),t+1) ||
+    "addi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Reversing the sign (Unary expression) */
+  else if (a->kind == "-" && a->down->right == 0) {
+    c = GenRight (a->down, t) || "mini t" + itostring (t) + " t" + itostring (t);
+  }
+  /* SUM */
+  else if (a->kind=="+") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "addi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* REST (Binary ) */
+  else if (a->kind=="-" && a->down->right != 0) {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "subi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Multiplication */
+  else if (a->kind=="*") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "muli t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Division */
+  else if (a->kind=="/") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "divi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Less then */
+  else if (a->kind == "<") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "lesi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  /* Less or equal then */
+  }
+  else if (a->kind == "<=") {
+  c = GenRight(a->down,t)||
+  GenRight(a->down->right,t+1)||
+  "lesi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Bigger then */
+  else if (a->kind == ">") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "grti t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Bigger or equal then */
+  else if (a->kind == ">=") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "grti t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Equal to */
+  else if (a->kind == "=") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "equi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  
+  }
+  /* And */
+  else if (a->kind == "and") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "land t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* OR */
+  else if (a->kind == "or") {
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "loor t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* NOT */
+  else if (a->kind == "not") {
+    c = GenRight(a->down,t)||
+    "lnot t" + itostring (t) + " t" + itostring (t);
   }
   else {
     cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;

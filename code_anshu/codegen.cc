@@ -127,7 +127,7 @@ codechain GenLeft(AST *a,int t)
     return c;
   }
 
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   if (a->kind=="ident") {
     c="aload _"+a->text+" t"+itostring(t);
   }
@@ -139,7 +139,7 @@ codechain GenLeft(AST *a,int t)
   else {
     cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
   }
-  //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
+  cout<<"Ending with node \""<<a->kind<<"\""<<endl;
   return c;
 }
 
@@ -153,7 +153,7 @@ codechain GenRight(AST *a,int t)
     return c;
   }
 
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   if (a->ref) {
     if (a->kind=="ident" && symboltable.jumped_scopes(a->text)==0 &&
 	isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
@@ -176,7 +176,7 @@ codechain GenRight(AST *a,int t)
   else {
     cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
   }
-  //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
+  cout<<"Ending with node \""<<a->kind<<"\""<<endl;
   return c;
 }
 
@@ -188,7 +188,7 @@ codechain CodeGenInstruction(AST *a,string info="")
   if (!a) {
     return c;
   }
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   offsetauxspace=0;
   if (a->kind=="list") {
     for (AST *a1=a->down;a1!=0;a1=a1->right) {
@@ -218,7 +218,7 @@ codechain CodeGenInstruction(AST *a,string info="")
       c=c||"wrln";
     }
   }
-  //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
+  cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 
   return c;
 }
@@ -227,7 +227,7 @@ void CodeGenSubroutine(AST *a,list<codesubroutine> &l)
 {
   codesubroutine cs;
 
-  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   string idtable=symboltable.idtable(child(a,0)->text);
   cs.name=idtable+"_"+child(a,0)->text;
   symboltable.push(a->sc);
@@ -237,7 +237,7 @@ void CodeGenSubroutine(AST *a,list<codesubroutine> &l)
 
   symboltable.pop();
   l.push_back(cs);
-  //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
+  cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 
 }
 

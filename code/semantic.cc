@@ -391,6 +391,7 @@ void TypeCheck(AST *a,string info)
   }
   else if(a->kind == "true" || a->kind == "false"){
     a->tp=create_type("bool",0,0);
+    a->ref = 0;
   }
   else if (a->kind=="+" || (a->kind=="-" && child(a,1)!=0) || a->kind=="*"
 	   || a->kind=="/") {

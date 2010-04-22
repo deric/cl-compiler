@@ -145,25 +145,25 @@ codechain GenRight(AST *a,int t)
 
  /*Es referenciable*/
   if (a->ref) {
-	/* Es un identificador, esta al mateix scope i no es un parametre per referencia*/
-	if (a->kind=="ident" && symboltable.jumped_scopes(a->text)==0 && isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
-		c = "load _"+a->text+" t"+itostring(t);
-	
-	/* De tipus basic)*/
-	} else if (isbasickind(a->tp->kind)) {
+    /* Es un identificador, esta al mateix scope i no es un parametre per referencia*/
+    if (a->kind=="ident" && symboltable.jumped_scopes(a->text)==0 && isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
+      c = "load _"+a->text+" t"+itostring(t);
+    
+    /* De tipus basic)*/
+    } else if (isbasickind(a->tp->kind)) {
 
 		c = GenLeft(a,t)
 		||"load t"+itostring(t)+" t"+itostring(t);
 
-	/* NO es tipus basic - utilitzacio del aux_space */
-	} else {
-		int size = compute_size(a->tp);
-		 c=GenLeft(a,t+1)||
-		"aload aux_space t"+itostring(t)||
-		"addi t"+itostring(t)+" "+ itostring(offsetauxspace)+ " t"+itostring(t)||
-		"copy t"+itostring(t+1) +" t"+itostring(t) +" "+ itostring(size);
-		offsetauxspace+=size;
-	}
+    /* NO es tipus basic - utilitzacio del aux_space */
+    } else {
+      int size = compute_size(a->tp);
+       c=GenLeft(a,t+1)||
+      "aload aux_space t"+itostring(t)||
+      "addi t"+itostring(t)+" "+ itostring(offsetauxspace)+ " t"+itostring(t)||
+      "copy t"+itostring(t+1) +" t"+itostring(t) +" "+ itostring(size);
+      offsetauxspace+=size;
+    }
 
   /* No son referenciables a partir d'aquest punt */
   /* INTCONST */
