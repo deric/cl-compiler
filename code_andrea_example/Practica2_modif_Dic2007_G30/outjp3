@@ -1,0 +1,18 @@
+L. 18: Operator pointer^ with incompatible types.
+L. 21: Assignment with incompatible types.
+L. 22: Operator struct. with incompatible types.
+L. 23: Operator struct. with incompatible types.
+L. 24: Operator pointer^ with incompatible types.
+L. 25: Operator [] with incompatible types.
+L. 27: Assignment with incompatible types.
+L. 32: Assignment with incompatible types.
+L. 33: Assignment with incompatible types.
+L. 35: Operator struct. with incompatible types.
+L. 36: Assignment with incompatible types.
+L. 37: Referenceable expression required in &.
+L. 37: Assignment with incompatible types.
+L. 38: Assignment with incompatible types.
+L. 39: Operator [] with incompatible types.
+L. 40: Referenceable expression required in &.
+L. 40: Operator + with incompatible types.
+There are errors: no code generated

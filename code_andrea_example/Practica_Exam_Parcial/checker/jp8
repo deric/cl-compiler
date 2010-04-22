@@ -1,0 +1,29 @@
+Program
+	Vars
+		i Int
+	EndVars
+
+	Function f() Return Int
+		If i*i*i < -i Then
+		Else
+			i := -i
+		EndIf
+		return -1----2
+	EndFunction
+
+	Procedure p()
+		If false Then
+			i := 1+-2
+		Else
+			i := -1--2
+		EndIf
+		i := i
+		i := -i
+	EndProcedure
+
+	p()
+	If true or false Then
+		i := -8/f()/10/11
+		i := f()*f()
+	EndIf
+EndProgram

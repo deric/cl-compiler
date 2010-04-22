@@ -1,0 +1,42 @@
+PROGRAM
+  VARS
+    x Pointer to Int
+    y Struct
+	  x Pointer to Array [10] of Int
+	  y Int
+	EndStruct
+    c Pointer to Pointer to Int
+    m Int
+    a Array [10] of Int
+    t Pointer to Struct
+                  x Int
+                 EndStruct
+    k Struct
+         x Int
+      EndStruct
+  ENDVARS
+  FUNCTION f1 (val x int) RETURN int
+        a[5]:=x
+	y.x:=&a
+	writeln ( y.x^[5] )
+  	RETURN c^^*3
+  ENDFUNCTION
+  FUNCTION f2 RETURN Pointer to Int
+  	RETURN &m
+  ENDFUNCTION
+    m:=1
+    x:=&m
+    writeln(x^)
+    c:=&x
+    writeln(f1(2))
+    y.y:=x^
+    c^:=&y.y
+    writeln(c^^)
+    x:=&y.x^[5]
+    c:=&x
+    writeln(c^^)
+    k.x:=4
+    t:=&k
+    writeln(t^.x)
+    writeln(f2^)
+ENDPROGRAM

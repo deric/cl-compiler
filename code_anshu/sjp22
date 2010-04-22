@@ -1,0 +1,118 @@
+
+
+  1: Program
+  2:   Vars
+  3:     I Int
+  4:   EndVars 
+  5:   I:=1
+  6:   While I<10 Do
+  7:     If I-2*(I/2)=0 Then
+  8:       WriteLn(I)
+  9:     Else
+ 10:       WriteLn(2*I)
+ 11:     EndIf
+ 12:     I:=I+1
+ 13:   EndWhile
+ 14: EndProgram
+
+
+program
+    \__list
+    |      \__ident(I)
+    |               \__int
+    \__list
+    \__list
+           \__:=
+           |    \__ident(I)
+           |    \__intconst(1)
+           \__while
+                   \__<
+                   |   \__ident(I)
+                   |   \__intconst(10)
+                   \__list
+                          \__if
+                          |    \__=
+                          |    |   \__-
+                          |    |   |   \__ident(I)
+                          |    |   |   \__*
+                          |    |   |       \__intconst(2)
+                          |    |   |       \__/
+                          |    |   |           \__ident(I)
+                          |    |   |           \__intconst(2)
+                          |    |   \__intconst(0)
+                          |    \__list
+                          |    |      \__writeln
+                          |    |                \__ident(I)
+                          |    \__list
+                          |           \__writeln
+                          |                     \__*
+                          |                         \__intconst(2)
+                          |                         \__ident(I)
+                          \__:=
+                               \__ident(I)
+                               \__+
+                                   \__ident(I)
+                                   \__intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _I 4
+  endvariables
+
+    aload _I t0
+    iload 1 t1
+    stor t1 t0
+  etiq while_1
+    load _I t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+    load _I t0
+    iload 2 t1
+    load _I t2
+    iload 2 t3
+    divi t2 t3 t2
+    muli t1 t2 t1
+    subi t0 t1 t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    load _I t0
+    wrii t0
+    wrln
+    ujmp endif_1
+  etiq else_1
+    iload 2 t0
+    load _I t1
+    muli t0 t1 t0
+    wrii t0
+    wrln
+  etiq endif_1
+    aload _I t0
+    load _I t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    stop
+endprogram
+
+Executing code:
+2
+2
+6
+4
+10
+6
+14
+8
+18

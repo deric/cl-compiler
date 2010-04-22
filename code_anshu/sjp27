@@ -1,0 +1,192 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     X INT
+  4:     Y INT
+  5:   ENDVARS
+  6:   FUNCTION FACT(VAL X INT) RETURN INT
+  7:   VARS 
+  8:     F INT
+  9:   ENDVARS
+ 10:     IF X = 1 THEN
+ 11:       F := 1
+ 12:     ELSE
+ 13:       F := FACT(X-1) * X
+ 14:     ENDIF
+ 15:     RETURN F
+ 16:   ENDFUNCTION
+ 17:   X:= 1
+ 18:   WHILE (X < 10) DO
+ 19:     WRITE(" El factorial de ")
+ 20:     WRITE(X)
+ 21:     WRITE(" es: ")
+ 22:     WRITELN(FACT(X))
+ 23:     X := X+1
+ 24:   ENDWHILE
+ 25: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |               \__int
+    \__list
+    |      \__function
+    |                 \__ident(FACT)
+    |                 |           \__list
+    |                 |           |      \__val
+    |                 |           |            \__ident(X)
+    |                 |           |            \__int
+    |                 |           \__int
+    |                 \__list
+    |                 |      \__ident(F)
+    |                 |               \__int
+    |                 \__list
+    |                 \__list
+    |                 |      \__if
+    |                 |           \__=
+    |                 |           |   \__ident(X)
+    |                 |           |   \__intconst(1)
+    |                 |           \__list
+    |                 |           |      \__:=
+    |                 |           |           \__ident(F)
+    |                 |           |           \__intconst(1)
+    |                 |           \__list
+    |                 |                  \__:=
+    |                 |                       \__ident(F)
+    |                 |                       \__*
+    |                 |                           \__(
+    |                 |                           |   \__ident(FACT)
+    |                 |                           |   \__list
+    |                 |                           |          \__-
+    |                 |                           |              \__ident(X)
+    |                 |                           |              \__intconst(1)
+    |                 |                           \__ident(X)
+    |                 \__ident(F)
+    \__list
+           \__:=
+           |    \__ident(X)
+           |    \__intconst(1)
+           \__while
+                   \__<
+                   |   \__ident(X)
+                   |   \__intconst(10)
+                   \__list
+                          \__write
+                          |       \__string(" El factorial de ")
+                          \__write
+                          |       \__ident(X)
+                          \__write
+                          |       \__string(" es: ")
+                          \__writeln
+                          |         \__(
+                          |             \__ident(FACT)
+                          |             \__list
+                          |                    \__ident(X)
+                          \__:=
+                               \__ident(X)
+                               \__+
+                                   \__ident(X)
+                                   \__intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+  endvariables
+
+    aload _X t0
+    iload 1 t1
+    stor t1 t0
+  etiq while_1
+    load _X t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+    wris " El factorial de "
+    load _X t0
+    wrii t0
+    wris " es: "
+    pushparam 0
+    load _X t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_FACT
+    killparam
+    killparam
+    popparam t0
+    wrii t0
+    wrln
+    aload _X t0
+    load _X t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    stop
+endprogram
+
+subroutine program_FACT
+  parameters
+    returnvalue
+    _X
+    static_link
+  endparameters
+
+  variables
+    _F 4
+  endvariables
+
+    load _X t0
+    iload 1 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    aload _F t0
+    iload 1 t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    aload _F t0
+    pushparam 0
+    load _X t1
+    iload 1 t2
+    subi t1 t2 t1
+    pushparam t1
+    load static_link t1
+    pushparam t1
+    call program_FACT
+    killparam
+    killparam
+    popparam t1
+    load _X t2
+    muli t1 t2 t1
+    stor t1 t0
+  etiq endif_1
+    load _F t0
+    stor t0 returnvalue
+    retu
+endsubroutine
+
+Executing code:
+ El factorial de 1 es: 1
+ El factorial de 2 es: 2
+ El factorial de 3 es: 6
+ El factorial de 4 es: 24
+ El factorial de 5 es: 120
+ El factorial de 6 es: 720
+ El factorial de 7 es: 5040
+ El factorial de 8 es: 40320
+ El factorial de 9 es: 362880

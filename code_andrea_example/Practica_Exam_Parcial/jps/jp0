@@ -1,0 +1,25 @@
+PROGRAM
+  VARS
+    x Int
+    y Struct
+	  x Int
+	  y Int
+	EndStruct
+    b Struct 
+        n Int
+      EndStruct
+    a Struct 
+        n Int 
+        n Int
+      EndStruct
+  ENDVARS
+  w:=v+p12
+  v:=y.y+y.x
+  x:=3+y.y
+  x:=3+y.x
+  b.x:=b.n
+  b:=y.y+y.x
+  y.x:=y.y
+  y.y:=2+y.x+x
+  y:=y
+ENDPROGRAM

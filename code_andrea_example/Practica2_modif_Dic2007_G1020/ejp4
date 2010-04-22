@@ -1,0 +1,5 @@
+L. 17: Int type required in case.
+L. 16: Int type required in switch.
+L. 8: Int type required in switch.
+L. 18: Identifier P must be a procedure.
+L. 18: Identifier P is a procedure and hence it can not be evaluated.

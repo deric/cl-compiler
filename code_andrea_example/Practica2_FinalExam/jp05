@@ -1,0 +1,23 @@
+Program
+  Vars
+	x Int
+  EndVars
+
+Procedure P()
+     goto A
+  EndProcedure 
+
+x:=3
+goto C
+
+label A
+x:=5
+goto C
+label A
+label B
+x:=4
+goto x
+
+label C
+writeln(x)
+EndProgram

@@ -1,0 +1,69 @@
+
+
+  1: program
+  2:   vars
+  3:     s string
+  4:     i int
+  5:   endvars
+  6: 
+  7:   i := 3
+  8:   s := "holahola"
+  9:   s := substr(s, i + 1, 6)
+ 10:   s := substr(s, i + 2)
+ 11:   i := substr(i, s, s)
+ 12:   i := substr(i, s)
+ 13: endprogram
+
+
+ program
+ | list
+ | | ident(s)
+ | | | string
+ | | ident(i)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(i)
+ | | | intconst(3)
+ | | :=
+ | | | ident(s)
+ | | | stringconst("holahola")
+ | | :=
+ | | | ident(s)
+ | | | substr
+ | | | | ident(s)
+ | | | | +
+ | | | | | ident(i)
+ | | | | | intconst(1)
+ | | | | intconst(6)
+ | | :=
+ | | | ident(s)
+ | | | substr
+ | | | | ident(s)
+ | | | | +
+ | | | | | ident(i)
+ | | | | | intconst(2)
+ | | :=
+ | | | ident(i)
+ | | | substr
+ | | | | ident(i)
+ | | | | ident(s)
+ | | | | ident(s)
+ | | :=
+ | | | ident(i)
+ | | | substr
+ | | | | ident(i)
+ | | | | ident(s)
+
+
+Type Checking:
+
+L. 11: Substr con primer parametro no estring.
+L. 11: Substr con segundo parametro no estring.
+L. 11: Substr con tercer parametro no estring.
+L. 11: Assignment with incompatible types.
+L. 12: Substr con primer parametro no estring.
+L. 12: Substr con segundo parametro no estring.
+L. 12: Assignment with incompatible types.
+There are errors: no code generated

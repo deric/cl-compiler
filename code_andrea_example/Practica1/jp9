@@ -1,0 +1,52 @@
+PROGRAM
+  VARS
+    x Int
+    y Struct
+	  x Int
+	  y Bool
+	EndStruct
+    b Bool
+  ENDVARS
+  PROCEDURE p()
+    PROCEDURE p1(val a Struct y Bool x Int EndStruct)
+      PROCEDURE p11(ref y Struct x Bool EndStruct)
+        p:=3
+        p12()
+        p2()
+        p2(y,y.x)
+        p2(y)
+        p22()
+      ENDPROCEDURE
+      PROCEDURE p12()
+        p11(y)
+        p11(y.y)
+        p11(y,1)
+      ENDPROCEDURE
+    ENDPROCEDURE
+    PROCEDURE p2(ref e Struct b Int x bool EndStruct)
+      VARS
+        v Int
+	  b Struct 
+		n Int
+	    EndStruct
+	  a Struct 
+		n Int 
+		n Bool
+	    EndStruct
+      ENDVARS
+      PROCEDURE p22()
+        w:=v+p12
+        v:=y.y+y.x
+        v:=3/y.y
+	v:=3/y.x
+        p11(3)
+        p()
+	b.x:=b.n
+      ENDPROCEDURE
+	v:=y.y+y.x
+        y.x:=y.y
+	y.y:=2*y.x+x
+    ENDPROCEDURE
+  ENDPROCEDURE
+  p22()
+ENDPROGRAM

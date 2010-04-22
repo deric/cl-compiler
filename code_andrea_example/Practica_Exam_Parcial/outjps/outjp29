@@ -1,0 +1,246 @@
+
+
+  1: PROGRAM
+  2: 
+  3:   PROCEDURE A1()
+  4:     WRITELN("")
+  5:   ENDPROCEDURE //A1
+  6: 
+  7:   PROCEDURE A2(VAL j INT)
+  8:     IF (j=0) THEN WRITE("soy A2 llamado por main ") A1()
+  9:     ELSE
+ 10:       IF (j=3) THEN WRITE("soy A2 llamado por ABC ") A1()
+ 11:       ELSE WRITE("soy A2 llamado por AB1 ") A1()
+ 12:       ENDIF
+ 13:     ENDIF
+ 14:   ENDPROCEDURE //A2
+ 15: 
+ 16:   PROCEDURE A3(VAL i INT)
+ 17: 
+ 18:     PROCEDURE AB1(VAL k INT)
+ 19:       PROCEDURE ABC()
+ 20:         A2(3) //desde aqui no podemos llamar a A32 ni a A3
+ 21:         A3(3)
+ 22:         AB1(i-1)
+ 23:       ENDPROCEDURE //ABC
+ 24: 
+ 25:       IF (k>-1) THEN ABC()
+ 26:       ELSE A2(2)
+ 27:       ENDIF
+ 28:     ENDPROCEDURE //AB1
+ 29: 
+ 30:     PROCEDURE AB2()
+ 31:       AB1(i)
+ 32:     ENDPROCEDURE //AB2
+ 33: 
+ 34:     IF (i=0)  THEN
+ 35:       WRITE("soy A3 llamado por main ") A1()
+ 36:       AB2()
+ 37:     ELSE WRITE("soy A3 llamado por ABC ") A1()
+ 38:     ENDIF
+ 39:   ENDPROCEDURE //A3
+ 40: 
+ 41:   PROCEDURE A4()
+ 42:   ENDPROCEDURE //A4
+ 43: 
+ 44:   A2(0)
+ 45:   A3(0) //desde aqui no podemos llamar a AB1 ni a A32
+ 46: ENDPROGRAM
+
+
+ program
+ | list
+ | list
+ | | procedure
+ | | | ident(A1)
+ | | | | list
+ | | | list
+ | | | list
+ | | | list
+ | | | | writeln
+ | | | | | string("")
+ | | procedure
+ | | | ident(A2)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(j)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | | if
+ | | | | | =
+ | | | | | | ident(j)
+ | | | | | | intconst(0)
+ | | | | | list
+ | | | | | | write
+ | | | | | | | string("soy A2 llamado por main ")
+ | | | | | | (
+ | | | | | | | ident(A1)
+ | | | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(j)
+ | | | | | | | | intconst(3)
+ | | | | | | | list
+ | | | | | | | | write
+ | | | | | | | | | string("soy A2 llamado por ABC ")
+ | | | | | | | | (
+ | | | | | | | | | ident(A1)
+ | | | | | | | | | list
+ | | | | | | | list
+ | | | | | | | | write
+ | | | | | | | | | string("soy A2 llamado por AB1 ")
+ | | | | | | | | (
+ | | | | | | | | | ident(A1)
+ | | | | | | | | | list
+ | | procedure
+ | | | ident(A3)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(i)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | procedure
+ | | | | | ident(AB1)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(k)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | | procedure
+ | | | | | | | ident(ABC)
+ | | | | | | | | list
+ | | | | | | | list
+ | | | | | | | list
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(A2)
+ | | | | | | | | | list
+ | | | | | | | | | | intconst(3)
+ | | | | | | | | (
+ | | | | | | | | | ident(A3)
+ | | | | | | | | | list
+ | | | | | | | | | | intconst(3)
+ | | | | | | | | (
+ | | | | | | | | | ident(AB1)
+ | | | | | | | | | list
+ | | | | | | | | | | -
+ | | | | | | | | | | | ident(i)
+ | | | | | | | | | | | intconst(1)
+ | | | | | list
+ | | | | | | if
+ | | | | | | | >
+ | | | | | | | | ident(k)
+ | | | | | | | | -
+ | | | | | | | | | intconst(1)
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(ABC)
+ | | | | | | | | | list
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(A2)
+ | | | | | | | | | list
+ | | | | | | | | | | intconst(2)
+ | | | | procedure
+ | | | | | ident(AB2)
+ | | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | | (
+ | | | | | | | ident(AB1)
+ | | | | | | | list
+ | | | | | | | | ident(i)
+ | | | list
+ | | | | if
+ | | | | | =
+ | | | | | | ident(i)
+ | | | | | | intconst(0)
+ | | | | | list
+ | | | | | | write
+ | | | | | | | string("soy A3 llamado por main ")
+ | | | | | | (
+ | | | | | | | ident(A1)
+ | | | | | | | list
+ | | | | | | (
+ | | | | | | | ident(AB2)
+ | | | | | | | list
+ | | | | | list
+ | | | | | | write
+ | | | | | | | string("soy A3 llamado por ABC ")
+ | | | | | | (
+ | | | | | | | ident(A1)
+ | | | | | | | list
+ | | procedure
+ | | | ident(A4)
+ | | | | list
+ | | | list
+ | | | list
+ | | | list
+ | list
+ | | (
+ | | | ident(A2)
+ | | | list
+ | | | | intconst(0)
+ | | (
+ | | | ident(A3)
+ | | | list
+ | | | | intconst(0)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    stop
+endprogram
+
+subroutine program_A1
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_A2
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_A3
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_A4
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+Executing code:

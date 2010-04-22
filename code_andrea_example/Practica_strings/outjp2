@@ -1,0 +1,69 @@
+
+
+  1: program
+  2:   vars
+  3:     s1 string
+  4:     s2 string
+  5:     i int
+  6:   endvars
+  7: 
+  8:   s1 := "hola"
+  9:   read(s2)
+ 10:   while "hola" do
+ 11:     if s2 then
+ 12:       i := i + 1
+ 13:       read(i)
+ 14:     endif
+ 15:   endwhile
+ 16:   write(i)
+ 17:   write(s2)
+ 18:   writeln("adeu")
+ 19:   write(aux)
+ 20: endprogram
+ 21: 
+
+
+ program
+ | list
+ | | ident(s1)
+ | | | string(string)
+ | | ident(s2)
+ | | | string(string)
+ | | ident(i)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(s1)
+ | | | stringconst("hola")
+ | | read
+ | | | ident(s2)
+ | | while
+ | | | stringconst("hola")
+ | | | list
+ | | | | if
+ | | | | | ident(s2)
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(i)
+ | | | | | | | +
+ | | | | | | | | ident(i)
+ | | | | | | | | intconst(1)
+ | | | | | | read
+ | | | | | | | ident(i)
+ | | write
+ | | | ident(i)
+ | | write
+ | | | ident(s2)
+ | | writeln
+ | | | stringconst("adeu")
+ | | write
+ | | | ident(aux)
+
+
+Type Checking:
+
+L. 10: Instruction while requires a boolean condition.
+L. 11: Instruction if requires a boolean condition.
+L. 19: Identifier aux is undeclared.
+There are errors: no code generated

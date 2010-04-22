@@ -1,0 +1,28 @@
+L. 15: Instruction while requires a boolean condition.
+L. 8: Return with uncompatible type.
+L. 29: Parameter 1 with incompatible types.
+L. 29: Parameter 1 is expected to be referenceable but it is not.
+L. 30: Parameter 1 with incompatible types.
+L. 30: Parameter 1 is expected to be referenceable but it is not.
+L. 31: Parameter 1 is expected to be referenceable but it is not.
+L. 32: Parameter 1 with incompatible types.
+L. 32: Parameter 1 is expected to be referenceable but it is not.
+L. 33: Assignment with uncompatible types.
+L. 35: Identifier R is a procedure and hence it can not be evaluated.
+L. 36: Identifier P is a procedure and hence it can not be evaluated.
+L. 29: Left expression of assignment is not referenceable.
+L. 30: Left expression of assignment is not referenceable.
+L. 31: Left expression of assignment is not referenceable.
+L. 32: Left expression of assignment is not referenceable.
+L. 33: Left expression of assignment is not referenceable.
+L. 34: Left expression of assignment is not referenceable.
+L. 35: Left expression of assignment is not referenceable.
+L. 36: Left expression of assignment is not referenceable.
+L. 29: Operator + with uncompatible types.
+L. 29: The number of parameters in the call do not match.
+L. 31: The number of parameters in the call do not match.
+L. 32: The number of parameters in the call do not match.
+L. 33: The number of parameters in the call do not match.
+L. 34: The number of parameters in the call do not match.
+L. 35: The number of parameters in the call do not match.
+L. 36: The number of parameters in the call do not match.

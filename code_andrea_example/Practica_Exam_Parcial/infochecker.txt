@@ -1,0 +1,14 @@
+- L[.]    jpbasic1 sjpbasic1 0.6
+- L[.]    jpbasic2 sjpbasic2 0.6
+- L[.]    jpbasic3 sjpbasic3 0.6
+- L[.]    jpbasic4 sjpbasic4 0.6
+- L[.]    jpbasic5 sjpbasic5 0.6
+- L[.]    jp1      sjp1      0.75
+- L[.]    jp2      sjp2      0.75
+- L[.]    jp3      sjp3      0.5
+- L[.]    jp4      sjp4      0.5
+- L[.]    jp5      sjp5      0.5
+- program jp6      sjp6      1
+- program jp7      sjp7      1
+- program jp8      sjp8      1
+- program jp9      sjp9      1

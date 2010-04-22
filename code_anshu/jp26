@@ -1,0 +1,27 @@
+PROGRAM
+  VARS
+    X INT
+    Y INT
+  ENDVARS
+  PROCEDURE FACT(VAL X INT, REF F INT)
+  VARS 
+    AUX INT
+  ENDVARS
+    IF X = 1 THEN
+      F := 1
+    ELSE
+      FACT( X-1, AUX )
+      F := AUX * X
+    ENDIF
+  ENDPROCEDURE
+  X:= 1
+  WHILE (X < 10) DO
+    FACT( X, Y )
+    WRITE(" El factorial de ")
+    WRITE(X)
+    WRITE(" es: ")
+    WRITE(Y)
+    WRITELN("")
+    X := X + 1
+  ENDWHILE
+ENDPROGRAM

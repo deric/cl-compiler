@@ -1,0 +1,327 @@
+
+
+  1: Program
+  2:   Vars
+  3: 	A Array [10] Of Int
+  4: 	I Int
+  5:   EndVars
+  6: 
+  7: I := 0
+  8: While I<10 Do
+  9:     Write(A[I])
+ 10:     Write("  ")
+ 11:     I := I+1
+ 12:   EndWhile
+ 13: WriteLn("Primer Bucle")
+ 14: A[10]:=2
+ 15: While I<10 Do
+ 16:     Write(A[I])
+ 17:     Write("  ")
+ 18:     I := I+1
+ 19:   EndWhile
+ 20: A[12]:=56
+ 21: WriteLn("Segon Bucle")
+ 22: While I<10 Do
+ 23:     Write(A[I])
+ 24:     Write("  ")
+ 25:     I := I+1
+ 26:   EndWhile
+ 27: WriteLn(A[22])
+ 28: A[-6]:=77
+ 29: WriteLn(A[-3])
+ 30: 
+ 31: EndProgram
+ 32: 
+
+
+ program
+ | list
+ | | ident(A)
+ | | | array
+ | | | | intconst(10)
+ | | | | int
+ | | ident(I)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(I)
+ | | | intconst(0)
+ | | while
+ | | | <
+ | | | | ident(I)
+ | | | | intconst(10)
+ | | | list
+ | | | | write
+ | | | | | [
+ | | | | | | ident(A)
+ | | | | | | ident(I)
+ | | | | write
+ | | | | | string("  ")
+ | | | | :=
+ | | | | | ident(I)
+ | | | | | +
+ | | | | | | ident(I)
+ | | | | | | intconst(1)
+ | | writeln
+ | | | string("Primer Bucle")
+ | | :=
+ | | | [
+ | | | | ident(A)
+ | | | | intconst(10)
+ | | | intconst(2)
+ | | while
+ | | | <
+ | | | | ident(I)
+ | | | | intconst(10)
+ | | | list
+ | | | | write
+ | | | | | [
+ | | | | | | ident(A)
+ | | | | | | ident(I)
+ | | | | write
+ | | | | | string("  ")
+ | | | | :=
+ | | | | | ident(I)
+ | | | | | +
+ | | | | | | ident(I)
+ | | | | | | intconst(1)
+ | | :=
+ | | | [
+ | | | | ident(A)
+ | | | | intconst(12)
+ | | | intconst(56)
+ | | writeln
+ | | | string("Segon Bucle")
+ | | while
+ | | | <
+ | | | | ident(I)
+ | | | | intconst(10)
+ | | | list
+ | | | | write
+ | | | | | [
+ | | | | | | ident(A)
+ | | | | | | ident(I)
+ | | | | write
+ | | | | | string("  ")
+ | | | | :=
+ | | | | | ident(I)
+ | | | | | +
+ | | | | | | ident(I)
+ | | | | | | intconst(1)
+ | | writeln
+ | | | [
+ | | | | ident(A)
+ | | | | intconst(22)
+ | | :=
+ | | | [
+ | | | | ident(A)
+ | | | | -
+ | | | | | intconst(6)
+ | | | intconst(77)
+ | | writeln
+ | | | [
+ | | | | ident(A)
+ | | | | -
+ | | | | | intconst(3)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _A 40
+    _I 4
+  endvariables
+
+    aload _I t0
+    iload 0 t1
+    stor t1 t0
+  etiq while_1
+    load _I t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+    aload _A t0
+    load _I t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_1
+    iload 0 t1
+  etiq isneg_1
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_1
+    iload 9 t1
+  etiq isgreater_1
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wris "  "
+    aload _I t0
+    load _I t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    wris "Primer Bucle"
+    wrln
+    aload _A t0
+    iload 10 t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_2
+    iload 0 t1
+  etiq isneg_2
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_2
+    iload 9 t1
+  etiq isgreater_2
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 2 t1
+    stor t1 t0
+  etiq while_2
+    load _I t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_2
+    aload _A t0
+    load _I t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_3
+    iload 0 t1
+  etiq isneg_3
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_3
+    iload 9 t1
+  etiq isgreater_3
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wris "  "
+    aload _I t0
+    load _I t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_2
+  etiq endwhile_2
+    aload _A t0
+    iload 12 t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_4
+    iload 0 t1
+  etiq isneg_4
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_4
+    iload 9 t1
+  etiq isgreater_4
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 56 t1
+    stor t1 t0
+    wris "Segon Bucle"
+    wrln
+  etiq while_3
+    load _I t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_3
+    aload _A t0
+    load _I t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_5
+    iload 0 t1
+  etiq isneg_5
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_5
+    iload 9 t1
+  etiq isgreater_5
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wris "  "
+    aload _I t0
+    load _I t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_3
+  etiq endwhile_3
+    aload _A t0
+    iload 22 t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_6
+    iload 0 t1
+  etiq isneg_6
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_6
+    iload 9 t1
+  etiq isgreater_6
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _A t0
+    iload 6 t1
+    mini t1 t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_7
+    iload 0 t1
+  etiq isneg_7
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_7
+    iload 9 t1
+  etiq isgreater_7
+    muli t1 4 t1
+    addi t0 t1 t0
+    iload 77 t1
+    stor t1 t0
+    aload _A t0
+    iload 3 t1
+    mini t1 t1
+    iload 0 t2
+    lesi t1 t2 t2
+    fjmp t2 isneg_8
+    iload 0 t1
+  etiq isneg_8
+    iload 9 t2
+    grti t1 t2 t2
+    fjmp t2 isgreater_8
+    iload 9 t1
+  etiq isgreater_8
+    muli t1 4 t1
+    addi t0 t1 t0
+    load t0 t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+Executing code:
+0  0  0  0  0  0  0  0  0  0  Primer Bucle
+Segon Bucle
+56
+77

@@ -1,0 +1,38 @@
+PROGRAM
+  VARS
+    x int
+    y bool
+    b bool
+  ENDVARS
+  PROCEDURE p()
+    PROCEDURE p1(val p int)
+      PROCEDURE p11(ref z int)
+        p:=3
+        p12()
+        p2()
+        p2(v,x,5)
+        p2(y,3)
+        p2(y,3,y,b)
+        p22()
+      ENDPROCEDURE
+      PROCEDURE p12()
+        p11(x+3)
+        p11(y)
+      ENDPROCEDURE
+    ENDPROCEDURE
+    PROCEDURE p2(ref z bool,val t int,val u bool)
+      VARS
+        v int
+        w bool
+      ENDVARS
+      PROCEDURE p22()
+        w:=v+t
+        w:=z+t-u
+        v:=3/u
+        p11(3)
+        p()
+      ENDPROCEDURE
+    ENDPROCEDURE
+  ENDPROCEDURE
+  p22()
+ENDPROGRAM

@@ -1,0 +1,164 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     Y INT
+  4:     X BOOL
+  5:   ENDVARS
+  6:   PROCEDURE P0(VAL V0 INT, REF R0 INT) 
+  7:     PROCEDURE P1(VAL V1 INT, REF R1 INT,VAL R2 INT) 
+  8:       VARS
+  9:         Y1 INT
+ 10:         X1 BOOL
+ 11:       ENDVARS
+ 12:       R1 := V1
+ 13:       V0 := 10
+ 14:       X:=Not(V0=R2 And V0=R1+R0) 
+ 15:     ENDPROCEDURE
+ 16:   P1(V0, R0, R0)
+ 17:   WRITE(V0)
+ 18:   WRITE("  ")
+ 19:   WRITE(R0)
+ 20:   WRITE("  ")
+ 21:   ENDPROCEDURE
+ 22: Y := 3
+ 23: X := False
+ 24: P0(2*3+1, Y)
+ 25: WRITE(Y)
+ 26: WRITE("  ")
+ 27: WRITELN(X)
+ 28: ENDPROGRAM
+
+
+ program
+ | list
+ | | ident(Y)
+ | | | int
+ | | ident(X)
+ | | | bool
+ | list
+ | | procedure
+ | | | ident(P0)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(V0)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(R0)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | procedure
+ | | | | | ident(P1)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(V1)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(R1)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(R2)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | | ident(Y1)
+ | | | | | | | int
+ | | | | | | ident(X1)
+ | | | | | | | bool
+ | | | | | list
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(R1)
+ | | | | | | | ident(V1)
+ | | | | | | :=
+ | | | | | | | ident(V0)
+ | | | | | | | intconst(10)
+ | | | | | | :=
+ | | | | | | | ident(X)
+ | | | | | | | not
+ | | | | | | | | and
+ | | | | | | | | | =
+ | | | | | | | | | | ident(V0)
+ | | | | | | | | | | ident(R2)
+ | | | | | | | | | =
+ | | | | | | | | | | ident(V0)
+ | | | | | | | | | | +
+ | | | | | | | | | | | ident(R1)
+ | | | | | | | | | | | ident(R0)
+ | | | list
+ | | | | (
+ | | | | | ident(P1)
+ | | | | | list
+ | | | | | | ident(V0)
+ | | | | | | ident(R0)
+ | | | | | | ident(R0)
+ | | | | write
+ | | | | | ident(V0)
+ | | | | write
+ | | | | | string("  ")
+ | | | | write
+ | | | | | ident(R0)
+ | | | | write
+ | | | | | string("  ")
+ | list
+ | | :=
+ | | | ident(Y)
+ | | | intconst(3)
+ | | :=
+ | | | ident(X)
+ | | | false
+ | | (
+ | | | ident(P0)
+ | | | list
+ | | | | +
+ | | | | | *
+ | | | | | | intconst(2)
+ | | | | | | intconst(3)
+ | | | | | intconst(1)
+ | | | | ident(Y)
+ | | write
+ | | | ident(Y)
+ | | write
+ | | | string("  ")
+ | | writeln
+ | | | ident(X)
+
+
+Type Checking:
+
+Generating code:
+BIG PROBLEM! No case defined for kind false
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _Y 4
+    _X 4
+  endvariables
+
+    aload _Y t0
+    iload 3 t1
+    stor t1 t0
+    aload _X t0
+    stor t1 t0
+    load _Y t0
+    wrii t0
+    load _X t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_P0
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+Executing code:
+33

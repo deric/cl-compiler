@@ -1,0 +1,84 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     d Date
+  4:     d2 Date
+  5:     x int
+  6: 
+  7:   ENDVARS
+  8:   x:= day(d)
+  9:   x:= month(4)	
+ 10:   d:= year(x+5)
+ 11:   d:=d2
+ 12:   sday(d,2)
+ 13:   smonth(x,x)
+ 14:   syear(x,d2)
+ 15:   writeln(month(d) +
+ 16: 		year(true)
+ 17:   )
+ 18:   smonth(2,4)
+ 19: 
+ 20: ENDPROGRAM
+ 21: 
+
+
+ program
+ | list
+ | | ident(d)
+ | | | date
+ | | ident(d2)
+ | | | date
+ | | ident(x)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(x)
+ | | | day
+ | | | | ident(d)
+ | | :=
+ | | | ident(x)
+ | | | month
+ | | | | intconst(4)
+ | | :=
+ | | | ident(d)
+ | | | year
+ | | | | +
+ | | | | | ident(x)
+ | | | | | intconst(5)
+ | | :=
+ | | | ident(d)
+ | | | ident(d2)
+ | | sday
+ | | | ident(d)
+ | | | intconst(2)
+ | | smonth
+ | | | ident(x)
+ | | | ident(x)
+ | | syear
+ | | | ident(x)
+ | | | ident(d2)
+ | | writeln
+ | | | +
+ | | | | month
+ | | | | | ident(d)
+ | | | | year
+ | | | | | true
+ | | smonth
+ | | | intconst(2)
+ | | | intconst(4)
+
+
+Type Checking:
+
+L. 9: Parameter 1 with incompatible types.
+L. 10: Parameter 1 with incompatible types.
+L. 10: Assignment with incompatible types.
+L. 13: Parameter 1 with incompatible types.
+L. 14: Parameter 1 with incompatible types.
+L. 14: Parameter 2 with incompatible types.
+L. 16: Parameter 1 with incompatible types.
+L. 18: Parameter 1 is expected to be referenceable but it is not.
+L. 18: Parameter 1 with incompatible types.
+There are errors: no code generated

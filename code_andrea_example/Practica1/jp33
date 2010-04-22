@@ -1,0 +1,23 @@
+Program
+  Vars
+    S Array[2] of Struct
+                    X Int
+                    A Array [10] Of Int
+                  EndStruct
+    X Int
+  EndVars
+  Function F() Return Struct X Int A Array [10] Of Int EndStruct
+    X:=X+1
+    Return S[X]
+  EndFunction
+  Function G(Val A0 Array [10] Of Int,
+             Val A1 Array [10] Of Int) Return Int
+    Return A0[0]+A1[1]
+  EndFunction
+
+  X:=-1
+  S[0].A[0]:=3
+  S[1].A[1]:=5
+  X:=G(F().A,F().A)
+  WriteLn(X)
+EndProgram

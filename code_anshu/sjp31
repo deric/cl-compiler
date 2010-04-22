@@ -1,0 +1,287 @@
+
+
+  1: Program
+  2:   Vars
+  3:     n Int
+  4:   EndVars
+  5:   Function fibon(Val n Int) Return Int
+  6:     Vars
+  7:       retvalue Int
+  8:       n1 Int
+  9:       n2 Int
+ 10:     EndVars
+ 11:     Procedure recfibon(Val n Int,Ref n1 Int,Ref n2 Int)
+ 12:       Vars
+ 13:         aux Int
+ 14:       EndVars
+ 15:       If n=0 Or n=1 Then  n1:=1  n2:=1
+ 16:       Else
+ 17:         recfibon(n-1,n1,n2)
+ 18:         aux:=n1  n1:=n2  n2:=aux+n2
+ 19:       EndIf
+ 20:     EndProcedure
+ 21:     recfibon(n,n1,n2)
+ 22:     Return n2
+ 23:   EndFunction
+ 24:   n:=1
+ 25:   While (n<10) Do
+ 26:     Write("Fibonacci(") Write(n) Write(")=") WriteLn(fibon(n))
+ 27:     n:=n+1
+ 28:   EndWhile
+ 29: EndProgram
+
+
+program
+    \__list
+    |      \__ident(n)
+    |               \__int
+    \__list
+    |      \__function
+    |                 \__ident(fibon)
+    |                 |            \__list
+    |                 |            |      \__val
+    |                 |            |            \__ident(n)
+    |                 |            |            \__int
+    |                 |            \__int
+    |                 \__list
+    |                 |      \__ident(retvalue)
+    |                 |      |               \__int
+    |                 |      \__ident(n1)
+    |                 |      |         \__int
+    |                 |      \__ident(n2)
+    |                 |                \__int
+    |                 \__list
+    |                 |      \__procedure
+    |                 |                  \__ident(recfibon)
+    |                 |                  |               \__list
+    |                 |                  |                      \__val
+    |                 |                  |                      |     \__ident(n)
+    |                 |                  |                      |     \__int
+    |                 |                  |                      \__ref
+    |                 |                  |                      |     \__ident(n1)
+    |                 |                  |                      |     \__int
+    |                 |                  |                      \__ref
+    |                 |                  |                            \__ident(n2)
+    |                 |                  |                            \__int
+    |                 |                  \__list
+    |                 |                  |      \__ident(aux)
+    |                 |                  |                 \__int
+    |                 |                  \__list
+    |                 |                  \__list
+    |                 |                         \__if
+    |                 |                              \__or
+    |                 |                              |    \__=
+    |                 |                              |    |   \__ident(n)
+    |                 |                              |    |   \__intconst(0)
+    |                 |                              |    \__=
+    |                 |                              |        \__ident(n)
+    |                 |                              |        \__intconst(1)
+    |                 |                              \__list
+    |                 |                              |      \__:=
+    |                 |                              |      |    \__ident(n1)
+    |                 |                              |      |    \__intconst(1)
+    |                 |                              |      \__:=
+    |                 |                              |           \__ident(n2)
+    |                 |                              |           \__intconst(1)
+    |                 |                              \__list
+    |                 |                                     \__(
+    |                 |                                     |   \__ident(recfibon)
+    |                 |                                     |   \__list
+    |                 |                                     |          \__-
+    |                 |                                     |          |   \__ident(n)
+    |                 |                                     |          |   \__intconst(1)
+    |                 |                                     |          \__ident(n1)
+    |                 |                                     |          \__ident(n2)
+    |                 |                                     \__:=
+    |                 |                                     |    \__ident(aux)
+    |                 |                                     |    \__ident(n1)
+    |                 |                                     \__:=
+    |                 |                                     |    \__ident(n1)
+    |                 |                                     |    \__ident(n2)
+    |                 |                                     \__:=
+    |                 |                                          \__ident(n2)
+    |                 |                                          \__+
+    |                 |                                              \__ident(aux)
+    |                 |                                              \__ident(n2)
+    |                 \__list
+    |                 |      \__(
+    |                 |          \__ident(recfibon)
+    |                 |          \__list
+    |                 |                 \__ident(n)
+    |                 |                 \__ident(n1)
+    |                 |                 \__ident(n2)
+    |                 \__ident(n2)
+    \__list
+           \__:=
+           |    \__ident(n)
+           |    \__intconst(1)
+           \__while
+                   \__<
+                   |   \__ident(n)
+                   |   \__intconst(10)
+                   \__list
+                          \__write
+                          |       \__string("Fibonacci(")
+                          \__write
+                          |       \__ident(n)
+                          \__write
+                          |       \__string(")=")
+                          \__writeln
+                          |         \__(
+                          |             \__ident(fibon)
+                          |             \__list
+                          |                    \__ident(n)
+                          \__:=
+                               \__ident(n)
+                               \__+
+                                   \__ident(n)
+                                   \__intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _n 4
+  endvariables
+
+    aload _n t0
+    iload 1 t1
+    stor t1 t0
+  etiq while_1
+    load _n t0
+    iload 10 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+    wris "Fibonacci("
+    load _n t0
+    wrii t0
+    wris ")="
+    pushparam 0
+    load _n t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_fibon
+    killparam
+    killparam
+    popparam t0
+    wrii t0
+    wrln
+    aload _n t0
+    load _n t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    stop
+endprogram
+
+subroutine program_fibon_recfibon
+  parameters
+    _n
+    _n1
+    _n2
+    static_link
+  endparameters
+
+  variables
+    _aux 4
+  endvariables
+
+    load _n t0
+    iload 0 t1
+    equi t0 t1 t0
+    load _n t1
+    iload 1 t2
+    equi t1 t2 t1
+    loor t0 t1 t0
+    fjmp t0 else_1
+    load _n1 t0
+    iload 1 t1
+    stor t1 t0
+    load _n2 t0
+    iload 1 t1
+    stor t1 t0
+    ujmp endif_1
+  etiq else_1
+    load _n t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    load _n1 t0
+    pushparam t0
+    load _n2 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_fibon_recfibon
+    killparam
+    killparam
+    killparam
+    killparam
+    aload _aux t0
+    load _n1 t1
+    load t1 t1
+    stor t1 t0
+    load _n1 t0
+    load _n2 t1
+    load t1 t1
+    stor t1 t0
+    load _n2 t0
+    load _aux t1
+    load _n2 t2
+    load t2 t2
+    addi t1 t2 t1
+    stor t1 t0
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_fibon
+  parameters
+    returnvalue
+    _n
+    static_link
+  endparameters
+
+  variables
+    _retvalue 4
+    _n1 4
+    _n2 4
+  endvariables
+
+    load _n t0
+    pushparam t0
+    aload _n1 t0
+    pushparam t0
+    aload _n2 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_fibon_recfibon
+    killparam
+    killparam
+    killparam
+    killparam
+    load _n2 t0
+    stor t0 returnvalue
+    retu
+endsubroutine
+
+Executing code:
+Fibonacci(1)=1
+Fibonacci(2)=2
+Fibonacci(3)=3
+Fibonacci(4)=5
+Fibonacci(5)=8
+Fibonacci(6)=13
+Fibonacci(7)=21
+Fibonacci(8)=34
+Fibonacci(9)=55

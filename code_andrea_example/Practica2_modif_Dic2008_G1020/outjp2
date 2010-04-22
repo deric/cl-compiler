@@ -1,0 +1,191 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     a Array[31] of Date
+  4:     s Struct b Bool d Date EndStruct
+  5:     x int
+  6:     y bool
+  7:   ENDVARS
+  8: 
+  9:   Function F(ref d Date) return Date
+ 10:     Vars
+ 11:       d Date
+ 12:     EndVars
+ 13:     x:= day(d)
+ 14:     b:= month(a[d])	
+ 15:     syear(s.d,r)
+ 16:     return a[4+5+d]
+ 17:   EndFunction
+ 18: 
+ 19:   Procedure P(val t Array[12] of Date)
+ 20:     x:=F(s.d)
+ 21:     While x<31 Do
+ 22:       sday(t[x],x)
+ 23:       writeln(day(t[x]))
+ 24: 		writeln(month(s))
+ 25: 		writeln(year(
+ 26: 			F(
+ 27: 				F(s.d)
+ 28: 		)))
+ 29:      EndWhile
+ 30:   EndProcedure
+ 31: 
+ 32:   P(a)
+ 33:   If a[138] > s.d Then
+ 34: 	writeln(s)
+ 35:   EndIf
+ 36:   sday(F(a[3]), b)
+ 37:   smonth(r, x)
+ 38:  EndProgram
+ 39: 
+ 40: 
+
+
+ program
+ | list
+ | | ident(a)
+ | | | array
+ | | | | intconst(31)
+ | | | | date
+ | | ident(s)
+ | | | struct
+ | | | | ident(b)
+ | | | | | bool
+ | | | | ident(d)
+ | | | | | date
+ | | ident(x)
+ | | | int
+ | | ident(y)
+ | | | bool
+ | list
+ | | function
+ | | | ident(F)
+ | | | | list
+ | | | | | ref
+ | | | | | | ident(d)
+ | | | | | | date
+ | | | | date
+ | | | list
+ | | | | ident(d)
+ | | | | | date
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | ident(x)
+ | | | | | day
+ | | | | | | ident(d)
+ | | | | :=
+ | | | | | ident(b)
+ | | | | | month
+ | | | | | | [
+ | | | | | | | ident(a)
+ | | | | | | | ident(d)
+ | | | | syear
+ | | | | | .
+ | | | | | | ident(s)
+ | | | | | | ident(d)
+ | | | | | ident(r)
+ | | | [
+ | | | | ident(a)
+ | | | | +
+ | | | | | +
+ | | | | | | intconst(4)
+ | | | | | | intconst(5)
+ | | | | | ident(d)
+ | | procedure
+ | | | ident(P)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(t)
+ | | | | | | array
+ | | | | | | | intconst(12)
+ | | | | | | | date
+ | | | list
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | ident(x)
+ | | | | | (
+ | | | | | | ident(F)
+ | | | | | | list
+ | | | | | | | .
+ | | | | | | | | ident(s)
+ | | | | | | | | ident(d)
+ | | | | while
+ | | | | | <
+ | | | | | | ident(x)
+ | | | | | | intconst(31)
+ | | | | | list
+ | | | | | | sday
+ | | | | | | | [
+ | | | | | | | | ident(t)
+ | | | | | | | | ident(x)
+ | | | | | | | ident(x)
+ | | | | | | writeln
+ | | | | | | | day
+ | | | | | | | | [
+ | | | | | | | | | ident(t)
+ | | | | | | | | | ident(x)
+ | | | | | | writeln
+ | | | | | | | month
+ | | | | | | | | ident(s)
+ | | | | | | writeln
+ | | | | | | | year
+ | | | | | | | | (
+ | | | | | | | | | ident(F)
+ | | | | | | | | | list
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(F)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | .
+ | | | | | | | | | | | | | ident(s)
+ | | | | | | | | | | | | | ident(d)
+ | list
+ | | (
+ | | | ident(P)
+ | | | list
+ | | | | ident(a)
+ | | if
+ | | | >
+ | | | | [
+ | | | | | ident(a)
+ | | | | | intconst(138)
+ | | | | .
+ | | | | | ident(s)
+ | | | | | ident(d)
+ | | | list
+ | | | | writeln
+ | | | | | ident(s)
+ | | sday
+ | | | (
+ | | | | ident(F)
+ | | | | list
+ | | | | | [
+ | | | | | | ident(a)
+ | | | | | | intconst(3)
+ | | | ident(b)
+ | | smonth
+ | | | ident(r)
+ | | | ident(x)
+
+
+Type Checking:
+
+L. 11: Identifier d already declared.
+L. 14: Identifier b is undeclared.
+L. 14: Operator [] with incompatible types.
+L. 14: Left expression of assignment is not referenceable.
+L. 15: Identifier r is undeclared.
+L. 16: Operator + with incompatible types.
+L. 20: Assignment with incompatible types.
+L. 24: Parameter 1 with incompatible types.
+L. 26: Parameter 1 is expected to be referenceable but it is not.
+L. 32: Parameter 1 with incompatible types.
+L. 33: Operator > with incompatible types.
+L. 34: Basic type required in writeln.
+L. 36: Identifier b is undeclared.
+L. 36: Parameter 1 is expected to be referenceable but it is not.
+L. 37: Identifier r is undeclared.
+L. 37: Parameter 1 is expected to be referenceable but it is not.
+There are errors: no code generated

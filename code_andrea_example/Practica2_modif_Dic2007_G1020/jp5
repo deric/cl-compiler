@@ -1,0 +1,17 @@
+Program
+  Vars
+    X Int
+  EndVars
+  X:=1
+  While X<6 Do
+     Switch X-1
+       Case 0: WriteLn("F")
+       Case 1: WriteLn("G")
+       Case 2: WriteLn("H")
+       Case 3: WriteLn("I")
+       Case 4: WriteLn("J")
+    EndSwitch
+    X:=X+1
+  EndWhile
+EndProgram
+

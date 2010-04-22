@@ -1,0 +1,28 @@
+L. 14: Field c already defined in the struct.
+L. 17: Operator not with incompatible types.
+L. 18: Operator not with incompatible types.
+L. 18: Operator > with incompatible types.
+L. 19: Operator + with incompatible types.
+L. 19: Operator = with incompatible types.
+L. 19: Operator - with incompatible types.
+L. 19: Operator or with incompatible types.
+L. 21: Operator [] with incompatible types.
+L. 21: Operator + with incompatible types.
+L. 21: Assignment with incompatible types.
+L. 24: Operator not with incompatible types.
+L. 24: Operator = with incompatible types.
+L. 24: Operator = with incompatible types.
+L. 25: Field b is not defined in the struct.
+L. 25: Operator / with incompatible types.
+L. 25: Assignment with incompatible types.
+L. 28: Operator > with incompatible types.
+L. 28: Operator = with incompatible types.
+L. 28: Operator = with incompatible types.
+L. 29: Operator > with incompatible types.
+L. 29: Assignment with incompatible types.
+L. 30: Assignment with incompatible types.
+L. 31: Operator + with incompatible types.
+L. 31: Assignment with incompatible types.
+L. 32: Assignment with incompatible types.
+L. 33: Operator array[] with incompatible types.
+L. 33: Operator struct. with incompatible types.

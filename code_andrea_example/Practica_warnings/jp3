@@ -1,0 +1,26 @@
+Program
+  Vars
+    X Int
+    Y Int
+    Z Int
+    W Int
+  EndVars
+  Procedure p1
+    Procedure p
+      Y:=0
+      X:=4 div Z
+      Z:=3 div X
+    EndProcedure
+    X:=0
+    W:=4 div Z
+    Z:=3 div Y
+    Z:=2
+    W:=3 div
+       ((3 div (4-Z))-1)
+  EndProcedure
+  Z:=3 div X
+  Z:=3 div Y
+  X:=2
+  Y:=2 div (2-X)
+  Z:=0
+EndProgram

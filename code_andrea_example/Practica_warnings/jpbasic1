@@ -1,0 +1,45 @@
+PROGRAM
+  VARS
+    x int
+    y real
+    b bool
+    p real
+  ENDVARS
+  PROCEDURE q
+    PROCEDURE p(val p int)
+      p:=3
+      p(3)
+    ENDPROCEDURE
+  ENDPROCEDURE
+  PROCEDURE r(ref p int)
+    PROCEDURE p(val r real)
+      r:=4.5
+      r(x)
+      p:=3
+      p:=3.5
+      p(3)
+    ENDPROCEDURE
+    r:=3
+    r(3)
+    r(p)
+    r(y)
+    r(x)
+    p:=3
+    p:=3.5
+    p(p)
+  ENDPROCEDURE
+  p:=3
+  p:=3.5
+  r(3)
+  p(3.3)
+  IF NOT x THEN
+    WHILE NOT 3>4 DO
+      b:=b>(3>4)
+    ENDWHILE
+  ELSE
+    y:=(3>x) OR (b=b) AND (y=x)
+    b:=NOT NOT NOT (b OR (x>y))
+    x:=6/3
+  ENDIF
+ENDPROGRAM
+

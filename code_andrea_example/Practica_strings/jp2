@@ -1,0 +1,20 @@
+program
+  vars
+    s1 string
+    s2 string
+    i int
+  endvars
+
+  s1 := "hola"
+  read(s2)
+  while "hola" do
+    if s2 then
+      i := i + 1
+      read(i)
+    endif
+  endwhile
+  write(i)
+  write(s2)
+  writeln("adeu")
+  write(aux)
+endprogram

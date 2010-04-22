@@ -1,0 +1,133 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     X INT
+  4:     Y INT
+  5:   ENDVARS
+  6:   PROCEDURE FACT(VAL X INT, REF F INT)
+  7:   VARS 
+  8:     AUX INT
+  9:   ENDVARS
+ 10:     IF X = 1 THEN
+ 11:       F := 1
+ 12:     ELSE
+ 13:       FACT( X-1, AUX )
+ 14:       F := AUX * X
+ 15:     ENDIF
+ 16:   ENDPROCEDURE
+ 17:   X:= 1
+ 18:   WHILE (X < 10) DO
+ 19:     FACT( X, Y )
+ 20:     WRITE(" El factorial de ")
+ 21:     WRITE(X)
+ 22:     WRITE(" es: ")
+ 23:     WRITE(Y)
+ 24:     WRITELN("")
+ 25:     X := X + 1
+ 26:   ENDWHILE
+ 27: ENDPROGRAM
+
+
+ program
+ | list
+ | | ident(X)
+ | | | int
+ | | ident(Y)
+ | | | int
+ | list
+ | | procedure
+ | | | ident(FACT)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(X)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(F)
+ | | | | | | int
+ | | | list
+ | | | | ident(AUX)
+ | | | | | int
+ | | | list
+ | | | list
+ | | | | if
+ | | | | | =
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(F)
+ | | | | | | | intconst(1)
+ | | | | | list
+ | | | | | | (
+ | | | | | | | ident(FACT)
+ | | | | | | | list
+ | | | | | | | | -
+ | | | | | | | | | ident(X)
+ | | | | | | | | | intconst(1)
+ | | | | | | | | ident(AUX)
+ | | | | | | :=
+ | | | | | | | ident(F)
+ | | | | | | | *
+ | | | | | | | | ident(AUX)
+ | | | | | | | | ident(X)
+ | list
+ | | :=
+ | | | ident(X)
+ | | | intconst(1)
+ | | while
+ | | | <
+ | | | | ident(X)
+ | | | | intconst(10)
+ | | | list
+ | | | | (
+ | | | | | ident(FACT)
+ | | | | | list
+ | | | | | | ident(X)
+ | | | | | | ident(Y)
+ | | | | write
+ | | | | | string(" El factorial de ")
+ | | | | write
+ | | | | | ident(X)
+ | | | | write
+ | | | | | string(" es: ")
+ | | | | write
+ | | | | | ident(Y)
+ | | | | writeln
+ | | | | | string("")
+ | | | | :=
+ | | | | | ident(X)
+ | | | | | +
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+  endvariables
+
+    aload _X t0
+    iload 1 t1
+    stor t1 t0
+    stop
+endprogram
+
+subroutine program_FACT
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+Executing code:

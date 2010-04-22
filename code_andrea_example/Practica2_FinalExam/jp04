@@ -1,0 +1,44 @@
+Program
+  Vars
+	A Array [10] Of Int
+	I Int
+  EndVars
+
+Procedure P(ref a Array [10] Of Int)
+	  Vars
+	J Int
+  EndVars
+	J:=-3
+	While J<20 Do
+		If J<0 Then
+			A[J]:=5
+		Else
+			If J>10 Then
+				A[J]:=10
+			EndIf
+		EndIf
+		
+		J := J+1
+  	EndWhile
+  EndProcedure 
+
+I := 0
+WriteLn("Estat inicial")
+While I<10 Do
+    Write(A[I])
+    Write("  ")
+    I := I+1
+  EndWhile
+
+P(A)
+
+WriteLn(" ")
+WriteLn("Cridem al procedure P i queda:")
+I := 0
+While I<10 Do
+    Write(A[I])
+    Write("  ")
+    I := I+1
+  EndWhile
+WriteLn(" ")
+EndProgram

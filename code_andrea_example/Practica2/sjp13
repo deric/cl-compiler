@@ -1,0 +1,198 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     X Int
+  4:     Y Bool
+  5:     Z Struct x int y bool EndStruct
+  6:   ENDVARS
+  7:     Function p(Val X Int) Return Array [10] Of Int
+  8:         Return r
+  9:     EndFunction
+ 10:     Function r() Return Int
+ 11:         Return true
+ 12:     EndFunction
+ 13:     Function s() Return Struct x int y bool EndStruct
+ 14:         Return 3
+ 15:     EndFunction 
+ 16:     Function t() Return Bool
+ 17:         Return s
+ 18:     EndFunction
+ 19:     Function t() Return Bool
+ 20:         Return t
+ 21:     EndFunction
+ 22: 
+ 23:     read(X)
+ 24:     read(Y)
+ 25:     read(p)
+ 26:     read(r)
+ 27:     read(s)
+ 28:     read(Z)
+ 29: 
+ 30:     write(r())
+ 31:     writeln(s())
+ 32:     writeln(Z)
+ 33:     IF X THEN
+ 34:         WHILE Z DO
+ 35: 	   X:=5
+ 36: 	ENDWHILE
+ 37:     ENDIF
+ 38:     IF s() THEN
+ 39:         WHILE X=Y DO
+ 40: 	   Y:=true
+ 41: 	ENDWHILE
+ 42:     ENDIF
+ 43:     IF Z.x=Z THEN
+ 44:         WHILE p() DO
+ 45: 	   Y:=true
+ 46: 	ENDWHILE
+ 47:     ENDIF
+ 48: ENDPROGRAM
+
+
+ program
+ | list
+ | | ident(X)
+ | | | int
+ | | ident(Y)
+ | | | bool
+ | | ident(Z)
+ | | | struct
+ | | | | ident(x)
+ | | | | | int
+ | | | | ident(y)
+ | | | | | bool
+ | list
+ | | function
+ | | | ident(p)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(X)
+ | | | | | | int
+ | | | | array
+ | | | | | intconst(10)
+ | | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | ident(r)
+ | | function
+ | | | ident(r)
+ | | | | list
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | true
+ | | function
+ | | | ident(s)
+ | | | | list
+ | | | | struct
+ | | | | | ident(x)
+ | | | | | | int
+ | | | | | ident(y)
+ | | | | | | bool
+ | | | list
+ | | | list
+ | | | list
+ | | | intconst(3)
+ | | function
+ | | | ident(t)
+ | | | | list
+ | | | | bool
+ | | | list
+ | | | list
+ | | | list
+ | | | ident(s)
+ | | function
+ | | | ident(t)
+ | | | | list
+ | | | | bool
+ | | | list
+ | | | list
+ | | | list
+ | | | ident(t)
+ | list
+ | | read
+ | | | ident(X)
+ | | read
+ | | | ident(Y)
+ | | read
+ | | | ident(p)
+ | | read
+ | | | ident(r)
+ | | read
+ | | | ident(s)
+ | | read
+ | | | ident(Z)
+ | | write
+ | | | (
+ | | | | ident(r)
+ | | | | list
+ | | writeln
+ | | | (
+ | | | | ident(s)
+ | | | | list
+ | | writeln
+ | | | ident(Z)
+ | | if
+ | | | ident(X)
+ | | | list
+ | | | | while
+ | | | | | ident(Z)
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(X)
+ | | | | | | | intconst(5)
+ | | if
+ | | | (
+ | | | | ident(s)
+ | | | | list
+ | | | list
+ | | | | while
+ | | | | | =
+ | | | | | | ident(X)
+ | | | | | | ident(Y)
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(Y)
+ | | | | | | | true
+ | | if
+ | | | =
+ | | | | .
+ | | | | | ident(Z)
+ | | | | | ident(x)
+ | | | | ident(Z)
+ | | | list
+ | | | | while
+ | | | | | (
+ | | | | | | ident(p)
+ | | | | | | list
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | ident(Y)
+ | | | | | | | true
+
+
+Type Checking:
+
+L. 19: Identifier t already declared.
+L. 8: Return with incompatible type.
+L. 11: Return with incompatible type.
+L. 14: Return with incompatible type.
+L. 17: Return with incompatible type.
+L. 20: Return with incompatible type.
+L. 25: Referenceable expression required in read.
+L. 26: Referenceable expression required in read.
+L. 27: Referenceable expression required in read.
+L. 28: Basic type required in read.
+L. 31: Basic type required in writeln.
+L. 32: Basic type required in writeln.
+L. 33: Instruction if requires a boolean condition.
+L. 34: Instruction while requires a boolean condition.
+L. 38: Instruction if requires a boolean condition.
+L. 39: Operator = with incompatible types.
+L. 43: Operator = with incompatible types.
+L. 44: The number of parameters in the call do not match.
+L. 44: Instruction while requires a boolean condition.
+There are errors: no code generated

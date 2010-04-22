@@ -1,0 +1,29 @@
+Program
+  Vars
+    n Int
+  EndVars
+  Function fibon(Val n Int) Return Int
+    Vars
+      retvalue Int
+      n1 Int
+      n2 Int
+    EndVars
+    Procedure recfibon(Val n Int,Ref n1 Int,Ref n2 Int)
+      Vars
+        aux Int
+      EndVars
+      If n=0 Or n=1 Then  n1:=1  n2:=1
+      Else
+        recfibon(n-1,n1,n2)
+        aux:=n1  n1:=n2  n2:=aux+n2
+      EndIf
+    EndProcedure
+    recfibon(n,n1,n2)
+    Return n2
+  EndFunction
+  n:=1
+  While (n<10) Do
+    Write("Fibonacci(") Write(n) Write(")=") WriteLn(fibon(n))
+    n:=n+1
+  EndWhile
+EndProgram

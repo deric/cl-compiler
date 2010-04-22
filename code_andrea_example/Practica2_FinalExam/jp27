@@ -1,0 +1,25 @@
+PROGRAM
+  VARS
+    X INT
+    Y INT
+  ENDVARS
+  FUNCTION FACT(VAL X INT) RETURN INT
+  VARS 
+    F INT
+  ENDVARS
+    IF X = 1 THEN
+      F := 1
+    ELSE
+      F := FACT(X-1) * X
+    ENDIF
+    RETURN F
+  ENDFUNCTION
+  X:= 1
+  WHILE (X < 10) DO
+    WRITE(" El factorial de ")
+    WRITE(X)
+    WRITE(" es: ")
+    WRITELN(FACT(X))
+    X := X+1
+  ENDWHILE
+ENDPROGRAM

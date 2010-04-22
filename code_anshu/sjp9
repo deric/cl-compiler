@@ -1,0 +1,272 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x Int
+  4:     y Struct
+  5: 	  x Int
+  6: 	  y Bool
+  7: 	EndStruct
+  8:     b Bool
+  9:   ENDVARS
+ 10:   PROCEDURE p()
+ 11:     PROCEDURE p1(val a Struct y Bool x Int EndStruct)
+ 12:       PROCEDURE p11(ref y Struct x Bool EndStruct)
+ 13:         p:=3
+ 14:         p12()
+ 15:         p2()
+ 16:         p2(y,y.x)
+ 17:         p2(y)
+ 18:         p22()
+ 19:       ENDPROCEDURE
+ 20:       PROCEDURE p12()
+ 21:         p11(y)
+ 22:         p11(y.y)
+ 23:         p11(y,1)
+ 24:       ENDPROCEDURE
+ 25:     ENDPROCEDURE
+ 26:     PROCEDURE p2(ref e Struct b Int x bool EndStruct)
+ 27:       VARS
+ 28:         v Int
+ 29: 	  b Struct 
+ 30: 		n Int
+ 31: 	    EndStruct
+ 32: 	  a Struct 
+ 33: 		n Int 
+ 34: 		n Bool
+ 35: 	    EndStruct
+ 36:       ENDVARS
+ 37:       PROCEDURE p22()
+ 38:         w:=v+p12
+ 39:         v:=y.y+y.x
+ 40:         v:=3/y.y
+ 41: 	v:=3/y.x
+ 42:         p11(3)
+ 43:         p()
+ 44: 	b.x:=b.n
+ 45:       ENDPROCEDURE
+ 46: 	v:=y.y+y.x
+ 47:         y.x:=y.y
+ 48: 	y.y:=2*y.x+x
+ 49:     ENDPROCEDURE
+ 50:   ENDPROCEDURE
+ 51:   p22()
+ 52: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__int
+    |      |                 \__ident(y)
+    |      |                          \__bool
+    |      \__ident(b)
+    |               \__bool
+    \__list
+    |      \__procedure
+    |                  \__ident(p)
+    |                  |        \__list
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |      |           \__ident(p1)
+    |                  |      |           |         \__list
+    |                  |      |           |                \__val
+    |                  |      |           |                      \__ident(a)
+    |                  |      |           |                      \__struct
+    |                  |      |           |                               \__ident(y)
+    |                  |      |           |                               |        \__bool
+    |                  |      |           |                               \__ident(x)
+    |                  |      |           |                                        \__int
+    |                  |      |           \__list
+    |                  |      |           \__list
+    |                  |      |           |      \__procedure
+    |                  |      |           |      |           \__ident(p11)
+    |                  |      |           |      |           |          \__list
+    |                  |      |           |      |           |                 \__ref
+    |                  |      |           |      |           |                       \__ident(y)
+    |                  |      |           |      |           |                       \__struct
+    |                  |      |           |      |           |                                \__ident(x)
+    |                  |      |           |      |           |                                         \__bool
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |           \__list
+    |                  |      |           |      |                  \__:=
+    |                  |      |           |      |                  |    \__ident(p)
+    |                  |      |           |      |                  |    \__intconst(3)
+    |                  |      |           |      |                  \__(
+    |                  |      |           |      |                  |   \__ident(p12)
+    |                  |      |           |      |                  |   \__list
+    |                  |      |           |      |                  \__(
+    |                  |      |           |      |                  |   \__ident(p2)
+    |                  |      |           |      |                  |   \__list
+    |                  |      |           |      |                  \__(
+    |                  |      |           |      |                  |   \__ident(p2)
+    |                  |      |           |      |                  |   \__list
+    |                  |      |           |      |                  |          \__ident(y)
+    |                  |      |           |      |                  |          \__.
+    |                  |      |           |      |                  |              \__ident(y)
+    |                  |      |           |      |                  |              \__ident(x)
+    |                  |      |           |      |                  \__(
+    |                  |      |           |      |                  |   \__ident(p2)
+    |                  |      |           |      |                  |   \__list
+    |                  |      |           |      |                  |          \__ident(y)
+    |                  |      |           |      |                  \__(
+    |                  |      |           |      |                      \__ident(p22)
+    |                  |      |           |      |                      \__list
+    |                  |      |           |      \__procedure
+    |                  |      |           |                  \__ident(p12)
+    |                  |      |           |                  |          \__list
+    |                  |      |           |                  \__list
+    |                  |      |           |                  \__list
+    |                  |      |           |                  \__list
+    |                  |      |           |                         \__(
+    |                  |      |           |                         |   \__ident(p11)
+    |                  |      |           |                         |   \__list
+    |                  |      |           |                         |          \__ident(y)
+    |                  |      |           |                         \__(
+    |                  |      |           |                         |   \__ident(p11)
+    |                  |      |           |                         |   \__list
+    |                  |      |           |                         |          \__.
+    |                  |      |           |                         |              \__ident(y)
+    |                  |      |           |                         |              \__ident(y)
+    |                  |      |           |                         \__(
+    |                  |      |           |                             \__ident(p11)
+    |                  |      |           |                             \__list
+    |                  |      |           |                                    \__ident(y)
+    |                  |      |           |                                    \__intconst(1)
+    |                  |      |           \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(p2)
+    |                  |                  |         \__list
+    |                  |                  |                \__ref
+    |                  |                  |                      \__ident(e)
+    |                  |                  |                      \__struct
+    |                  |                  |                               \__ident(b)
+    |                  |                  |                               |        \__int
+    |                  |                  |                               \__ident(x)
+    |                  |                  |                                        \__bool
+    |                  |                  \__list
+    |                  |                  |      \__ident(v)
+    |                  |                  |      |        \__int
+    |                  |                  |      \__ident(b)
+    |                  |                  |      |        \__struct
+    |                  |                  |      |                 \__ident(n)
+    |                  |                  |      |                          \__int
+    |                  |                  |      \__ident(a)
+    |                  |                  |               \__struct
+    |                  |                  |                        \__ident(n)
+    |                  |                  |                        |        \__int
+    |                  |                  |                        \__ident(n)
+    |                  |                  |                                 \__bool
+    |                  |                  \__list
+    |                  |                  |      \__procedure
+    |                  |                  |                  \__ident(p22)
+    |                  |                  |                  |          \__list
+    |                  |                  |                  \__list
+    |                  |                  |                  \__list
+    |                  |                  |                  \__list
+    |                  |                  |                         \__:=
+    |                  |                  |                         |    \__ident(w)
+    |                  |                  |                         |    \__+
+    |                  |                  |                         |        \__ident(v)
+    |                  |                  |                         |        \__ident(p12)
+    |                  |                  |                         \__:=
+    |                  |                  |                         |    \__ident(v)
+    |                  |                  |                         |    \__+
+    |                  |                  |                         |        \__.
+    |                  |                  |                         |        |   \__ident(y)
+    |                  |                  |                         |        |   \__ident(y)
+    |                  |                  |                         |        \__.
+    |                  |                  |                         |            \__ident(y)
+    |                  |                  |                         |            \__ident(x)
+    |                  |                  |                         \__:=
+    |                  |                  |                         |    \__ident(v)
+    |                  |                  |                         |    \__/
+    |                  |                  |                         |        \__intconst(3)
+    |                  |                  |                         |        \__.
+    |                  |                  |                         |            \__ident(y)
+    |                  |                  |                         |            \__ident(y)
+    |                  |                  |                         \__:=
+    |                  |                  |                         |    \__ident(v)
+    |                  |                  |                         |    \__/
+    |                  |                  |                         |        \__intconst(3)
+    |                  |                  |                         |        \__.
+    |                  |                  |                         |            \__ident(y)
+    |                  |                  |                         |            \__ident(x)
+    |                  |                  |                         \__(
+    |                  |                  |                         |   \__ident(p11)
+    |                  |                  |                         |   \__list
+    |                  |                  |                         |          \__intconst(3)
+    |                  |                  |                         \__(
+    |                  |                  |                         |   \__ident(p)
+    |                  |                  |                         |   \__list
+    |                  |                  |                         \__:=
+    |                  |                  |                              \__.
+    |                  |                  |                              |   \__ident(b)
+    |                  |                  |                              |   \__ident(x)
+    |                  |                  |                              \__.
+    |                  |                  |                                  \__ident(b)
+    |                  |                  |                                  \__ident(n)
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(v)
+    |                  |                         |    \__+
+    |                  |                         |        \__.
+    |                  |                         |        |   \__ident(y)
+    |                  |                         |        |   \__ident(y)
+    |                  |                         |        \__.
+    |                  |                         |            \__ident(y)
+    |                  |                         |            \__ident(x)
+    |                  |                         \__:=
+    |                  |                         |    \__.
+    |                  |                         |    |   \__ident(y)
+    |                  |                         |    |   \__ident(x)
+    |                  |                         |    \__.
+    |                  |                         |        \__ident(y)
+    |                  |                         |        \__ident(y)
+    |                  |                         \__:=
+    |                  |                              \__.
+    |                  |                              |   \__ident(y)
+    |                  |                              |   \__ident(y)
+    |                  |                              \__+
+    |                  |                                  \__*
+    |                  |                                  |   \__intconst(2)
+    |                  |                                  |   \__.
+    |                  |                                  |       \__ident(y)
+    |                  |                                  |       \__ident(x)
+    |                  |                                  \__ident(x)
+    |                  \__list
+    \__list
+           \__(
+               \__ident(p22)
+               \__list
+
+
+Type Checking:
+
+L. 13: Left expression of assignment is not referenceable.
+L. 15: The number of parameters in the call do not match.
+L. 16: The number of parameters in the call do not match.
+L. 17: Parameter 1 with incompatible types.
+L. 18: Identifier p22 is undeclared.
+L. 21: Parameter 1 with incompatible types.
+L. 22: Parameter 1 with incompatible types.
+L. 23: The number of parameters in the call do not match.
+L. 34: Field n already defined in the struct.
+L. 38: Identifier w is undeclared.
+L. 38: Identifier p12 is undeclared.
+L. 38: Left expression of assignment is not referenceable.
+L. 39: Operator + with incompatible types.
+L. 40: Operator / with incompatible types.
+L. 42: Identifier p11 is undeclared.
+L. 44: Field x is not defined in the struct.
+L. 46: Operator + with incompatible types.
+L. 47: Assignment with incompatible types.
+L. 48: Assignment with incompatible types.
+L. 51: Identifier p22 is undeclared.
+There are errors: no code generated

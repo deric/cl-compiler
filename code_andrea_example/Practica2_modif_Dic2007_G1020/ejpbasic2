@@ -1,0 +1,28 @@
+L. 8: Field c already defined in the struct.
+L. 9: Field c already defined in the struct.
+L. 13: Field c already defined in the struct. 
+L. 12: Identifier c already declared.
+L. 17: Instruction If requires a boolean condition.
+L. 18: Instruction While requires a boolean condition.
+L. 24: Instruction If requires a boolean condition.
+L. 19: Operator struct. with uncompatible types.
+L. 20: Operator not with uncompatible types.
+L. 20: Operator struct. with uncompatible types.
+L. 21: Operator struct. with uncompatible types.
+L. 24: Operator struct. with uncompatible types.
+L. 25: Operator struct. with uncompatible types.
+L. 29: Operator struct. with uncompatible types.
+L. 21: Operator array[] with uncompatible types.
+L. 25: Operator [] with uncompatible types.
+L. 30: Operator [] with uncompatible types.
+L. 31: Operator [] with uncompatible types.
+L. 33: Operator [] with uncompatible types.
+L. 25: Field c is not defined in the struct.
+L. 25: Operator * with uncompatible types.
+L. 25: Operator - with uncompatible types.
+L. 29: Operator not with uncompatible types.
+L. 30: Left expression of assignment is not referenceable.
+L. 31: Left expression of assignment is not referenceable.
+L. 32: Left expression of assignment is not referenceable.
+L. 31: Operator struct. with uncompatible types.
+L. 31: Operator array[] with uncompatible types.

@@ -1,0 +1,3 @@
+ gcc -o example0 -I /usr/include/pccts/ example0.c scan.c err.c -L /usr/include/pccts -lantlr
+
+Es suposa que s'ha instal·lat el PCCTS a /usr/include

@@ -1,0 +1,636 @@
+
+
+  1: PROGRAM
+  2: VARS
+  3:   f INT
+  4:   f1 INT
+  5:   f2 INT
+  6:   f3 INT
+  7:   m INT
+  8:   r INT
+  9:   aux INT
+ 10: ENDVARS
+ 11: 
+ 12:  PROCEDURE fact(VAL n INT, REF z INT, REF f INT)
+ 13:     PROCEDURE mult(REF a INT, REF b INT, REF p INT)
+ 14:       IF a=0 THEN  p:=0
+ 15:       ELSE IF a>0 THEN  a:=a-1
+ 16:                         mult(a,b,p)
+ 17:                         p:=p+b
+ 18:            ENDIF
+ 19:       ENDIF
+ 20:     ENDPROCEDURE
+ 21:     PROCEDURE gfact(VAL y INT, VAL w INT, VAL n INT, REF f INT)
+ 22:     VARS
+ 23:       p INT
+ 24:       aux INT
+ 25:     ENDVARS
+ 26:       IF y=0 THEN f:=w
+ 27:       ELSE IF y>0 THEN  aux:=y
+ 28:                         mult(y,w,p)
+ 29:                         y:=aux
+ 30:                         gfact(y-1,p,n,f)
+ 31:            ENDIF
+ 32:       ENDIF
+ 33:     ENDPROCEDURE
+ 34:     gfact(n,1,z,f)
+ 35:  ENDPROCEDURE
+ 36: 
+ 37:  PROCEDURE F(VAL n INT, REF f1 INT, REF f2 INT, REF f3 INT, VAL f4 INT)
+ 38:    PROCEDURE fibon(VAL n INT, REF f INT, REF f1 INT)
+ 39:      IF n=1 THEN  f:=1   f1:=0
+ 40:      ELSE IF n>1 THEN
+ 41:               fibon(n-1,f,f1)
+ 42:               aux:=f
+ 43:               f:=aux+f1
+ 44:               f1:=aux
+ 45:          ENDIF
+ 46:      ENDIF
+ 47:    ENDPROCEDURE
+ 48: 
+ 49:    PROCEDURE fibon2(VAL n INT, REF f INT)
+ 50:    VARS
+ 51:      f1 INT
+ 52:      f2 INT
+ 53:    ENDVARS
+ 54:       IF n=0 THEN  f:=0
+ 55:       ELSE IF n=1 THEN  f:=1
+ 56:            ELSE IF n>1 THEN
+ 57:                     fibon2(n-1,f1)
+ 58:                     fibon2(n-2,f2)
+ 59:                     f:=f1+f2
+ 60:                 ENDIF
+ 61:            ENDIF
+ 62:       ENDIF
+ 63:    ENDPROCEDURE
+ 64: 
+ 65:   fibon(n,f1,f2)
+ 66:   fibon2(n,f4)
+ 67:   f3:=f4
+ 68:  ENDPROCEDURE
+ 69: 
+ 70:  PROCEDURE trad(VAL n INT, REF m INT)
+ 71:    PROCEDURE dividir(VAL a INT, VAL b INT, REF c INT, REF r INT)
+ 72:      IF a<b THEN  c:=0  r:=a
+ 73:      ELSE
+ 74:           dividir(a,2*b,c,r)
+ 75:           IF r<b THEN c:=2*c
+ 76:           ELSE  c:=2*c+1
+ 77:                 r:=r-b
+ 78:           ENDIF
+ 79:      ENDIF
+ 80:    ENDPROCEDURE
+ 81:    PROCEDURE gtrad(VAL u INT, VAL v INT, VAL w INT, VAL q INT, REF m INT)
+ 82:      IF w=0 THEN m:=u
+ 83:      ELSE IF w>0 THEN
+ 84:               dividir(w,2,q,r)
+ 85:               gtrad(u+v*r, v*10, q,q,m)
+ 86:           ENDIF
+ 87:      ENDIF
+ 88:    ENDPROCEDURE
+ 89:   m:=0
+ 90:   gtrad(m,m+1,n,m,m)
+ 91:  ENDPROCEDURE
+ 92: 
+ 93:  aux:=6
+ 94:  fact(aux,aux,f)
+ 95:     WRITELN(f)
+ 96: 
+ 97:  F(8,f1,f2,f3,96)
+ 98:    IF f1=f3 THEN
+ 99:       WRITE(f1) WRITE("  ")  WRITELN(f2)
+100:    ENDIF
+101: 
+102:  trad(19,m)
+103:     WRITELN(m)
+104: ENDPROGRAM
+
+
+ program
+ | list
+ | | ident(f)
+ | | | int
+ | | ident(f1)
+ | | | int
+ | | ident(f2)
+ | | | int
+ | | ident(f3)
+ | | | int
+ | | ident(m)
+ | | | int
+ | | ident(r)
+ | | | int
+ | | ident(aux)
+ | | | int
+ | list
+ | | procedure
+ | | | ident(fact)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(n)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(z)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(f)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | procedure
+ | | | | | ident(mult)
+ | | | | | | list
+ | | | | | | | ref
+ | | | | | | | | ident(a)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(b)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(p)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(a)
+ | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(p)
+ | | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | if
+ | | | | | | | | | >
+ | | | | | | | | | | ident(a)
+ | | | | | | | | | | intconst(0)
+ | | | | | | | | | list
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(a)
+ | | | | | | | | | | | -
+ | | | | | | | | | | | | ident(a)
+ | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(mult)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | ident(a)
+ | | | | | | | | | | | | ident(b)
+ | | | | | | | | | | | | ident(p)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(p)
+ | | | | | | | | | | | +
+ | | | | | | | | | | | | ident(p)
+ | | | | | | | | | | | | ident(b)
+ | | | | procedure
+ | | | | | ident(gfact)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(y)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(w)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(n)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(f)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | | ident(p)
+ | | | | | | | int
+ | | | | | | ident(aux)
+ | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(y)
+ | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(f)
+ | | | | | | | | | ident(w)
+ | | | | | | | list
+ | | | | | | | | if
+ | | | | | | | | | >
+ | | | | | | | | | | ident(y)
+ | | | | | | | | | | intconst(0)
+ | | | | | | | | | list
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(aux)
+ | | | | | | | | | | | ident(y)
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(mult)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | ident(y)
+ | | | | | | | | | | | | ident(w)
+ | | | | | | | | | | | | ident(p)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(y)
+ | | | | | | | | | | | ident(aux)
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(gfact)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | -
+ | | | | | | | | | | | | | ident(y)
+ | | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | | | ident(p)
+ | | | | | | | | | | | | ident(n)
+ | | | | | | | | | | | | ident(f)
+ | | | list
+ | | | | (
+ | | | | | ident(gfact)
+ | | | | | list
+ | | | | | | ident(n)
+ | | | | | | intconst(1)
+ | | | | | | ident(z)
+ | | | | | | ident(f)
+ | | procedure
+ | | | ident(F)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(n)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(f1)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(f2)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(f3)
+ | | | | | | int
+ | | | | | val
+ | | | | | | ident(f4)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | procedure
+ | | | | | ident(fibon)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(n)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(f)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(f1)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(n)
+ | | | | | | | | intconst(1)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(f)
+ | | | | | | | | | intconst(1)
+ | | | | | | | | :=
+ | | | | | | | | | ident(f1)
+ | | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | if
+ | | | | | | | | | >
+ | | | | | | | | | | ident(n)
+ | | | | | | | | | | intconst(1)
+ | | | | | | | | | list
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(fibon)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | -
+ | | | | | | | | | | | | | ident(n)
+ | | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | | | ident(f)
+ | | | | | | | | | | | | ident(f1)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(aux)
+ | | | | | | | | | | | ident(f)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(f)
+ | | | | | | | | | | | +
+ | | | | | | | | | | | | ident(aux)
+ | | | | | | | | | | | | ident(f1)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(f1)
+ | | | | | | | | | | | ident(aux)
+ | | | | procedure
+ | | | | | ident(fibon2)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(n)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(f)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | | ident(f1)
+ | | | | | | | int
+ | | | | | | ident(f2)
+ | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(n)
+ | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(f)
+ | | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | if
+ | | | | | | | | | =
+ | | | | | | | | | | ident(n)
+ | | | | | | | | | | intconst(1)
+ | | | | | | | | | list
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(f)
+ | | | | | | | | | | | intconst(1)
+ | | | | | | | | | list
+ | | | | | | | | | | if
+ | | | | | | | | | | | >
+ | | | | | | | | | | | | ident(n)
+ | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | (
+ | | | | | | | | | | | | | ident(fibon2)
+ | | | | | | | | | | | | | list
+ | | | | | | | | | | | | | | -
+ | | | | | | | | | | | | | | | ident(n)
+ | | | | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | | | | | ident(f1)
+ | | | | | | | | | | | | (
+ | | | | | | | | | | | | | ident(fibon2)
+ | | | | | | | | | | | | | list
+ | | | | | | | | | | | | | | -
+ | | | | | | | | | | | | | | | ident(n)
+ | | | | | | | | | | | | | | | intconst(2)
+ | | | | | | | | | | | | | | ident(f2)
+ | | | | | | | | | | | | :=
+ | | | | | | | | | | | | | ident(f)
+ | | | | | | | | | | | | | +
+ | | | | | | | | | | | | | | ident(f1)
+ | | | | | | | | | | | | | | ident(f2)
+ | | | list
+ | | | | (
+ | | | | | ident(fibon)
+ | | | | | list
+ | | | | | | ident(n)
+ | | | | | | ident(f1)
+ | | | | | | ident(f2)
+ | | | | (
+ | | | | | ident(fibon2)
+ | | | | | list
+ | | | | | | ident(n)
+ | | | | | | ident(f4)
+ | | | | :=
+ | | | | | ident(f3)
+ | | | | | ident(f4)
+ | | procedure
+ | | | ident(trad)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(n)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(m)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | procedure
+ | | | | | ident(dividir)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(a)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(b)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(c)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(r)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | <
+ | | | | | | | | ident(a)
+ | | | | | | | | ident(b)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(c)
+ | | | | | | | | | intconst(0)
+ | | | | | | | | :=
+ | | | | | | | | | ident(r)
+ | | | | | | | | | ident(a)
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(dividir)
+ | | | | | | | | | list
+ | | | | | | | | | | ident(a)
+ | | | | | | | | | | *
+ | | | | | | | | | | | intconst(2)
+ | | | | | | | | | | | ident(b)
+ | | | | | | | | | | ident(c)
+ | | | | | | | | | | ident(r)
+ | | | | | | | | if
+ | | | | | | | | | <
+ | | | | | | | | | | ident(r)
+ | | | | | | | | | | ident(b)
+ | | | | | | | | | list
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(c)
+ | | | | | | | | | | | *
+ | | | | | | | | | | | | intconst(2)
+ | | | | | | | | | | | | ident(c)
+ | | | | | | | | | list
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(c)
+ | | | | | | | | | | | +
+ | | | | | | | | | | | | *
+ | | | | | | | | | | | | | intconst(2)
+ | | | | | | | | | | | | | ident(c)
+ | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | :=
+ | | | | | | | | | | | ident(r)
+ | | | | | | | | | | | -
+ | | | | | | | | | | | | ident(r)
+ | | | | | | | | | | | | ident(b)
+ | | | | procedure
+ | | | | | ident(gtrad)
+ | | | | | | list
+ | | | | | | | val
+ | | | | | | | | ident(u)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(v)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(w)
+ | | | | | | | | int
+ | | | | | | | val
+ | | | | | | | | ident(q)
+ | | | | | | | | int
+ | | | | | | | ref
+ | | | | | | | | ident(m)
+ | | | | | | | | int
+ | | | | | list
+ | | | | | list
+ | | | | | list
+ | | | | | | if
+ | | | | | | | =
+ | | | | | | | | ident(w)
+ | | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | :=
+ | | | | | | | | | ident(m)
+ | | | | | | | | | ident(u)
+ | | | | | | | list
+ | | | | | | | | if
+ | | | | | | | | | >
+ | | | | | | | | | | ident(w)
+ | | | | | | | | | | intconst(0)
+ | | | | | | | | | list
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(dividir)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | ident(w)
+ | | | | | | | | | | | | intconst(2)
+ | | | | | | | | | | | | ident(q)
+ | | | | | | | | | | | | ident(r)
+ | | | | | | | | | | (
+ | | | | | | | | | | | ident(gtrad)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | +
+ | | | | | | | | | | | | | ident(u)
+ | | | | | | | | | | | | | *
+ | | | | | | | | | | | | | | ident(v)
+ | | | | | | | | | | | | | | ident(r)
+ | | | | | | | | | | | | *
+ | | | | | | | | | | | | | ident(v)
+ | | | | | | | | | | | | | intconst(10)
+ | | | | | | | | | | | | ident(q)
+ | | | | | | | | | | | | ident(q)
+ | | | | | | | | | | | | ident(m)
+ | | | list
+ | | | | :=
+ | | | | | ident(m)
+ | | | | | intconst(0)
+ | | | | (
+ | | | | | ident(gtrad)
+ | | | | | list
+ | | | | | | ident(m)
+ | | | | | | +
+ | | | | | | | ident(m)
+ | | | | | | | intconst(1)
+ | | | | | | ident(n)
+ | | | | | | ident(m)
+ | | | | | | ident(m)
+ | list
+ | | :=
+ | | | ident(aux)
+ | | | intconst(6)
+ | | (
+ | | | ident(fact)
+ | | | list
+ | | | | ident(aux)
+ | | | | ident(aux)
+ | | | | ident(f)
+ | | writeln
+ | | | ident(f)
+ | | (
+ | | | ident(F)
+ | | | list
+ | | | | intconst(8)
+ | | | | ident(f1)
+ | | | | ident(f2)
+ | | | | ident(f3)
+ | | | | intconst(96)
+ | | if
+ | | | =
+ | | | | ident(f1)
+ | | | | ident(f3)
+ | | | list
+ | | | | write
+ | | | | | ident(f1)
+ | | | | write
+ | | | | | string("  ")
+ | | | | writeln
+ | | | | | ident(f2)
+ | | (
+ | | | ident(trad)
+ | | | list
+ | | | | intconst(19)
+ | | | | ident(m)
+ | | writeln
+ | | | ident(m)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _f 4
+    _f1 4
+    _f2 4
+    _f3 4
+    _m 4
+    _r 4
+    _aux 4
+  endvariables
+
+    aload _aux t0
+    iload 6 t1
+    stor t1 t0
+    load _f t0
+    wrii t0
+    wrln
+    load _m t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_fact
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_F
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_trad
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+Executing code:
+0
+0

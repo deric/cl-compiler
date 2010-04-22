@@ -1,0 +1,31 @@
+Program
+  Vars
+    X Int
+    B Bool
+    A Array [10] Of Int
+    S Struct
+        A Array[10] Of Int
+        X Int
+        B Bool
+      EndStruct
+  EndVars
+  Switch 3
+    Case 5:
+      X:=X+1
+      Switch A[3]
+        Case S:
+          S.A:=A
+        Default:
+          S.B:=X
+      EndSwitch
+    Case True:
+      A[5]:=S.X
+    Default:
+      Switch A
+        Case A:
+          S.X:=A
+        Default:
+          B:=True
+      EndSwitch
+  EndSwitch
+EndProgram

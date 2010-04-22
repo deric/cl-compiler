@@ -1,0 +1,22 @@
+Program
+  Vars
+    X Int
+    Y Int
+    Z Int
+  EndVars
+  Y:=3 div 0
+  X:=1 div 2
+  X:=2 div (4-2)
+  Y:=3 div
+     ((3 div (4-2))-1)
+  Z:=2-5-2
+  X:=2
+     div
+     (2 div 3)
+  X:=3 div (3 div 2)
+  X:=3 div
+     (4 div (3-3))
+  X:=3 div Z
+  X:=4 div (Z-D)
+  Y:=Y div (4-3-1)
+EndProgram

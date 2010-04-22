@@ -1,0 +1,55 @@
+
+
+  1: program
+  2:   vars
+  3:     s1 string
+  4:     s2 string
+  5:     i int
+  6:   endvars
+  7: 
+  8:   s1 := s2
+  9:   s1 := i
+ 10:   s1 := a
+ 11:   i := s2
+ 12:   a := s2
+ 13:   read(s1)
+ 14: endprogram
+
+
+ program
+ | list
+ | | ident(s1)
+ | | | string(string)
+ | | ident(s2)
+ | | | string(string)
+ | | ident(i)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(s1)
+ | | | ident(s2)
+ | | :=
+ | | | ident(s1)
+ | | | ident(i)
+ | | :=
+ | | | ident(s1)
+ | | | ident(a)
+ | | :=
+ | | | ident(i)
+ | | | ident(s2)
+ | | :=
+ | | | ident(a)
+ | | | ident(s2)
+ | | read
+ | | | ident(s1)
+
+
+Type Checking:
+
+L. 9: Assignment with incompatible types.
+L. 10: Identifier a is undeclared.
+L. 11: Assignment with incompatible types.
+L. 12: Identifier a is undeclared.
+L. 12: Left expression of assignment is not referenceable.
+There are errors: no code generated

@@ -1,0 +1,8 @@
+Program
+	Vars
+		i Int
+	EndVars
+
+	i[1:2] :=
+		a[1:5][1]
+EndProgram

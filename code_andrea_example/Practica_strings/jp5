@@ -1,0 +1,13 @@
+program
+  vars
+    s string
+    i int
+  endvars
+
+  i := 3
+  s := "holahola"
+  s := substr(s, i + 1, 6)
+  s := substr(s, i + 2)
+  i := substr(i, s, s)
+  i := substr(i, s)
+endprogram

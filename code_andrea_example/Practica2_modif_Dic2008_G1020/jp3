@@ -1,0 +1,29 @@
+PROGRAM
+  VARS
+    a Date
+       x int
+    y int
+	z int
+  ENDVARS
+	sday(a,7)
+smonth(a,2)
+syear(a,1987)
+	x:=day(a)
+        y:=month(a)
+z:=year(a)
+	writeln(x)
+writeln(y)
+writeln(z)
+a:=#7/2/1987
+a:=#7/2/1901
+a:=#6/7/1987
+a:=#20/1/2008
+
+x:=day(a)
+y:=month(a)
+z:=year(a)
+writeln(x)
+writeln(y)
+writeln(z)
+EndProgram
+

@@ -1,0 +1,149 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:   EndVars
+  5:   X:=1
+  6:   While X<6 Do
+  7:      Switch X-1
+  8:        Case 0: WriteLn("F")
+  9:        Case 1: WriteLn("G")
+ 10:        Case 2: WriteLn("H")
+ 11:        Case 3: WriteLn("I")
+ 12:        Case 4: WriteLn("J")
+ 13:     EndSwitch
+ 14:     X:=X+1
+ 15:   EndWhile
+ 16: EndProgram
+ 17: 
+ 18: 
+
+
+ program
+ | list
+ | | ident(X)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(X)
+ | | | intconst(1)
+ | | while
+ | | | <
+ | | | | ident(X)
+ | | | | intconst(6)
+ | | | list
+ | | | | switch
+ | | | | | -
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+ | | | | | list
+ | | | | | | case
+ | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("F")
+ | | | | | | case
+ | | | | | | | intconst(1)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("G")
+ | | | | | | case
+ | | | | | | | intconst(2)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("H")
+ | | | | | | case
+ | | | | | | | intconst(3)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("I")
+ | | | | | | case
+ | | | | | | | intconst(4)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("J")
+ | | | | :=
+ | | | | | ident(X)
+ | | | | | +
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+  endvariables
+
+    aload _X t0
+    iload 1 t1
+    stor t1 t0
+  etiq while_1
+    load _X t0
+    iload 6 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+  etiq switch_0
+    load _X t0
+    iload 1 t1
+    subi t0 t1 t0
+    iload 0 t1
+    equi t0 t1 t2
+    fjmp t2 next_1
+    wris "F"
+    wrln
+    ujmp endswitch_0
+  etiq next_1
+    iload 1 t1
+    equi t0 t1 t2
+    fjmp t2 next_2
+    wris "G"
+    wrln
+    ujmp endswitch_0
+  etiq next_2
+    iload 2 t1
+    equi t0 t1 t2
+    fjmp t2 next_3
+    wris "H"
+    wrln
+    ujmp endswitch_0
+  etiq next_3
+    iload 3 t1
+    equi t0 t1 t2
+    fjmp t2 next_4
+    wris "I"
+    wrln
+    ujmp endswitch_0
+  etiq next_4
+    iload 4 t1
+    equi t0 t1 t2
+    fjmp t2 next_5
+    wris "J"
+    wrln
+    ujmp endswitch_0
+  etiq next_5
+  etiq endswitch_0
+    aload _X t0
+    load _X t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    stop
+endprogram
+
+Executing code:
+F
+G
+H
+I
+J

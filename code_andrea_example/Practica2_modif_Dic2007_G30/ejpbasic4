@@ -1,0 +1,25 @@
+L. 16: Identifier p is a procedure and hence it can not be evaluated.
+L. 17: Identifier p is a procedure and hence it can not be evaluated.
+L. 18: Identifier p is a procedure and hence it can not be evaluated.
+L. 25: Identifier p is a procedure and hence it can not be evaluated.
+L. 26: Identifier p is a procedure and hence it can not be evaluated.
+L. 27: Identifier p is a procedure and hence it can not be evaluated.
+L. 20: The number of parameters in the call do not match.
+L. 30: The number of parameters in the call do not match.
+L. 31: The number of parameters in the call do not match.
+L. 32: The number of parameters in the call do not match.
+L. 27: Operator array[] with uncompatible types.
+L. 30: Operator array[] with uncompatible types.
+L. 31: Operator array[] with uncompatible types.
+L. 32: Operator array[] with uncompatible types.
+L. 30: Field a is not defined in the struct.
+L. 31: Field a is not defined in the struct.
+L. 31: Field b is not defined in the struct.
+L. 32: Field b is not defined in the struct.
+L. 29: Field y is not defined in the struct.
+L. 30: Operator [] with uncompatible types.
+L. 32: Operator [] with uncompatible types.
+L. 31: Operator [] with uncompatible types.
+L. 22: Operator + with uncompatible types.
+L. 30: Operator struct. with uncompatible types.
+L. 19: Operator struct. with uncompatible types.

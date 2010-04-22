@@ -1,0 +1,149 @@
+
+
+  1: program
+  2:   vars
+  3:     s1 string
+  4:     s2 string
+  5:     i int
+  6:     r int
+  7:     b bool
+  8:   endvars
+  9: 
+ 10:   s1 := "holahola"
+ 11:   i := 4
+ 12:   writeln(s2 + "iAdeu")
+ 13:   write(i + s2)
+ 14:   write(s1 + i)
+ 15:   s1 := s1 + s2 + "fi"
+ 16:   if s1 = "hola" then
+ 17:     i := 3
+ 18:   endif
+ 19:   b := i = s1
+ 20:   b := s1 OR s2
+ 21:   b := s1 < s2
+ 22:   i := i div s1
+ 23:   i := s2 div i
+ 24:   r := r / s1
+ 25:   r := s1 / r
+ 26:   s2 := -s1
+ 27:   s2 := not s1
+ 28:   b := "hola" = "adeu"
+ 29: endprogram
+ 30: 
+
+
+ program
+ | list
+ | | ident(s1)
+ | | | string
+ | | ident(s2)
+ | | | string
+ | | ident(i)
+ | | | int
+ | | ident(r)
+ | | | int
+ | | ident(b)
+ | | | bool
+ | list
+ | list
+ | | :=
+ | | | ident(s1)
+ | | | stringconst("holahola")
+ | | :=
+ | | | ident(i)
+ | | | intconst(4)
+ | | writeln
+ | | | +
+ | | | | ident(s2)
+ | | | | stringconst("iAdeu")
+ | | write
+ | | | +
+ | | | | ident(i)
+ | | | | ident(s2)
+ | | write
+ | | | +
+ | | | | ident(s1)
+ | | | | ident(i)
+ | | :=
+ | | | ident(s1)
+ | | | +
+ | | | | +
+ | | | | | ident(s1)
+ | | | | | ident(s2)
+ | | | | stringconst("fi")
+ | | if
+ | | | =
+ | | | | ident(s1)
+ | | | | stringconst("hola")
+ | | | list
+ | | | | :=
+ | | | | | ident(i)
+ | | | | | intconst(3)
+ | | :=
+ | | | ident(b)
+ | | | =
+ | | | | ident(i)
+ | | | | ident(s1)
+ | | :=
+ | | | ident(b)
+ | | | or
+ | | | | ident(s1)
+ | | | | ident(s2)
+ | | :=
+ | | | ident(b)
+ | | | <
+ | | | | ident(s1)
+ | | | | ident(s2)
+ | | :=
+ | | | ident(i)
+ | | | div
+ | | | | ident(i)
+ | | | | ident(s1)
+ | | :=
+ | | | ident(i)
+ | | | div
+ | | | | ident(s2)
+ | | | | ident(i)
+ | | :=
+ | | | ident(r)
+ | | | /
+ | | | | ident(r)
+ | | | | ident(s1)
+ | | :=
+ | | | ident(r)
+ | | | /
+ | | | | ident(s1)
+ | | | | ident(r)
+ | | :=
+ | | | ident(s2)
+ | | | -
+ | | | | ident(s1)
+ | | :=
+ | | | ident(s2)
+ | | | not
+ | | | | ident(s1)
+ | | :=
+ | | | ident(b)
+ | | | =
+ | | | | stringconst("hola")
+ | | | | stringconst("adeu")
+
+
+Type Checking:
+
+L. 13: Operator + with incompatible types.
+L. 14: Operator + with incompatible types.
+L. 19: Operator = with incompatible types.
+L. 20: Operator or with incompatible types.
+L. 21: Operator < with incompatible types.
+L. 22: Operator div with incompatible types.
+L. 23: Operator div with incompatible types.
+L. 23: Assignment with incompatible types.
+L. 24: Operator / with incompatible types.
+L. 25: Operator / with incompatible types.
+L. 25: Assignment with incompatible types.
+L. 26: Operator - with incompatible types.
+L. 26: Assignment with incompatible types.
+L. 27: Operator not with incompatible types.
+L. 27: Assignment with incompatible types.
+There are errors: no code generated

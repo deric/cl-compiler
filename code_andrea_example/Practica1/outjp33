@@ -1,0 +1,181 @@
+
+
+  1: Program
+  2:   Vars
+  3:     S Array[2] of Struct
+  4:                     X Int
+  5:                     A Array [10] Of Int
+  6:                   EndStruct
+  7:     X Int
+  8:   EndVars
+  9:   Function F() Return Struct X Int A Array [10] Of Int EndStruct
+ 10:     X:=X+1
+ 11:     Return S[X]
+ 12:   EndFunction
+ 13:   Function G(Val A0 Array [10] Of Int,
+ 14:              Val A1 Array [10] Of Int) Return Int
+ 15:     Return A0[0]+A1[1]
+ 16:   EndFunction
+ 17: 
+ 18:   X:=-1
+ 19:   S[0].A[0]:=3
+ 20:   S[1].A[1]:=5
+ 21:   X:=G(F().A,F().A)
+ 22:   WriteLn(X)
+ 23: EndProgram
+ 24: 
+
+
+ program
+ | list
+ | | ident(S)
+ | | | array
+ | | | | intconst(2)
+ | | | | struct
+ | | | | | ident(X)
+ | | | | | | int
+ | | | | | ident(A)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | int
+ | | ident(X)
+ | | | int
+ | list
+ | | function
+ | | | ident(F)
+ | | | | list
+ | | | | struct
+ | | | | | ident(X)
+ | | | | | | int
+ | | | | | ident(A)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | ident(X)
+ | | | | | +
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+ | | | [
+ | | | | ident(S)
+ | | | | ident(X)
+ | | function
+ | | | ident(G)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(A0)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | int
+ | | | | | val
+ | | | | | | ident(A1)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | int
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | +
+ | | | | [
+ | | | | | ident(A0)
+ | | | | | intconst(0)
+ | | | | [
+ | | | | | ident(A1)
+ | | | | | intconst(1)
+ | list
+ | | :=
+ | | | ident(X)
+ | | | -
+ | | | | intconst(1)
+ | | :=
+ | | | [
+ | | | | .
+ | | | | | [
+ | | | | | | ident(S)
+ | | | | | | intconst(0)
+ | | | | | ident(A)
+ | | | | intconst(0)
+ | | | intconst(3)
+ | | :=
+ | | | [
+ | | | | .
+ | | | | | [
+ | | | | | | ident(S)
+ | | | | | | intconst(1)
+ | | | | | ident(A)
+ | | | | intconst(1)
+ | | | intconst(5)
+ | | :=
+ | | | ident(X)
+ | | | (
+ | | | | ident(G)
+ | | | | list
+ | | | | | .
+ | | | | | | (
+ | | | | | | | ident(F)
+ | | | | | | | list
+ | | | | | | ident(A)
+ | | | | | .
+ | | | | | | (
+ | | | | | | | ident(F)
+ | | | | | | | list
+ | | | | | | ident(A)
+ | | writeln
+ | | | ident(X)
+
+
+Type Checking:
+
+Generating code:
+BIG PROBLEM! No case defined for kind -
+BIG PROBLEM! No case defined for kind [
+BIG PROBLEM! No case defined for kind [
+BIG PROBLEM! No case defined for kind (
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _S 88
+    _X 4
+  endvariables
+
+    aload _X t0
+    stor t1 t0
+    iload 3 t1
+    stor t1 t0
+    iload 5 t1
+    stor t1 t0
+    aload _X t0
+    stor t1 t0
+    load _X t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+subroutine program_F
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+subroutine program_G
+  parameters
+  endparameters
+
+  variables
+  endvariables
+
+endsubroutine
+
+Executing code:
+5

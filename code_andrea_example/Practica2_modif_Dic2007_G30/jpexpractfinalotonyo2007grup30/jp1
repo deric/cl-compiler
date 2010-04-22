@@ -1,0 +1,19 @@
+Program
+  Vars
+    A Array [5] Of Int
+    C Array [5] Of Int
+  EndVars
+  C:=A
+  C[3]:=A[3]+1
+  WriteLn(C=A)
+  WriteLn(A=A)
+  C[3]:=A[3]
+  C[4]:=A[4]+1
+  WriteLn(C=A)
+  C[4]:=A[4]
+  C[0]:=A[0]+1
+  WriteLn(C=A)
+  C[0]:=A[0]
+  WriteLn(C=A)
+  WriteLn(C=C)
+EndProgram

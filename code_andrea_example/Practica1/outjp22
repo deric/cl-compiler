@@ -1,0 +1,76 @@
+
+
+  1: Program
+  2:   Vars
+  3:     I Int
+  4:   EndVars 
+  5:   I:=1
+  6:   While I<10 Do
+  7:     If I-2*(I/2)=0 Then
+  8:       WriteLn(I)
+  9:     Else
+ 10:       WriteLn(2*I)
+ 11:     EndIf
+ 12:     I:=I+1
+ 13:   EndWhile
+ 14: EndProgram
+
+
+ program
+ | list
+ | | ident(I)
+ | | | int
+ | list
+ | list
+ | | :=
+ | | | ident(I)
+ | | | intconst(1)
+ | | while
+ | | | <
+ | | | | ident(I)
+ | | | | intconst(10)
+ | | | list
+ | | | | if
+ | | | | | =
+ | | | | | | -
+ | | | | | | | ident(I)
+ | | | | | | | *
+ | | | | | | | | intconst(2)
+ | | | | | | | | /
+ | | | | | | | | | ident(I)
+ | | | | | | | | | intconst(2)
+ | | | | | | intconst(0)
+ | | | | | list
+ | | | | | | writeln
+ | | | | | | | ident(I)
+ | | | | | list
+ | | | | | | writeln
+ | | | | | | | *
+ | | | | | | | | intconst(2)
+ | | | | | | | | ident(I)
+ | | | | :=
+ | | | | | ident(I)
+ | | | | | +
+ | | | | | | ident(I)
+ | | | | | | intconst(1)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _I 4
+  endvariables
+
+    aload _I t0
+    iload 1 t1
+    stor t1 t0
+    stop
+endprogram
+
+Executing code:

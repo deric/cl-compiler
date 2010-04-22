@@ -1,0 +1,133 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:     Y Int
+  5:     B Bool
+  6:     S Struct
+  7:         X Int
+  8:         B Bool
+  9:       EndStruct
+ 10:     S1 Struct
+ 11:          X Int
+ 12:          B Bool
+ 13:        EndStruct
+ 14:   EndVars
+ 15:   X:=5
+ 16:   B:=True
+ 17:   S1.X:=4
+ 18:   S1.B:=False
+ 19:   WriteLn(X)
+ 20:   WriteLn(B)
+ 21:   WriteLn(S1.X)
+ 22:   WriteLn(S1.B)
+ 23: EndProgram
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |      |        \__int
+    |      \__ident(B)
+    |      |        \__bool
+    |      \__ident(S)
+    |      |        \__struct
+    |      |                 \__ident(X)
+    |      |                 |        \__int
+    |      |                 \__ident(B)
+    |      |                          \__bool
+    |      \__ident(S1)
+    |                \__struct
+    |                         \__ident(X)
+    |                         |        \__int
+    |                         \__ident(B)
+    |                                  \__bool
+    \__list
+    \__list
+           \__:=
+           |    \__ident(X)
+           |    \__intconst(5)
+           \__:=
+           |    \__ident(B)
+           |    \__true
+           \__:=
+           |    \__.
+           |    |   \__ident(S1)
+           |    |   \__ident(X)
+           |    \__intconst(4)
+           \__:=
+           |    \__.
+           |    |   \__ident(S1)
+           |    |   \__ident(B)
+           |    \__false
+           \__writeln
+           |         \__ident(X)
+           \__writeln
+           |         \__ident(B)
+           \__writeln
+           |         \__.
+           |             \__ident(S1)
+           |             \__ident(X)
+           \__writeln
+                     \__.
+                         \__ident(S1)
+                         \__ident(B)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+    _B 4
+    _S 8
+    _S1 8
+  endvariables
+
+    aload _X t0
+    iload 5 t1
+    stor t1 t0
+    aload _B t0
+    iload 1 t1
+    stor t1 t0
+    aload _S1 t0
+    addi t0 0 t0
+    iload 4 t1
+    stor t1 t0
+    aload _S1 t0
+    addi t0 4 t0
+    iload 0 t1
+    stor t1 t0
+    load _X t0
+    wrii t0
+    wrln
+    load _B t0
+    wrii t0
+    wrln
+    aload _S1 t0
+    addi t0 0 t0
+    load t0 t0
+    wrii t0
+    wrln
+    aload _S1 t0
+    addi t0 4 t0
+    load t0 t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+Executing code:
+5
+1
+4
+0

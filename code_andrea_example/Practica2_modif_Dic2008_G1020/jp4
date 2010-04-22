@@ -1,0 +1,42 @@
+PROGRAM
+  VARS
+    d Date
+    d2 Date
+    a Array[5] Of Date
+    x int
+  ENDVARS
+
+function F(val x int) return Date
+	sday(d,x+13)
+	smonth(d,x)
+	syear(d,x+1990)
+	return d
+EndFunction
+
+Procedure P2(val d Date)
+	sday(d,1)
+	smonth(d,2)
+	syear(d,3)
+EndProcedure
+
+Procedure P(val d Date)
+	write(day(d))
+	write("/")
+	write(month(d))
+	write("/")
+	writeln(year(d))
+EndProcedure
+
+P(F(7))
+x:=0
+While x<5 Do
+	a[x] := F(x+1)
+	P(a[x])
+	x := x+1
+EndWhile
+writeln(day(F(13)))
+writeln(month(F(6)))
+writeln(year(F(8)))
+P2(d)
+P(d)
+EndProgram

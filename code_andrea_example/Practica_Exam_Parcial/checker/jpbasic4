@@ -1,0 +1,34 @@
+PROGRAM
+  VARS
+	A ARRAY [2] OF Int
+	B ARRAY [4] OF ARRAY [10] OF Int
+  ENDVARS
+	Function p(Val X Int) Return Array [10] Of Int
+    	  Return B[X]
+        EndFunction
+	Function r() Return Int
+	  Return 3
+	EndFunction  
+	x[4].y:=1
+	x.y[4]:=1
+	x[((true))]:=4
+	y:= x[((true))]
+	-p(5)
+	p:=p(5)
+	x[4]:=p(5)
+	x[-4].a[3]:=4
+	r()
+	r(1)
+	m[3].u:= x[1][2][y+(a+4)]
+	m[a].u[4].b.c:=4
+	m[a[1]]:=4
+	x[p(5)]:=y(2)
+	a:=p(x[8]).y
+	b:=p(f.y)[8]
+	x:=p[p(x)]
+	x:=p[p(x)].y
+	b:=p(f.y)[8]
+	b:=p(f.y)[8].a[3]
+	b:=p(f.y)[8].a.b
+	x:=y(a).b
+ENDPROGRAM

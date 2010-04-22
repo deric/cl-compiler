@@ -1,0 +1,19 @@
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ vi cl.g
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp1 > myjp1
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp2 > myjp2
+Segmentation fault
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp3 > myjp3
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp4 > myjp4
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp5 > myjp5
+Segmentation fault
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp6 > myjp6
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp7 > myjp7
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp8 > myjp8
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp9 > myjp9
+Segmentation fault
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp10 > myjp10
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp11 > myjp11
+Segmentation fault
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ ./cl <jp12 > myjp12
+anshuman@ubuntu:/media/Indu/books/MTI-MAS/semester2/compilers/svnlab/untitled folder$ 
+

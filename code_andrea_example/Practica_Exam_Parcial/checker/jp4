@@ -1,0 +1,10 @@
+Program
+	Vars
+		a Array [10] Of Int
+	EndVars
+
+	a[5:3] :=
+		a[0:9]
+	a[10:1] := i
+	a[1:1] := i
+EndProgram

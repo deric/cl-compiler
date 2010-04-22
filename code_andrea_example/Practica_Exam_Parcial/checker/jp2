@@ -1,0 +1,9 @@
+Program
+	Vars
+		a Array [10] Of Int
+	EndVars
+
+	a[1:a[1]] :=
+		a[i:2]
+		+ a[j:k]
+EndProgram

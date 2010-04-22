@@ -1,0 +1,14 @@
+program
+  vars
+    s1 string
+    s2 string
+    i int
+  endvars
+
+  s1 := s2
+  s1 := i
+  s1 := a
+  i := s2
+  a := s2
+  read(s1)
+endprogram

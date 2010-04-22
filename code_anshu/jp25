@@ -1,0 +1,28 @@
+PROGRAM
+  VARS
+    Y INT
+    X BOOL
+  ENDVARS
+  PROCEDURE P0(VAL V0 INT, REF R0 INT) 
+    PROCEDURE P1(VAL V1 INT, REF R1 INT,VAL R2 INT) 
+      VARS
+        Y1 INT
+        X1 BOOL
+      ENDVARS
+      R1 := V1
+      V0 := 10
+      X:=Not(V0=R2 And V0=R1+R0) 
+    ENDPROCEDURE
+  P1(V0, R0, R0)
+  WRITE(V0)
+  WRITE("  ")
+  WRITE(R0)
+  WRITE("  ")
+  ENDPROCEDURE
+Y := 3
+X := False
+P0(2*3+1, Y)
+WRITE(Y)
+WRITE("  ")
+WRITELN(X)
+ENDPROGRAM

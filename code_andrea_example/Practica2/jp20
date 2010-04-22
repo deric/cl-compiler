@@ -1,0 +1,10 @@
+Program
+  Vars
+    X Int
+    Y Int
+  EndVars
+  X:=3
+  Y:=3+X+X+X
+  WriteLn(X)
+  WriteLn(Y)
+EndProgram

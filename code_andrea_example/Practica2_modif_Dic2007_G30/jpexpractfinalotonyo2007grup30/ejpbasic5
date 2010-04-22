@@ -1,0 +1,8 @@
+L. 20: Return with uncompatible type.
+L. 23: Referenceable expression required in read.
+L. 24: Referenceable expression required in read.
+L. 28: Referenceable expression required in read.
+L. 23: Basic type required in read.
+L. 24: Basic type required in read.
+L. 43: Instruction if requires a boolean condition.
+L. 39: Instruction while requires a boolean condition.

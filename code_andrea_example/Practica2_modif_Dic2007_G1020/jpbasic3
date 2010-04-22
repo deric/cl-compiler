@@ -1,0 +1,38 @@
+Program
+  Vars
+    X Int
+    Y Bool
+    B Bool
+  EndVars
+  Function P(Val Z Int,Ref T Bool) Return Int
+    Return Z+T
+  EndFunction
+  Function R(Val N Int) Return Array[5] of Int
+    VARS
+	X Int
+	P Array[4] of Int
+    ENDVARS
+    While x<5 Do
+	P[x]:=N
+    EndWhile
+    Return P
+  EndFunction
+  Procedure Q(Val X Int,Ref W Int)
+    Vars
+      C Array[5] of Int
+      D Array[3] of Int
+      E Struct 
+	    A Array[3] of Bool
+	    B Int
+	  EndStruct
+    EndVars
+    X:=Q(X,X)+
+       Q(X)
+    Y:=P(Y,Y)+Y
+    B:=P(Q(X,Y),P(X,X))
+    C:=R(3)
+    D:=R(3)
+    E.A:=R(3)
+    E.B:=E.A[3]+P(3,False)
+  EndProcedure
+EndProgram

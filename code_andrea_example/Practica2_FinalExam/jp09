@@ -1,0 +1,33 @@
+Program
+  Vars
+	x Int
+	z Int
+  EndVars
+
+x:=3
+goto B
+
+label A
+x:=5
+z:=1
+
+label B
+x:=0
+z:=z+1
+While x<10 Do
+	If x>5 Then
+		goto C
+	EndIf
+	x := x+1
+	writeLn(x)
+EndWhile
+
+
+label C
+If z<3 Then
+	writeln("Tornem al principi")
+	goto B
+EndIf
+
+writeln("TheEnd")
+EndProgram

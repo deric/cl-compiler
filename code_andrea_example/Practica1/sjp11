@@ -1,0 +1,221 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:     Y Bool
+  5:     B Bool
+  6:   EndVars
+  7:   Function P(Val Z Int,Ref T Bool) Return Int
+  8:     Return Z+T
+  9:   EndFunction
+ 10:   Function R(Val N Int) Return Array[5] of Int
+ 11:     VARS
+ 12: 	X Int
+ 13: 	P Array[4] of Int
+ 14:     ENDVARS
+ 15:     While x<5 Do
+ 16: 	P[x]:=N
+ 17:     EndWhile
+ 18:     Return P
+ 19:   EndFunction
+ 20:   Procedure Q(Val X Int,Ref W Int)
+ 21:     Vars
+ 22:       C Array[5] of Int
+ 23:       D Array[3] of Int
+ 24:       E Struct 
+ 25: 	    A Array[3] of Bool
+ 26: 	    B Int
+ 27: 	  EndStruct
+ 28:     EndVars
+ 29:     X:=Q(X,X)+
+ 30:        Q(X)
+ 31:     Y:=P(Y,Y)+Y
+ 32:     B:=P(Q(X,Y),P(X,X))
+ 33:     C:=R(3)
+ 34:     D:=R(3)
+ 35:     E.A:=R(3)
+ 36:     E.B:=E.A[3]+P(3,False)
+ 37:   EndProcedure
+ 38: EndProgram
+
+
+ program
+ | list
+ | | ident(X)
+ | | | int
+ | | ident(Y)
+ | | | bool
+ | | ident(B)
+ | | | bool
+ | list
+ | | function
+ | | | ident(P)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(Z)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(T)
+ | | | | | | bool
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | +
+ | | | | ident(Z)
+ | | | | ident(T)
+ | | function
+ | | | ident(R)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(N)
+ | | | | | | int
+ | | | | array
+ | | | | | intconst(5)
+ | | | | | int
+ | | | list
+ | | | | ident(X)
+ | | | | | int
+ | | | | ident(P)
+ | | | | | array
+ | | | | | | intconst(4)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | while
+ | | | | | <
+ | | | | | | ident(x)
+ | | | | | | intconst(5)
+ | | | | | list
+ | | | | | | :=
+ | | | | | | | [
+ | | | | | | | | ident(P)
+ | | | | | | | | ident(x)
+ | | | | | | | ident(N)
+ | | | ident(P)
+ | | procedure
+ | | | ident(Q)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(X)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(W)
+ | | | | | | int
+ | | | list
+ | | | | ident(C)
+ | | | | | array
+ | | | | | | intconst(5)
+ | | | | | | int
+ | | | | ident(D)
+ | | | | | array
+ | | | | | | intconst(3)
+ | | | | | | int
+ | | | | ident(E)
+ | | | | | struct
+ | | | | | | ident(A)
+ | | | | | | | array
+ | | | | | | | | intconst(3)
+ | | | | | | | | bool
+ | | | | | | ident(B)
+ | | | | | | | int
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | ident(X)
+ | | | | | +
+ | | | | | | (
+ | | | | | | | ident(Q)
+ | | | | | | | list
+ | | | | | | | | ident(X)
+ | | | | | | | | ident(X)
+ | | | | | | (
+ | | | | | | | ident(Q)
+ | | | | | | | list
+ | | | | | | | | ident(X)
+ | | | | :=
+ | | | | | ident(Y)
+ | | | | | +
+ | | | | | | (
+ | | | | | | | ident(P)
+ | | | | | | | list
+ | | | | | | | | ident(Y)
+ | | | | | | | | ident(Y)
+ | | | | | | ident(Y)
+ | | | | :=
+ | | | | | ident(B)
+ | | | | | (
+ | | | | | | ident(P)
+ | | | | | | list
+ | | | | | | | (
+ | | | | | | | | ident(Q)
+ | | | | | | | | list
+ | | | | | | | | | ident(X)
+ | | | | | | | | | ident(Y)
+ | | | | | | | (
+ | | | | | | | | ident(P)
+ | | | | | | | | list
+ | | | | | | | | | ident(X)
+ | | | | | | | | | ident(X)
+ | | | | :=
+ | | | | | ident(C)
+ | | | | | (
+ | | | | | | ident(R)
+ | | | | | | list
+ | | | | | | | intconst(3)
+ | | | | :=
+ | | | | | ident(D)
+ | | | | | (
+ | | | | | | ident(R)
+ | | | | | | list
+ | | | | | | | intconst(3)
+ | | | | :=
+ | | | | | .
+ | | | | | | ident(E)
+ | | | | | | ident(A)
+ | | | | | (
+ | | | | | | ident(R)
+ | | | | | | list
+ | | | | | | | intconst(3)
+ | | | | :=
+ | | | | | .
+ | | | | | | ident(E)
+ | | | | | | ident(B)
+ | | | | | +
+ | | | | | | [
+ | | | | | | | .
+ | | | | | | | | ident(E)
+ | | | | | | | | ident(A)
+ | | | | | | | intconst(3)
+ | | | | | | (
+ | | | | | | | ident(P)
+ | | | | | | | list
+ | | | | | | | | intconst(3)
+ | | | | | | | | false
+ | list
+
+
+Type Checking:
+
+L. 8: Operator + with incompatible types.
+L. 15: Identifier x is undeclared.
+L. 16: Identifier x is undeclared.
+L. 18: Return with incompatible type.
+L. 29: Operator ( must be applied to a function in an expression.
+L. 30: Operator ( must be applied to a function in an expression.
+L. 30: The number of parameters in the call do not match.
+L. 31: Parameter 1 with incompatible types.
+L. 31: Operator + with incompatible types.
+L. 31: Assignment with incompatible types.
+L. 32: Operator ( must be applied to a function in an expression.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Parameter 2 is expected to be referenceable but it is not.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Assignment with incompatible types.
+L. 34: Assignment with incompatible types.
+L. 35: Assignment with incompatible types.
+L. 36: Parameter 2 is expected to be referenceable but it is not.
+L. 36: Operator + with incompatible types.
+There are errors: no code generated

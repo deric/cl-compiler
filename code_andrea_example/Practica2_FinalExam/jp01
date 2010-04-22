@@ -1,0 +1,31 @@
+Program
+  Vars
+    S Struct
+    	X Bool
+	Z Bool
+    	A Array [10] Of Bool
+    EndStruct
+   X Int
+  EndVars
+
+Procedure P(ref a Array [10] Of bool)
+     If a[3]=(false NAND false) Then
+      WriteLn("Es true")
+    Else
+      WriteLn("Es false")
+    EndIf
+  EndProcedure 
+
+X:=true
+S.X:=true
+S.Z:=false
+WriteLn(X NAND S.X)
+S.A[3]:=true
+WriteLn(S.A[3] NAND S.A)
+WriteLn(S.A[3] NAND T)
+WriteLn(S.X NAND S.Z)
+WriteLn("Amb una crida a procedure")
+P(S.A)
+S.A[3]:=false
+P(S.A)
+EndProgram

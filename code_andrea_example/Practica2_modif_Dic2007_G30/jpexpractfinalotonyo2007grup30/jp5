@@ -1,0 +1,14 @@
+Program
+  Vars
+    X Array[10] Of Int
+    P Pointer To Array[10] Of Int
+  EndVars
+  Function F Return Pointer To Array[10] Of Int
+    Return &X
+  EndFunction
+  X[9]:=3
+  WriteLn(F^[9])
+  P:=F
+  X[9]:=4
+  WriteLn(P^[9])
+EndProgram

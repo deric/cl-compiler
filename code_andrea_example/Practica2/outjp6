@@ -1,0 +1,134 @@
+
+
+  1: Program
+  2:   Vars
+  3:     x Int
+  4:     y Struct
+  5:       x bool
+  6:       y Int
+  7:       EndStruct
+  8:     z Array [10] Of bool
+  9:   EndVars
+ 10:   Procedure P(ref a Array [10] Of bool,
+ 11:               val b Struct x Bool y Int EndStruct,
+ 12:               ref x Array [4] Of Int)
+ 13:     Vars
+ 14:       x Array [10] Of bool
+ 15:       y Array [4] of Int
+ 16:     EndVars
+ 17:     x[3]:=45+z[y.x]
+ 18:     x:=a
+ 19:     x:=y
+ 20:   EndProcedure 
+ 21:   x:=z[3]
+ 22:   z[y.y+2]:=
+ 23:             z[x]+
+ 24:             y.x[3].y
+ 25: EndProgram
+ 26: 
+
+
+ program
+ | list
+ | | ident(x)
+ | | | int
+ | | ident(y)
+ | | | struct
+ | | | | ident(x)
+ | | | | | bool
+ | | | | ident(y)
+ | | | | | int
+ | | ident(z)
+ | | | array
+ | | | | intconst(10)
+ | | | | bool
+ | list
+ | | procedure
+ | | | ident(P)
+ | | | | list
+ | | | | | ref
+ | | | | | | ident(a)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | bool
+ | | | | | val
+ | | | | | | ident(b)
+ | | | | | | struct
+ | | | | | | | ident(x)
+ | | | | | | | | bool
+ | | | | | | | ident(y)
+ | | | | | | | | int
+ | | | | | ref
+ | | | | | | ident(x)
+ | | | | | | array
+ | | | | | | | intconst(4)
+ | | | | | | | int
+ | | | list
+ | | | | ident(x)
+ | | | | | array
+ | | | | | | intconst(10)
+ | | | | | | bool
+ | | | | ident(y)
+ | | | | | array
+ | | | | | | intconst(4)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | [
+ | | | | | | ident(x)
+ | | | | | | intconst(3)
+ | | | | | +
+ | | | | | | intconst(45)
+ | | | | | | [
+ | | | | | | | ident(z)
+ | | | | | | | .
+ | | | | | | | | ident(y)
+ | | | | | | | | ident(x)
+ | | | | :=
+ | | | | | ident(x)
+ | | | | | ident(a)
+ | | | | :=
+ | | | | | ident(x)
+ | | | | | ident(y)
+ | list
+ | | :=
+ | | | ident(x)
+ | | | [
+ | | | | ident(z)
+ | | | | intconst(3)
+ | | :=
+ | | | [
+ | | | | ident(z)
+ | | | | +
+ | | | | | .
+ | | | | | | ident(y)
+ | | | | | | ident(y)
+ | | | | | intconst(2)
+ | | | +
+ | | | | [
+ | | | | | ident(z)
+ | | | | | ident(x)
+ | | | | .
+ | | | | | [
+ | | | | | | .
+ | | | | | | | ident(y)
+ | | | | | | | ident(x)
+ | | | | | | intconst(3)
+ | | | | | ident(y)
+
+
+Type Checking:
+
+L. 14: Identifier x already declared.
+L. 17: Operator struct. with incompatible types.
+L. 17: Operator + with incompatible types.
+L. 18: Assignment with incompatible types.
+a vererror
+L. 21: Assignment with incompatible types.
+a vererror
+L. 24: Operator array[] with incompatible types.
+L. 23: Operator + with incompatible types.
+L. 22: Assignment with incompatible types.
+a vererror
+There are errors: no code generated

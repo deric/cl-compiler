@@ -1,0 +1,273 @@
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     a Date
+  4:        x int
+  5:     y int
+  6: 	z int
+  7:   ENDVARS
+  8: 	sday(a,7)
+  9: smonth(a,2)
+ 10: syear(a,1987)
+ 11: 	x:=day(a)
+ 12:         y:=month(a)
+ 13: z:=year(a)
+ 14: 	writeln(x)
+ 15: writeln(y)
+ 16: writeln(z)
+ 17: a:=#7/2/1987
+ 18: a:=#7/2/1901
+ 19: a:=#6/7/1987
+ 20: a:=#20/1/2008
+ 21: 
+ 22: x:=day(a)
+ 23: y:=month(a)
+ 24: z:=year(a)
+ 25: writeln(x)
+ 26: writeln(y)
+ 27: writeln(z)
+ 28: EndProgram
+ 29: 
+ 30: 
+
+
+ program
+ | list
+ | | ident(a)
+ | | | date
+ | | ident(x)
+ | | | int
+ | | ident(y)
+ | | | int
+ | | ident(z)
+ | | | int
+ | list
+ | list
+ | | sday
+ | | | ident(a)
+ | | | intconst(7)
+ | | smonth
+ | | | ident(a)
+ | | | intconst(2)
+ | | syear
+ | | | ident(a)
+ | | | intconst(1987)
+ | | :=
+ | | | ident(x)
+ | | | day
+ | | | | ident(a)
+ | | :=
+ | | | ident(y)
+ | | | month
+ | | | | ident(a)
+ | | :=
+ | | | ident(z)
+ | | | year
+ | | | | ident(a)
+ | | writeln
+ | | | ident(x)
+ | | writeln
+ | | | ident(y)
+ | | writeln
+ | | | ident(z)
+ | | :=
+ | | | ident(a)
+ | | | #
+ | | | | intconst(7)
+ | | | | intconst(2)
+ | | | | intconst(1987)
+ | | :=
+ | | | ident(a)
+ | | | #
+ | | | | intconst(7)
+ | | | | intconst(2)
+ | | | | intconst(1901)
+ | | :=
+ | | | ident(a)
+ | | | #
+ | | | | intconst(6)
+ | | | | intconst(7)
+ | | | | intconst(1987)
+ | | :=
+ | | | ident(a)
+ | | | #
+ | | | | intconst(20)
+ | | | | intconst(1)
+ | | | | intconst(2008)
+ | | :=
+ | | | ident(x)
+ | | | day
+ | | | | ident(a)
+ | | :=
+ | | | ident(y)
+ | | | month
+ | | | | ident(a)
+ | | :=
+ | | | ident(z)
+ | | | year
+ | | | | ident(a)
+ | | writeln
+ | | | ident(x)
+ | | writeln
+ | | | ident(y)
+ | | writeln
+ | | | ident(z)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _a 12
+    _x 4
+    _y 4
+    _z 4
+    aux_space 12
+  endvariables
+
+    aload _a t0
+    addi t0 0 t0
+    iload 7 t1
+    stor t1 t0
+    aload _a t0
+    addi t0 4 t0
+    iload 2 t1
+    stor t1 t0
+    aload _a t0
+    addi t0 8 t0
+    iload 1987 t1
+    stor t1 t0
+    aload _x t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 0 t1
+    load t1 t1
+    stor t1 t0
+    aload _y t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 4 t1
+    load t1 t1
+    stor t1 t0
+    aload _z t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 8 t1
+    load t1 t1
+    stor t1 t0
+    load _x t0
+    wrii t0
+    wrln
+    load _y t0
+    wrii t0
+    wrln
+    load _z t0
+    wrii t0
+    wrln
+    aload _a t0
+    aload aux_space t1
+    aload aux_space t3
+    addi t1 0 t1
+    iload 7 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 2 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 1987 t2
+    stor t2 t3
+    copy t1 t0 12
+    aload _a t0
+    aload aux_space t1
+    aload aux_space t3
+    addi t1 0 t1
+    iload 7 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 2 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 1901 t2
+    stor t2 t3
+    copy t1 t0 12
+    aload _a t0
+    aload aux_space t1
+    aload aux_space t3
+    addi t1 0 t1
+    iload 6 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 7 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 1987 t2
+    stor t2 t3
+    copy t1 t0 12
+    aload _a t0
+    aload aux_space t1
+    aload aux_space t3
+    addi t1 0 t1
+    iload 20 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 1 t2
+    stor t2 t3
+    addi t3 4 t3
+    iload 2008 t2
+    stor t2 t3
+    copy t1 t0 12
+    aload _x t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 0 t1
+    load t1 t1
+    stor t1 t0
+    aload _y t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 4 t1
+    load t1 t1
+    stor t1 t0
+    aload _z t0
+    aload _a t2
+    aload aux_space t1
+    addi t1 0 t1
+    copy t2 t1 12
+    addi t1 8 t1
+    load t1 t1
+    stor t1 t0
+    load _x t0
+    wrii t0
+    wrln
+    load _y t0
+    wrii t0
+    wrln
+    load _z t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+Executing code:
+7
+2
+1987
+20
+1
+2008

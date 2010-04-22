@@ -1,0 +1,150 @@
+
+
+  1: program
+  2:   vars
+  3:     s string
+  4:     i int
+  5:   endvars
+  6: 
+  7:   procedure P(val a int, val b string)
+  8:     writeln(a)
+  9:     writeln(b)
+ 10:   endprocedure
+ 11: 
+ 12:   function f(val a int, ref b string) return string
+ 13:     return "adeu"
+ 14:   endfunction
+ 15: 
+ 16:   function g(val a int) return int
+ 17:     return "hola"
+ 18:   endfunction
+ 19: 
+ 20:   function h() return string
+ 21:     return 3
+ 22:   endfunction
+ 23: 
+ 24:   P(i, s)
+ 25:   P(s, i)
+ 26:   P(23, "Hola")
+ 27:   s := f(23, "Hola")
+ 28:   s := f(i, s)
+ 29:   s := f(g, h)
+ 30:   i := f(i, s)
+ 31: endprogram
+ 32: 
+
+
+ program
+ | list
+ | | ident(s)
+ | | | string
+ | | ident(i)
+ | | | int
+ | list
+ | | procedure
+ | | | ident(P)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(a)
+ | | | | | | int
+ | | | | | val
+ | | | | | | ident(b)
+ | | | | | | string
+ | | | list
+ | | | list
+ | | | list
+ | | | | writeln
+ | | | | | ident(a)
+ | | | | writeln
+ | | | | | ident(b)
+ | | function
+ | | | ident(f)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(a)
+ | | | | | | int
+ | | | | | ref
+ | | | | | | ident(b)
+ | | | | | | string
+ | | | | string
+ | | | list
+ | | | list
+ | | | list
+ | | | stringconst("adeu")
+ | | function
+ | | | ident(g)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(a)
+ | | | | | | int
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | stringconst("hola")
+ | | function
+ | | | ident(h)
+ | | | | list
+ | | | | string
+ | | | list
+ | | | list
+ | | | list
+ | | | intconst(3)
+ | list
+ | | (
+ | | | ident(P)
+ | | | list
+ | | | | ident(i)
+ | | | | ident(s)
+ | | (
+ | | | ident(P)
+ | | | list
+ | | | | ident(s)
+ | | | | ident(i)
+ | | (
+ | | | ident(P)
+ | | | list
+ | | | | intconst(23)
+ | | | | stringconst("Hola")
+ | | :=
+ | | | ident(s)
+ | | | (
+ | | | | ident(f)
+ | | | | list
+ | | | | | intconst(23)
+ | | | | | stringconst("Hola")
+ | | :=
+ | | | ident(s)
+ | | | (
+ | | | | ident(f)
+ | | | | list
+ | | | | | ident(i)
+ | | | | | ident(s)
+ | | :=
+ | | | ident(s)
+ | | | (
+ | | | | ident(f)
+ | | | | list
+ | | | | | ident(g)
+ | | | | | ident(h)
+ | | :=
+ | | | ident(i)
+ | | | (
+ | | | | ident(f)
+ | | | | list
+ | | | | | ident(i)
+ | | | | | ident(s)
+
+
+Type Checking:
+
+L. 17: Return with incompatible type.
+L. 21: Return with incompatible type.
+L. 25: Parameter 1 with incompatible types.
+L. 25: Parameter 2 with incompatible types.
+L. 27: Parameter 2 is expected to be referenceable but it is not.
+L. 29: Parameter 1 with incompatible types.
+L. 29: Parameter 2 is expected to be referenceable but it is not.
+L. 29: Parameter 2 with incompatible types.
+L. 30: Assignment with incompatible types.
+There are errors: no code generated

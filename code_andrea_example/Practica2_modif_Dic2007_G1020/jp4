@@ -1,0 +1,23 @@
+Program
+  Vars
+    X Int
+    B Bool
+    A Array [10] Of Int
+  EndVars
+  Procedure P(Val X Int)
+    Switch A[3]+B
+      Case A:
+    EndSwitch
+  EndProcedure
+  Function F(Ref X Int) Return Int
+    Return X
+  EndFunction
+
+  Switch 3
+    Case F(A):
+      P(True)
+      F(3)
+      X:=X+1
+    Default:
+  EndSwitch
+EndProgram

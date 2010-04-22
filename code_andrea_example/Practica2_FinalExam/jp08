@@ -1,0 +1,19 @@
+Program
+  Vars
+	x Int
+  EndVars
+
+x:=3
+goto B
+
+label A
+x:=5
+goto C
+
+label B
+x:=4
+goto A
+
+label C
+writeln(x)
+EndProgram

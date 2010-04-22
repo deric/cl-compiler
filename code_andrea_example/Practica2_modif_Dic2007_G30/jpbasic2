@@ -1,0 +1,35 @@
+PROGRAM
+  VARS
+    x Array [5] of Bool
+    y Bool
+    b Struct
+        x Array [5] of Bool
+	  b Struct
+		c Int
+		b Bool
+	    EndStruct
+      EndStruct
+    c Array [0] of Struct
+                     c Int
+                     c Int
+                   EndStruct
+  ENDVARS
+  IF NOT x THEN
+    WHILE NOT 3>4 DO
+      IF (0>---(y+3))=b OR -b.b.b THEN
+	  b.b.b:=NOT b.b.b
+        y:=b.b.c+x[y]
+      ENDIF
+    ENDWHILE
+    IF NOT -3=-3 OR (x=b.x) THEN
+      x[c[1].b.c]:=3+y / (3 * 4---2)
+    ENDIF
+  ELSE
+    y:=(3>x) OR (b=b) AND (x=b.x)
+    b:=NOT NOT NOT (b.b.b OR (x>c))
+    x[3]:=6 / 3
+    x[2]:=b.x[3]+c[0].c
+    x:=4
+    b[3]:=x.x
+  ENDIF
+ENDPROGRAM

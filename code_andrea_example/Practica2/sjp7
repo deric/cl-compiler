@@ -1,0 +1,158 @@
+
+
+  1: Program
+  2:   Vars
+  3:     x Int
+  4:     y Struct
+  5:         x bool
+  6:         y Int
+  7:       EndStruct
+  8:     z Array [10] Of Struct
+  9:                            p bool
+ 10:                            x Int
+ 11:                          EndStruct
+ 12:   EndVars
+ 13:   Procedure P(ref a Struct p bool x Int EndStruct,
+ 14:               val b Struct p bool x Int EndStruct,
+ 15:               ref x Array [10] Of Struct p bool x Int EndStruct)
+ 16:     Vars
+ 17:       z Array [4] of Int
+ 18:       y Array [4] of Int
+ 19:     EndVars
+ 20:     x[3].p
+ 21:           .x:=45+z[y[2]]
+ 22:     z:=y
+ 23:     z:=x
+ 24:   EndProcedure 
+ 25:   y.y:=y.y
+ 26:   x:=y.y
+ 27:   z[y.y+2].p:=z[x]
+ 28:   P(z[3],z[y.y],z)
+ 29: EndProgram
+ 30: 
+ 31: 
+
+
+ program
+ | list
+ | | ident(x)
+ | | | int
+ | | ident(y)
+ | | | struct
+ | | | | ident(x)
+ | | | | | bool
+ | | | | ident(y)
+ | | | | | int
+ | | ident(z)
+ | | | array
+ | | | | intconst(10)
+ | | | | struct
+ | | | | | ident(p)
+ | | | | | | bool
+ | | | | | ident(x)
+ | | | | | | int
+ | list
+ | | procedure
+ | | | ident(P)
+ | | | | list
+ | | | | | ref
+ | | | | | | ident(a)
+ | | | | | | struct
+ | | | | | | | ident(p)
+ | | | | | | | | bool
+ | | | | | | | ident(x)
+ | | | | | | | | int
+ | | | | | val
+ | | | | | | ident(b)
+ | | | | | | struct
+ | | | | | | | ident(p)
+ | | | | | | | | bool
+ | | | | | | | ident(x)
+ | | | | | | | | int
+ | | | | | ref
+ | | | | | | ident(x)
+ | | | | | | array
+ | | | | | | | intconst(10)
+ | | | | | | | struct
+ | | | | | | | | ident(p)
+ | | | | | | | | | bool
+ | | | | | | | | ident(x)
+ | | | | | | | | | int
+ | | | list
+ | | | | ident(z)
+ | | | | | array
+ | | | | | | intconst(4)
+ | | | | | | int
+ | | | | ident(y)
+ | | | | | array
+ | | | | | | intconst(4)
+ | | | | | | int
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | .
+ | | | | | | .
+ | | | | | | | [
+ | | | | | | | | ident(x)
+ | | | | | | | | intconst(3)
+ | | | | | | | ident(p)
+ | | | | | | ident(x)
+ | | | | | +
+ | | | | | | intconst(45)
+ | | | | | | [
+ | | | | | | | ident(z)
+ | | | | | | | [
+ | | | | | | | | ident(y)
+ | | | | | | | | intconst(2)
+ | | | | :=
+ | | | | | ident(z)
+ | | | | | ident(y)
+ | | | | :=
+ | | | | | ident(z)
+ | | | | | ident(x)
+ | list
+ | | :=
+ | | | .
+ | | | | ident(y)
+ | | | | ident(y)
+ | | | .
+ | | | | ident(y)
+ | | | | ident(y)
+ | | :=
+ | | | ident(x)
+ | | | .
+ | | | | ident(y)
+ | | | | ident(y)
+ | | :=
+ | | | .
+ | | | | [
+ | | | | | ident(z)
+ | | | | | +
+ | | | | | | .
+ | | | | | | | ident(y)
+ | | | | | | | ident(y)
+ | | | | | | intconst(2)
+ | | | | ident(p)
+ | | | [
+ | | | | ident(z)
+ | | | | ident(x)
+ | | (
+ | | | ident(P)
+ | | | list
+ | | | | [
+ | | | | | ident(z)
+ | | | | | intconst(3)
+ | | | | [
+ | | | | | ident(z)
+ | | | | | .
+ | | | | | | ident(y)
+ | | | | | | ident(y)
+ | | | | ident(z)
+
+
+Type Checking:
+
+L. 21: Operator struct. with incompatible types.
+L. 23: Assignment with incompatible types.
+L. 27: Assignment with incompatible types.
+There are errors: no code generated

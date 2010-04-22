@@ -1,0 +1,47 @@
+Program
+  Vars
+    X Int
+    Y Int
+    Z Int
+    W Int
+  EndVars
+  X:=1
+  If (W<4) Then
+    X:=0
+    Y:=Y div X
+  EndIf
+  Y:=Y div X
+
+  X:=0
+  While (W<4) Do
+    If (W-X<4) Then
+      Y:=Y div X
+    EndIf
+    X:=1
+  EndWhile
+  Y:=Y div X
+
+  X:=1
+  While (W<4) Do
+    While(X<2) Do
+      W:=W-1
+    EndWhile
+    X:=2
+    While(X<2) Do
+      W:=W-1
+    EndWhile
+    W:=1-W-X
+  EndWhile
+
+  X:=2
+  While (W<4) Do
+    While(X<2) Do
+      W:=W-1
+    EndWhile
+    X:=1
+    While(X<2) Do
+      W:=W-1
+    EndWhile
+    W:=1-W-X
+  EndWhile
+EndProgram

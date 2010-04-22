@@ -1,0 +1,15 @@
+Program
+	Vars
+		i Int
+	EndVars
+
+	Function f() Return Int
+		return 1+2+3*4/5--6
+	EndFunction
+
+	Procedure p()
+		i := i*f()
+	EndProcedure
+
+	i := i-i
+EndProgram

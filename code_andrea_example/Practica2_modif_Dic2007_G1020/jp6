@@ -1,0 +1,43 @@
+Program
+  Vars
+    X Int
+    Y Int
+  EndVars
+  Procedure F()
+    Write("F")
+  EndProcedure
+  Procedure G()
+    Write("G")
+  EndProcedure
+  Procedure H()
+    Write("H")
+  EndProcedure
+  Function T() Return Int
+    Y:=Y+1
+    Return Y
+  EndFunction
+  Function Mod(Val X Int,Val M Int) Return Int
+    Return X-(X/M)*M
+  EndFunction
+  X:=0
+  Y:=1
+  While X<20 Do
+     Switch Mod(X,5)
+       Case 0: F()
+       Case 1: G()
+       Case 1: WriteLn("Pifiada1")
+       Case 0: WriteLn("Pifiada2")
+       Case 4:
+         Switch Mod(Y,2)
+           Case 0:Write(T())
+           Case 1:Write(T()+1)
+           Default:
+             WriteLn("Pifiada3")
+         EndSwitch
+       Default: H()
+    EndSwitch
+    X:=X+1
+  EndWhile
+  WriteLn("")
+EndProgram
+

@@ -1,0 +1,39 @@
+Program
+  Vars
+    S Struct
+        A Array [5] Of Int
+        X Int
+      EndStruct
+    T Struct
+        A Array [5] Of Int
+        X Int
+      EndStruct
+    D Array [100] Of Int
+  EndVars
+  Function F(Val B bool) Return Array [100] Of Int
+    Vars
+      E Array [100] Of Int
+    EndVars
+    E:=D
+    If (B) Then
+      E[3]:=E[3]+1
+    EndIf
+    Return E
+  EndFunction
+
+  S:=T
+  T.A[3]:=S.A[3]+1
+  WriteLn((S=S)=(S=T))
+  WriteLn((S=S)=(S=S))
+  T.A[3]:=S.A[3]
+  WriteLn(S=S Or S=T)
+  WriteLn(S=S Or T=T)
+  If (D=D) Then
+    WriteLn("hola")
+  EndIf
+  D[3]:=8
+  D:=F(D=D)
+  WriteLn(D[3])
+  WriteLn(D=F(D=D))
+  WriteLn(D=F(F(D=D)=D))
+EndProgram

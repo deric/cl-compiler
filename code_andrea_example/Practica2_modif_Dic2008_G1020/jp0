@@ -1,0 +1,19 @@
+PROGRAM
+  VARS
+    d Date
+    d2 Date
+    x int
+  ENDVARS
+  x:= day(d)
+  x:= month(4)	
+  d:= year(x+5)
+  d:=d2
+  sday(d,2)
+  smonth(x,x)
+  syear(x,d2)
+  writeln(month(d) +
+		year(true)
+  )
+  smonth(2,4)
+
+ENDPROGRAM

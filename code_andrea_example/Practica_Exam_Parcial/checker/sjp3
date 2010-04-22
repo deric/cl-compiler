@@ -1,0 +1,6 @@
+Type Checking:
+
+L. 6: Operator [:] has its upper bound out of range.
+L. 8: Operator [:] has its lower bound out of range.
+L. 8: Operator [:] has its upper bound out of range.
+L. 8: Identifier i is undeclared.

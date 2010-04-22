@@ -1,0 +1,10 @@
+Program
+	Vars
+		a Array [10] Of Int
+		b Array [100] Of Int
+	EndVars
+
+	b[90:99] := a
+	b[90:98] := a
+	b[90:98] := a[0:8]
+EndProgram

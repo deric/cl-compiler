@@ -1,0 +1,14 @@
+Program
+  Vars
+    I Int
+  EndVars 
+  I:=1
+  While I<10 Do
+    If I-2*(I/2)=0 Then
+      WriteLn(I)
+    Else
+      WriteLn(2*I)
+    EndIf
+    I:=I+1
+  EndWhile
+EndProgram

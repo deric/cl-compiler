@@ -1,0 +1,421 @@
+
+
+  1: PROGRAM
+  2: 
+  3:   PROCEDURE A1()
+  4:     WRITELN("")
+  5:   ENDPROCEDURE //A1
+  6: 
+  7:   PROCEDURE A2(VAL j INT)
+  8:     IF (j=0) THEN WRITE("soy A2 llamado por main ") A1()
+  9:     ELSE
+ 10:       IF (j=3) THEN WRITE("soy A2 llamado por ABC ") A1()
+ 11:       ELSE WRITE("soy A2 llamado por AB1 ") A1()
+ 12:       ENDIF
+ 13:     ENDIF
+ 14:   ENDPROCEDURE //A2
+ 15: 
+ 16:   PROCEDURE A3(VAL i INT)
+ 17: 
+ 18:     PROCEDURE AB1(VAL k INT)
+ 19:       PROCEDURE ABC()
+ 20:         A2(3) //desde aqui no podemos llamar a A32 ni a A3
+ 21:         A3(3)
+ 22:         AB1(i-1)
+ 23:       ENDPROCEDURE //ABC
+ 24: 
+ 25:       IF (k>-1) THEN ABC()
+ 26:       ELSE A2(2)
+ 27:       ENDIF
+ 28:     ENDPROCEDURE //AB1
+ 29: 
+ 30:     PROCEDURE AB2()
+ 31:       AB1(i)
+ 32:     ENDPROCEDURE //AB2
+ 33: 
+ 34:     IF (i=0)  THEN
+ 35:       WRITE("soy A3 llamado por main ") A1()
+ 36:       AB2()
+ 37:     ELSE WRITE("soy A3 llamado por ABC ") A1()
+ 38:     ENDIF
+ 39:   ENDPROCEDURE //A3
+ 40: 
+ 41:   PROCEDURE A4()
+ 42:   ENDPROCEDURE //A4
+ 43: 
+ 44:   A2(0)
+ 45:   A3(0) //desde aqui no podemos llamar a AB1 ni a A32
+ 46: ENDPROGRAM
+
+
+program
+    \__list
+    \__list
+    |      \__procedure
+    |      |           \__ident(A1)
+    |      |           |         \__list
+    |      |           \__list
+    |      |           \__list
+    |      |           \__list
+    |      |                  \__writeln
+    |      |                            \__string("")
+    |      \__procedure
+    |      |           \__ident(A2)
+    |      |           |         \__list
+    |      |           |                \__val
+    |      |           |                      \__ident(j)
+    |      |           |                      \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           \__list
+    |      |                  \__if
+    |      |                       \__=
+    |      |                       |   \__ident(j)
+    |      |                       |   \__intconst(0)
+    |      |                       \__list
+    |      |                       |      \__write
+    |      |                       |      |       \__string("soy A2 llamado por main ")
+    |      |                       |      \__(
+    |      |                       |          \__ident(A1)
+    |      |                       |          \__list
+    |      |                       \__list
+    |      |                              \__if
+    |      |                                   \__=
+    |      |                                   |   \__ident(j)
+    |      |                                   |   \__intconst(3)
+    |      |                                   \__list
+    |      |                                   |      \__write
+    |      |                                   |      |       \__string("soy A2 llamado por ABC ")
+    |      |                                   |      \__(
+    |      |                                   |          \__ident(A1)
+    |      |                                   |          \__list
+    |      |                                   \__list
+    |      |                                          \__write
+    |      |                                          |       \__string("soy A2 llamado por AB1 ")
+    |      |                                          \__(
+    |      |                                              \__ident(A1)
+    |      |                                              \__list
+    |      \__procedure
+    |      |           \__ident(A3)
+    |      |           |         \__list
+    |      |           |                \__val
+    |      |           |                      \__ident(i)
+    |      |           |                      \__int
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |      |           \__ident(AB1)
+    |      |           |      |           |          \__list
+    |      |           |      |           |                 \__val
+    |      |           |      |           |                       \__ident(k)
+    |      |           |      |           |                       \__int
+    |      |           |      |           \__list
+    |      |           |      |           \__list
+    |      |           |      |           |      \__procedure
+    |      |           |      |           |                  \__ident(ABC)
+    |      |           |      |           |                  |          \__list
+    |      |           |      |           |                  \__list
+    |      |           |      |           |                  \__list
+    |      |           |      |           |                  \__list
+    |      |           |      |           |                         \__(
+    |      |           |      |           |                         |   \__ident(A2)
+    |      |           |      |           |                         |   \__list
+    |      |           |      |           |                         |          \__intconst(3)
+    |      |           |      |           |                         \__(
+    |      |           |      |           |                         |   \__ident(A3)
+    |      |           |      |           |                         |   \__list
+    |      |           |      |           |                         |          \__intconst(3)
+    |      |           |      |           |                         \__(
+    |      |           |      |           |                             \__ident(AB1)
+    |      |           |      |           |                             \__list
+    |      |           |      |           |                                    \__-
+    |      |           |      |           |                                        \__ident(i)
+    |      |           |      |           |                                        \__intconst(1)
+    |      |           |      |           \__list
+    |      |           |      |                  \__if
+    |      |           |      |                       \__>
+    |      |           |      |                       |   \__ident(k)
+    |      |           |      |                       |   \__-
+    |      |           |      |                       |       \__intconst(1)
+    |      |           |      |                       \__list
+    |      |           |      |                       |      \__(
+    |      |           |      |                       |          \__ident(ABC)
+    |      |           |      |                       |          \__list
+    |      |           |      |                       \__list
+    |      |           |      |                              \__(
+    |      |           |      |                                  \__ident(A2)
+    |      |           |      |                                  \__list
+    |      |           |      |                                         \__intconst(2)
+    |      |           |      \__procedure
+    |      |           |                  \__ident(AB2)
+    |      |           |                  |          \__list
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__(
+    |      |           |                             \__ident(AB1)
+    |      |           |                             \__list
+    |      |           |                                    \__ident(i)
+    |      |           \__list
+    |      |                  \__if
+    |      |                       \__=
+    |      |                       |   \__ident(i)
+    |      |                       |   \__intconst(0)
+    |      |                       \__list
+    |      |                       |      \__write
+    |      |                       |      |       \__string("soy A3 llamado por main ")
+    |      |                       |      \__(
+    |      |                       |      |   \__ident(A1)
+    |      |                       |      |   \__list
+    |      |                       |      \__(
+    |      |                       |          \__ident(AB2)
+    |      |                       |          \__list
+    |      |                       \__list
+    |      |                              \__write
+    |      |                              |       \__string("soy A3 llamado por ABC ")
+    |      |                              \__(
+    |      |                                  \__ident(A1)
+    |      |                                  \__list
+    |      \__procedure
+    |                  \__ident(A4)
+    |                  |         \__list
+    |                  \__list
+    |                  \__list
+    |                  \__list
+    \__list
+           \__(
+           |   \__ident(A2)
+           |   \__list
+           |          \__intconst(0)
+           \__(
+               \__ident(A3)
+               \__list
+                      \__intconst(0)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 0 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_A2
+    killparam
+    killparam
+    iload 0 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_A3
+    killparam
+    killparam
+    stop
+endprogram
+
+subroutine program_A1
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    wris ""
+    wrln
+    retu
+endsubroutine
+
+subroutine program_A2
+  parameters
+    _j
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _j t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    wris "soy A2 llamado por main "
+    load static_link t0
+    pushparam t0
+    call program_A1
+    killparam
+    ujmp endif_1
+  etiq else_1
+    load _j t0
+    iload 3 t1
+    equi t0 t1 t0
+    fjmp t0 else_2
+    wris "soy A2 llamado por ABC "
+    load static_link t0
+    pushparam t0
+    call program_A1
+    killparam
+    ujmp endif_2
+  etiq else_2
+    wris "soy A2 llamado por AB1 "
+    load static_link t0
+    pushparam t0
+    call program_A1
+    killparam
+  etiq endif_2
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_A3_AB1_ABC
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    iload 3 t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    load t0 t0
+    pushparam t0
+    call program_A2
+    killparam
+    killparam
+    iload 3 t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    load t0 t0
+    pushparam t0
+    call program_A3
+    killparam
+    killparam
+    load static_link t0
+    load t0 t0
+    addi t0 offset(program_A3:_i) t0
+    load t0 t0
+    iload 1 t1
+    subi t0 t1 t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    pushparam t0
+    call program_A3_AB1
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_A3_AB1
+  parameters
+    _k
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _k t0
+    iload 1 t1
+    mini t1 t1
+    grti t0 t1 t0
+    fjmp t0 else_1
+    aload static_link t0
+    pushparam t0
+    call program_A3_AB1_ABC
+    killparam
+    ujmp endif_1
+  etiq else_1
+    iload 2 t0
+    pushparam t0
+    load static_link t0
+    load t0 t0
+    pushparam t0
+    call program_A2
+    killparam
+    killparam
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_A3_AB2
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load static_link t0
+    addi t0 offset(program_A3:_i) t0
+    load t0 t0
+    pushparam t0
+    load static_link t0
+    pushparam t0
+    call program_A3_AB1
+    killparam
+    killparam
+    retu
+endsubroutine
+
+subroutine program_A3
+  parameters
+    _i
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _i t0
+    iload 0 t1
+    equi t0 t1 t0
+    fjmp t0 else_1
+    wris "soy A3 llamado por main "
+    load static_link t0
+    pushparam t0
+    call program_A1
+    killparam
+    aload static_link t0
+    pushparam t0
+    call program_A3_AB2
+    killparam
+    ujmp endif_1
+  etiq else_1
+    wris "soy A3 llamado por ABC "
+    load static_link t0
+    pushparam t0
+    call program_A1
+    killparam
+  etiq endif_1
+    retu
+endsubroutine
+
+subroutine program_A4
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    retu
+endsubroutine
+
+Executing code:
+soy A2 llamado por main 
+soy A3 llamado por main 
+soy A2 llamado por ABC 
+soy A3 llamado por ABC 
+soy A2 llamado por AB1 

@@ -1,0 +1,77 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:     Y Int
+  5:   EndVars
+  6:   X:=3
+  7:   Y:=3+X+X+X
+  8:   WriteLn(X)
+  9:   WriteLn(Y)
+ 10: EndProgram
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |               \__int
+    \__list
+    \__list
+           \__:=
+           |    \__ident(X)
+           |    \__intconst(3)
+           \__:=
+           |    \__ident(Y)
+           |    \__+
+           |        \__+
+           |        |   \__+
+           |        |   |   \__intconst(3)
+           |        |   |   \__ident(X)
+           |        |   \__ident(X)
+           |        \__ident(X)
+           \__writeln
+           |         \__ident(X)
+           \__writeln
+                     \__ident(Y)
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+  endvariables
+
+    aload _X t0
+    iload 3 t1
+    stor t1 t0
+    aload _Y t0
+    iload 3 t1
+    load _X t2
+    addi t1 t2 t1
+    load _X t2
+    addi t1 t2 t1
+    load _X t2
+    addi t1 t2 t1
+    stor t1 t0
+    load _X t0
+    wrii t0
+    wrln
+    load _Y t0
+    wrii t0
+    wrln
+    stop
+endprogram
+
+Executing code:
+3
+12

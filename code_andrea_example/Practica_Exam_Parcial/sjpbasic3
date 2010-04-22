@@ -1,0 +1,20 @@
+L. 8: Operator + with incompatible types.
+L. 15: Identifier x is undeclared.
+L. 16: Identifier x is undeclared.
+L. 18: Return with incompatible type.
+L. 29: Operator ( must be applied to a function in an expression.
+L. 30: Operator ( must be applied to a function in an expression.
+L. 30: The number of parameters in the call do not match.
+L. 31: Parameter 1 with incompatible types.
+L. 31: Operator + with incompatible types.
+L. 31: Assignment with incompatible types.
+L. 32: Operator ( must be applied to a function in an expression.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Parameter 2 is expected to be referenceable but it is not.
+L. 32: Parameter 2 with incompatible types.
+L. 32: Assignment with incompatible types.
+L. 34: Assignment with incompatible types.
+L. 35: Assignment with incompatible types.
+L. 36: Parameter 2 is expected to be referenceable but it is not.
+L. 36: Operator + with incompatible types.

@@ -1,0 +1,10 @@
+Program
+	Vars
+		i Int
+	EndVars
+
+	i := 1+2+3
+	i := 1*2*3
+	i := -1-2--3
+	i := -1/-2
+EndProgram

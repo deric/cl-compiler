@@ -1,0 +1,39 @@
+PROGRAM
+  VARS
+    x int
+    y int
+    p bool
+  ENDVARS
+  PROCEDURE q()
+    PROCEDURE p(val p int)
+      p:=3
+      p:=true
+    ENDPROCEDURE
+    p:=3
+    p(3)
+    p(true)
+  ENDPROCEDURE
+  PROCEDURE r(ref p int)
+    PROCEDURE p(val r int)
+      r:=4
+      r(3)
+      r(p)
+      r(y)
+      r(x)
+      p:=3
+      p:=true
+      p(3)
+    ENDPROCEDURE
+    r:=3
+    r(3)
+    r(p())
+    r(y)
+    r(x)
+    p:=3
+    p:=true
+    p(p)
+  ENDPROCEDURE
+  p:=3
+  p:=true
+  p(3)
+ENDPROGRAM

@@ -1,0 +1,6 @@
+L. 8: Operator + with uncompatible types.
+L. 9: Int type required in case.
+L. 17: Parameter 1 with incompatible types.
+L. 18: Parameter 1 with incompatible types.
+L. 19: Identifier F must be a procedure.
+L. 19: Parameter 1 is expected to be referenceable but it is not.

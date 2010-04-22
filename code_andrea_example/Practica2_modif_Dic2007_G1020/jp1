@@ -1,0 +1,36 @@
+Program
+  Vars
+    B Bool
+  EndVars
+  Function F() Return Bool
+    Write("F ")
+    Return False
+  EndFunction
+  Function G(Val B Bool) Return Bool
+    Write("G ")
+    Return B
+  EndFunction 
+
+  B:=True And False
+  B:=False And True
+  B:=F() And F()
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) And G(True) And G(False)
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) And G(False) And G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) And G(True) And G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) And (G(False) And G(True))
+  WriteLn("") WriteLn("-------------")
+  B:=3=4 And F()
+  WriteLn("") WriteLn("-------------")
+  B:=G(F()) And G(Not F())
+  WriteLn("") WriteLn("-------------")
+  B:=G(F() And F()) And G(Not F())
+  WriteLn("") WriteLn("-------------")
+  B:=G(Not(F() And F())) And Not F()
+  WriteLn("") WriteLn("-------------")
+  B:=G(Not F() And F()) And Not F()
+  WriteLn("") 
+EndProgram

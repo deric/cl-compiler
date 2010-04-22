@@ -1,0 +1,110 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:     Y bool
+  5:     B bool
+  6:   EndVars
+  7:   Function P(Val Z Int,Ref T bool) Return Int
+  8:     Return T
+  9:   EndFunction
+ 10:   Procedure Q(Val X Int,Ref W Int)
+ 11:     X:=Q(X,X)+
+ 12:        Q(X)
+ 13:     Y:=P(Y,Y)+Y
+ 14:     B:=P(Q(X,Y),P(X,X))
+ 15:   EndProcedure
+ 16: EndProgram
+
+
+program
+    \__list
+    |      \__ident(X)
+    |      |        \__int
+    |      \__ident(Y)
+    |      |        \__bool
+    |      \__ident(B)
+    |               \__bool
+    \__list
+    |      \__function
+    |      |          \__ident(P)
+    |      |          |        \__list
+    |      |          |        |      \__val
+    |      |          |        |      |     \__ident(Z)
+    |      |          |        |      |     \__int
+    |      |          |        |      \__ref
+    |      |          |        |            \__ident(T)
+    |      |          |        |            \__bool
+    |      |          |        \__int
+    |      |          \__list
+    |      |          \__list
+    |      |          \__list
+    |      |          \__ident(T)
+    |      \__procedure
+    |                  \__ident(Q)
+    |                  |        \__list
+    |                  |               \__val
+    |                  |               |     \__ident(X)
+    |                  |               |     \__int
+    |                  |               \__ref
+    |                  |                     \__ident(W)
+    |                  |                     \__int
+    |                  \__list
+    |                  \__list
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(X)
+    |                         |    \__+
+    |                         |        \__(
+    |                         |        |   \__ident(Q)
+    |                         |        |   \__list
+    |                         |        |          \__ident(X)
+    |                         |        |          \__ident(X)
+    |                         |        \__(
+    |                         |            \__ident(Q)
+    |                         |            \__list
+    |                         |                   \__ident(X)
+    |                         \__:=
+    |                         |    \__ident(Y)
+    |                         |    \__+
+    |                         |        \__(
+    |                         |        |   \__ident(P)
+    |                         |        |   \__list
+    |                         |        |          \__ident(Y)
+    |                         |        |          \__ident(Y)
+    |                         |        \__ident(Y)
+    |                         \__:=
+    |                              \__ident(B)
+    |                              \__(
+    |                                  \__ident(P)
+    |                                  \__list
+    |                                         \__(
+    |                                         |   \__ident(Q)
+    |                                         |   \__list
+    |                                         |          \__ident(X)
+    |                                         |          \__ident(Y)
+    |                                         \__(
+    |                                             \__ident(P)
+    |                                             \__list
+    |                                                    \__ident(X)
+    |                                                    \__ident(X)
+    \__list
+
+
+Type Checking:
+
+L. 8: Return with incompatible type.
+L. 11: Operator ( must be applied to a function in an expression.
+L. 12: Operator ( must be applied to a function in an expression.
+L. 12: The number of parameters in the call do not match.
+L. 13: Parameter 1 with incompatible types.
+L. 13: Operator + with incompatible types.
+L. 13: Assignment with incompatible types.
+L. 14: Operator ( must be applied to a function in an expression.
+L. 14: Parameter 2 with incompatible types.
+L. 14: Parameter 2 with incompatible types.
+L. 14: Parameter 2 is expected to be referenceable but it is not.
+L. 14: Parameter 2 with incompatible types.
+L. 14: Assignment with incompatible types.
+There are errors: no code generated

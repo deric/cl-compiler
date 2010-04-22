@@ -1,0 +1,104 @@
+PROGRAM
+VARS
+  f INT
+  f1 INT
+  f2 INT
+  f3 INT
+  m INT
+  r INT
+  aux INT
+ENDVARS
+
+ PROCEDURE fact(VAL n INT, REF z INT, REF f INT)
+    PROCEDURE mult(REF a INT, REF b INT, REF p INT)
+      IF a=0 THEN  p:=0
+      ELSE IF a>0 THEN  a:=a-1
+                        mult(a,b,p)
+                        p:=p+b
+           ENDIF
+      ENDIF
+    ENDPROCEDURE
+    PROCEDURE gfact(VAL y INT, VAL w INT, VAL n INT, REF f INT)
+    VARS
+      p INT
+      aux INT
+    ENDVARS
+      IF y=0 THEN f:=w
+      ELSE IF y>0 THEN  aux:=y
+                        mult(y,w,p)
+                        y:=aux
+                        gfact(y-1,p,n,f)
+           ENDIF
+      ENDIF
+    ENDPROCEDURE
+    gfact(n,1,z,f)
+ ENDPROCEDURE
+
+ PROCEDURE F(VAL n INT, REF f1 INT, REF f2 INT, REF f3 INT, VAL f4 INT)
+   PROCEDURE fibon(VAL n INT, REF f INT, REF f1 INT)
+     IF n=1 THEN  f:=1   f1:=0
+     ELSE IF n>1 THEN
+              fibon(n-1,f,f1)
+              aux:=f
+              f:=aux+f1
+              f1:=aux
+         ENDIF
+     ENDIF
+   ENDPROCEDURE
+
+   PROCEDURE fibon2(VAL n INT, REF f INT)
+   VARS
+     f1 INT
+     f2 INT
+   ENDVARS
+      IF n=0 THEN  f:=0
+      ELSE IF n=1 THEN  f:=1
+           ELSE IF n>1 THEN
+                    fibon2(n-1,f1)
+                    fibon2(n-2,f2)
+                    f:=f1+f2
+                ENDIF
+           ENDIF
+      ENDIF
+   ENDPROCEDURE
+
+  fibon(n,f1,f2)
+  fibon2(n,f4)
+  f3:=f4
+ ENDPROCEDURE
+
+ PROCEDURE trad(VAL n INT, REF m INT)
+   PROCEDURE dividir(VAL a INT, VAL b INT, REF c INT, REF r INT)
+     IF a<b THEN  c:=0  r:=a
+     ELSE
+          dividir(a,2*b,c,r)
+          IF r<b THEN c:=2*c
+          ELSE  c:=2*c+1
+                r:=r-b
+          ENDIF
+     ENDIF
+   ENDPROCEDURE
+   PROCEDURE gtrad(VAL u INT, VAL v INT, VAL w INT, VAL q INT, REF m INT)
+     IF w=0 THEN m:=u
+     ELSE IF w>0 THEN
+              dividir(w,2,q,r)
+              gtrad(u+v*r, v*10, q,q,m)
+          ENDIF
+     ENDIF
+   ENDPROCEDURE
+  m:=0
+  gtrad(m,m+1,n,m,m)
+ ENDPROCEDURE
+
+ aux:=6
+ fact(aux,aux,f)
+    WRITELN(f)
+
+ F(8,f1,f2,f3,96)
+   IF f1=f3 THEN
+      WRITE(f1) WRITE("  ")  WRITELN(f2)
+   ENDIF
+
+ trad(19,m)
+    WRITELN(m)
+ENDPROGRAM

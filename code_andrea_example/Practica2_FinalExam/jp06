@@ -1,0 +1,37 @@
+Program
+  Vars
+	x Int
+  EndVars
+
+Procedure P()
+     goto A
+  EndProcedure 
+
+x:=3
+goto C
+
+
+goto Z
+label A
+x:=5
+writeLn(5)
+goto C
+label B
+
+	While x<20 Do
+		x := x+1
+		If x>15 Then
+			goto F
+			goto C
+		EndIf
+		goto x
+		goto y
+		label Z
+		label y
+
+  	EndWhile
+
+write(Z)
+
+label C
+EndProgram

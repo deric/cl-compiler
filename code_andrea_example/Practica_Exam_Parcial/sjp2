@@ -1,0 +1,9 @@
+Type Checking:
+
+L. 6: Operator [:] requires an intconst in its second index.
+L. 7: Identifier i is undeclared.
+L. 7: Operator [:] requires an intconst in its first index.
+L. 8: Identifier j is undeclared.
+L. 8: Identifier k is undeclared.
+L. 8: Operator [:] requires an intconst in its first index.
+L. 8: Operator [:] requires an intconst in its second index.

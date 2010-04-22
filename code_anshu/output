@@ -1,0 +1,1784 @@
+==19817== Memcheck, a memory error detector
+==19817== Copyright (C) 2002-2009, and GNU GPL'd, by Julian Seward et al.
+==19817== Using Valgrind-3.5.0 and LibVEX; rerun with -h for copyright info
+==19817== Command: ./cl
+==19817== 
+
+
+  1: PROGRAM
+  2:   VARS
+  3:     x int
+  4:     y int
+  5:     p bool
+  6:   ENDVARS
+  7:   PROCEDURE q()
+  8:     PROCEDURE p(val p int)
+  9:       p:=3
+ 10:       p:=true
+ 11:     ENDPROCEDURE
+ 12:     p:=3
+ 13:     p(3)
+ 14:     p(true)
+ 15:   ENDPROCEDURE
+ 16:   PROCEDURE r(ref p int)
+ 17:     PROCEDURE p(val r int)
+ 18:       r:=4
+ 19:       r(3)
+ 20:       r(p)
+ 21:       r(y)
+ 22:       r(x)
+ 23:       p:=3
+ 24:       p:=true
+ 25:       p(3)
+ 26:     ENDPROCEDURE
+ 27:     r:=3
+ 28:     r(3)
+ 29:     r(p())
+ 30:     r(y)
+ 31:     r(x)
+ 32:     p:=3
+ 33:     p:=true
+ 34:     p(p)
+ 35:   ENDPROCEDURE
+ 36:   p:=3
+ 37:   p:=true
+ 38:   p(3)
+ 39: ENDPROGRAM
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__int
+    |      \__ident(p)
+    |               \__bool
+    \__list
+    |      \__procedure
+    |      |           \__ident(q)
+    |      |           |        \__list
+    |      |           \__list
+    |      |           \__list
+    |      |           |      \__procedure
+    |      |           |                  \__ident(p)
+    |      |           |                  |        \__list
+    |      |           |                  |               \__val
+    |      |           |                  |                     \__ident(p)
+    |      |           |                  |                     \__int
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                  \__list
+    |      |           |                         \__:=
+    |      |           |                         |    \__ident(p)
+    |      |           |                         |    \__intconst(3)
+    |      |           |                         \__:=
+    |      |           |                              \__ident(p)
+    |      |           |                              \__true
+    |      |           \__list
+    |      |                  \__:=
+    |      |                  |    \__ident(p)
+    |      |                  |    \__intconst(3)
+    |      |                  \__(
+    |      |                  |   \__ident(p)
+    |      |                  |   \__list
+    |      |                  |          \__intconst(3)
+    |      |                  \__(
+    |      |                      \__ident(p)
+    |      |                      \__list
+    |      |                             \__true
+    |      \__procedure
+    |                  \__ident(r)
+    |                  |        \__list
+    |                  |               \__ref
+    |                  |                     \__ident(p)
+    |                  |                     \__int
+    |                  \__list
+    |                  \__list
+    |                  |      \__procedure
+    |                  |                  \__ident(p)
+    |                  |                  |        \__list
+    |                  |                  |               \__val
+    |                  |                  |                     \__ident(r)
+    |                  |                  |                     \__int
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                  \__list
+    |                  |                         \__:=
+    |                  |                         |    \__ident(r)
+    |                  |                         |    \__intconst(4)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__intconst(3)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(p)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(y)
+    |                  |                         \__(
+    |                  |                         |   \__ident(r)
+    |                  |                         |   \__list
+    |                  |                         |          \__ident(x)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__intconst(3)
+    |                  |                         \__:=
+    |                  |                         |    \__ident(p)
+    |                  |                         |    \__true
+    |                  |                         \__(
+    |                  |                             \__ident(p)
+    |                  |                             \__list
+    |                  |                                    \__intconst(3)
+    |                  \__list
+    |                         \__:=
+    |                         |    \__ident(r)
+    |                         |    \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__intconst(3)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__(
+    |                         |              \__ident(p)
+    |                         |              \__list
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(y)
+    |                         \__(
+    |                         |   \__ident(r)
+    |                         |   \__list
+    |                         |          \__ident(x)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__intconst(3)
+    |                         \__:=
+    |                         |    \__ident(p)
+    |                         |    \__true
+    |                         \__(
+    |                             \__ident(p)
+    |                             \__list
+    |                                    \__ident(p)
+    \__list
+           \__:=
+           |    \__ident(p)
+           |    \__intconst(3)
+           \__:=
+           |    \__ident(p)
+           |    \__true
+           \__(
+               \__ident(p)
+               \__list
+                      \__intconst(3)
+
+
+Type Checking:
+
+Starting with node "program"
+Starting with node "int"
+Starting with node "int"
+Starting with node "bool"
+_::start_create_header
+a->tp->kindprocedure
+Contents of symbol table:
+----------------
+x:idvarlocal,int
+y:idvarlocal,int
+p:idvarlocal,bool
+q:idProcedure,procedure
+----------------
+_::start_create_header
+a->tp->kindprocedure
+==19817== Conditional jump or move depends on uninitialised value(s)
+==19817==    at 0x806E3D8: create_header(_ast*) (semantic.cc:213)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806E829: TypeCheck(_ast*, std::string) (semantic.cc:320)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== Use of uninitialised value of size 4
+==19817==    at 0x806E40B: create_header(_ast*) (semantic.cc:214)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806E829: TypeCheck(_ast*, std::string) (semantic.cc:320)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== Invalid write of size 4
+==19817==    at 0x806E40B: create_header(_ast*) (semantic.cc:214)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806E829: TypeCheck(_ast*, std::string) (semantic.cc:320)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817==  Address 0x42b51c4 is 6 bytes after a block of size 14 alloc'd
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C645: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+Starting with node "int"
+Contents of symbol table:
+----------------
+x:idvarlocal,int
+y:idvarlocal,int
+p:idvarlocal,bool
+q:idProcedure,procedure
+r:idProcedure,procedure
+----------------
+Starting with node "list"
+Starting with node "procedure"
+Contents of symbol table:
+----------------
+----------------
+x:idvarlocal,int
+y:idvarlocal,int
+p:idvarlocal,bool
+q:idProcedure,procedure
+r:idProcedure,procedure
+----------------
+child(child)list
+_::start_insert_parameters
+_::start_create_header
+a->tp->kindprocedure
+==19817== Conditional jump or move depends on uninitialised value(s)
+==19817==    at 0x806E3D8: create_header(_ast*) (semantic.cc:213)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806EA0E: TypeCheck(_ast*, std::string) (semantic.cc:340)
+==19817==    by 0x806EB78: TypeCheck(_ast*, std::string) (semantic.cc:353)
+==19817==    by 0x806E870: TypeCheck(_ast*, std::string) (semantic.cc:321)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== Use of uninitialised value of size 4
+==19817==    at 0x806E40B: create_header(_ast*) (semantic.cc:214)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806EA0E: TypeCheck(_ast*, std::string) (semantic.cc:340)
+==19817==    by 0x806EB78: TypeCheck(_ast*, std::string) (semantic.cc:353)
+==19817==    by 0x806E870: TypeCheck(_ast*, std::string) (semantic.cc:321)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 
+==19817== Process terminating with default action of signal 11 (SIGSEGV)
+==19817==  Bad permissions for mapped region at address 0x40C1D57
+==19817==    at 0x806E40B: create_header(_ast*) (semantic.cc:214)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806EA0E: TypeCheck(_ast*, std::string) (semantic.cc:340)
+==19817==    by 0x806EB78: TypeCheck(_ast*, std::string) (semantic.cc:353)
+==19817==    by 0x806E870: TypeCheck(_ast*, std::string) (semantic.cc:321)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== HEAP SUMMARY:
+==19817==     in use at exit: 20,855 bytes in 658 blocks
+==19817==   total heap usage: 1,274 allocs, 616 frees, 50,170 bytes allocated
+==19817== 
+==19817== 13 bytes in 1 blocks are possibly lost in loss record 4 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804D067: proc_params(_ast**) (cl.c:563)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817== 
+==19817== 13 bytes in 1 blocks are possibly lost in loss record 5 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C367: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817== 
+==19817== 13 bytes in 1 blocks are possibly lost in loss record 6 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804CFFE: proc_params(_ast**) (cl.c:559)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817== 
+==19817== 13 bytes in 1 blocks are possibly lost in loss record 7 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804DF44: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817== 
+==19817== 14 bytes in 1 blocks are possibly lost in loss record 8 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x805205F: expsimple(_ast**) (cl.c:1335)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817== 
+==19817== 14 bytes in 1 blocks are possibly lost in loss record 9 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F745: instrParams(_ast**) (cl.c:943)
+==19817==    by 0x80520A1: expsimple(_ast**) (cl.c:1336)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 14 bytes in 1 blocks are possibly lost in loss record 10 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F088: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 14 bytes in 1 blocks are possibly lost in loss record 11 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F745: instrParams(_ast**) (cl.c:943)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 14 bytes in 1 blocks are possibly lost in loss record 12 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804B3CF: program(_ast**) (cl.c:250)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 16 bytes in 1 blocks are possibly lost in loss record 13 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804D067: proc_params(_ast**) (cl.c:563)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 14 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804B65C: dec_vars(_ast**) (cl.c:277)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 15 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804DFAD: prim_type(_ast**) (cl.c:707)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 16 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804B7A6: dec_vars(_ast**) (cl.c:289)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 17 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804F75D: instrParams(_ast**) (cl.c:944)
+==19817==    by 0x80520A1: expsimple(_ast**) (cl.c:1336)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 18 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804BF68: l_dec_blocs(_ast**) (cl.c:377)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 19 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804F75D: instrParams(_ast**) (cl.c:944)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 17 bytes in 1 blocks are possibly lost in loss record 20 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804EB26: l_instrs(_ast**) (cl.c:813)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 21 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804B2CA: program(_ast**) (cl.c:245)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 22 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804C38D: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 23 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804D08D: proc_params(_ast**) (cl.c:563)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 24 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x8052085: expsimple(_ast**) (cl.c:1335)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 25 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804F0AE: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 18 bytes in 1 blocks are possibly lost in loss record 26 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CFEDC: std::string::reserve(unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x80555AF: std::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(char const*, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (basic_string.tcc:678)
+==19817==    by 0x806E3A7: create_header(_ast*) (semantic.cc:211)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806EA0E: TypeCheck(_ast*, std::string) (semantic.cc:340)
+==19817==    by 0x806EB78: TypeCheck(_ast*, std::string) (semantic.cc:353)
+==19817==    by 0x806E870: TypeCheck(_ast*, std::string) (semantic.cc:321)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 20 bytes in 1 blocks are possibly lost in loss record 31 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804B2A4: program(_ast**) (cl.c:245)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 23 bytes in 1 blocks are possibly lost in loss record 32 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804B38E: program(_ast**) (cl.c:249)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 23 bytes in 1 blocks are possibly lost in loss record 33 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x806DF40: insert_vars(_ast*) (semantic.cc:165)
+==19817==    by 0x806E7FE: TypeCheck(_ast*, std::string) (semantic.cc:318)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 23 bytes in 1 blocks are possibly lost in loss record 34 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x806DF40: insert_vars(_ast*) (semantic.cc:165)
+==19817==    by 0x806DFC2: insert_vars(_ast*) (semantic.cc:166)
+==19817==    by 0x806E7FE: TypeCheck(_ast*, std::string) (semantic.cc:318)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 23 bytes in 1 blocks are possibly lost in loss record 35 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x806DF40: insert_vars(_ast*) (semantic.cc:165)
+==19817==    by 0x806DFC2: insert_vars(_ast*) (semantic.cc:166)
+==19817==    by 0x806DFC2: insert_vars(_ast*) (semantic.cc:166)
+==19817==    by 0x806E7FE: TypeCheck(_ast*, std::string) (semantic.cc:318)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 28 bytes in 2 blocks are possibly lost in loss record 40 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804CA70: proc_l_params(_ast**) (cl.c:501)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 28 bytes in 2 blocks are possibly lost in loss record 41 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F745: instrParams(_ast**) (cl.c:943)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 30 bytes in 2 blocks are possibly lost in loss record 42 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EFEB: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 32 bytes in 2 blocks are possibly lost in loss record 58 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804DF44: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817== 
+==19817== 32 bytes in 2 blocks are possibly lost in loss record 59 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804CFFE: proc_params(_ast**) (cl.c:559)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 60 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804B2CA: program(_ast**) (cl.c:245)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 61 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804DFD3: prim_type(_ast**) (cl.c:707)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 62 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x80523AB: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F4F2: instrParams(_ast**) (cl.c:921)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 63 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804D08D: proc_params(_ast**) (cl.c:563)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 64 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804D18D: proc_params(_ast**) (cl.c:570)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 65 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 66 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x8052085: expsimple(_ast**) (cl.c:1335)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F4F2: instrParams(_ast**) (cl.c:921)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 67 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x805227D: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F02D: instruction(_ast**) (cl.c:866)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 68 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x80523AB: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F02D: instruction(_ast**) (cl.c:866)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817== 
+==19817== 32 bytes in 1 blocks are definitely lost in loss record 69 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F0AE: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 36 bytes in 2 blocks are possibly lost in loss record 70 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804C66B: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 36 bytes in 2 blocks are possibly lost in loss record 71 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804C66B: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 36 bytes in 2 blocks are possibly lost in loss record 72 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804D024: proc_params(_ast**) (cl.c:559)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 36 bytes in 2 blocks are possibly lost in loss record 73 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817== 
+==19817== 36 bytes in 2 blocks are possibly lost in loss record 74 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804F011: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 39 bytes in 3 blocks are possibly lost in loss record 77 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EFEB: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 42 bytes in 3 blocks are possibly lost in loss record 80 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804BBFE: dec_var(_ast**) (cl.c:343)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817== 
+==19817== 42 bytes in 3 blocks are possibly lost in loss record 81 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804D167: proc_params(_ast**) (cl.c:570)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817== 
+==19817== 42 bytes in 3 blocks are possibly lost in loss record 82 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EC94: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 44 bytes in 2 blocks are possibly lost in loss record 83 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C367: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 44 bytes in 2 blocks are possibly lost in loss record 84 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C367: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 48 bytes in 2 blocks are possibly lost in loss record 85 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x806E52E: insert_header(_ast*) (semantic.cc:247)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806E829: TypeCheck(_ast*, std::string) (semantic.cc:320)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 48 bytes in 3 blocks are possibly lost in loss record 86 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804DF44: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817== 
+==19817== 54 bytes in 3 blocks are possibly lost in loss record 87 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804BBFE: dec_var(_ast**) (cl.c:343)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817== 
+==19817== 54 bytes in 3 blocks are possibly lost in loss record 88 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804BC24: dec_var(_ast**) (cl.c:343)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 54 bytes in 3 blocks are possibly lost in loss record 89 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804D18D: proc_params(_ast**) (cl.c:570)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 54 bytes in 3 blocks are possibly lost in loss record 90 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EC94: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 54 bytes in 3 blocks are possibly lost in loss record 91 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804ECBA: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 56 bytes in 4 blocks are possibly lost in loss record 93 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C645: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 57 bytes in 3 blocks are possibly lost in loss record 94 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804D167: proc_params(_ast**) (cl.c:570)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 112 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 113 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804C38D: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 114 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804C66B: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 115 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804C38D: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 116 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804C66B: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 117 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804D024: proc_params(_ast**) (cl.c:559)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 118 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804D18D: proc_params(_ast**) (cl.c:570)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 119 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817== 
+==19817== 64 bytes in 2 blocks are definitely lost in loss record 120 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F011: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 65 bytes in 5 blocks are possibly lost in loss record 121 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8052385: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 65 bytes in 5 blocks are possibly lost in loss record 122 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A1F1: zzcr_attr(Attrib*, int, char*) (cl.c:90)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F088: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 68 bytes in 4 blocks are possibly lost in loss record 123 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804CD78: proc_l_params(_ast**) (cl.c:530)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 68 bytes in 4 blocks are possibly lost in loss record 124 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804B7A6: dec_vars(_ast**) (cl.c:289)
+==19817==    by 0x804C89C: proc_def(_ast**) (cl.c:477)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 68 bytes in 4 blocks are possibly lost in loss record 125 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804BF68: l_dec_blocs(_ast**) (cl.c:377)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 68 bytes in 4 blocks are possibly lost in loss record 126 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804EB26: l_instrs(_ast**) (cl.c:813)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 72 bytes in 4 blocks are possibly lost in loss record 127 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804C645: proc_dec(_ast**) (cl.c:454)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 85 bytes in 5 blocks are possibly lost in loss record 141 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8052385: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817== 
+==19817== 90 bytes in 5 blocks are possibly lost in loss record 142 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x80523AB: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817== 
+==19817== 94 (76 direct, 18 indirect) bytes in 1 blocks are definitely lost in loss record 143 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x804A311: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804DFD3: prim_type(_ast**) (cl.c:707)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 94 (76 direct, 18 indirect) bytes in 1 blocks are definitely lost in loss record 144 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x804A311: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804C38D: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817== 
+==19817== 94 (76 direct, 18 indirect) bytes in 1 blocks are definitely lost in loss record 145 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x804A311: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804D1A9: proc_params(_ast**) (cl.c:571)
+==19817==    by 0x804CB0D: proc_l_params(_ast**) (cl.c:507)
+==19817==    by 0x804C687: proc_dec(_ast**) (cl.c:455)
+==19817==    by 0x804C3A9: proc_bloc(_ast**) (cl.c:430)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 94 (76 direct, 18 indirect) bytes in 1 blocks are definitely lost in loss record 146 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x806E3C5: create_header(_ast*) (semantic.cc:211)
+==19817==    by 0x806E4DE: insert_header(_ast*) (semantic.cc:246)
+==19817==    by 0x806E5DA: insert_headers(_ast*) (semantic.cc:256)
+==19817==    by 0x806E829: TypeCheck(_ast*, std::string) (semantic.cc:320)
+==19817==    by 0x804ACAB: main (cl.c:201)
+==19817== 
+==19817== 96 bytes in 3 blocks are definitely lost in loss record 150 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804BC24: dec_var(_ast**) (cl.c:343)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 96 bytes in 3 blocks are definitely lost in loss record 151 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x80523AB: expsimple(_ast**) (cl.c:1365)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F02D: instruction(_ast**) (cl.c:866)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817== 
+==19817== 96 bytes in 3 blocks are definitely lost in loss record 152 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804ECBA: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804B346: program(_ast**) (cl.c:248)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 98 bytes in 7 blocks are possibly lost in loss record 153 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8051EBC: expsimple(_ast**) (cl.c:1322)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 126 bytes in 7 blocks are possibly lost in loss record 154 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8051EBC: expsimple(_ast**) (cl.c:1322)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 126 bytes in 7 blocks are possibly lost in loss record 155 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x8051EE2: expsimple(_ast**) (cl.c:1322)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817== 
+==19817== 128 bytes in 4 blocks are definitely lost in loss record 157 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F011: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 135 bytes in 9 blocks are possibly lost in loss record 158 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EFEB: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 160 bytes in 5 blocks are definitely lost in loss record 170 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F011: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 160 bytes in 5 blocks are definitely lost in loss record 171 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x805227D: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F4F2: instrParams(_ast**) (cl.c:921)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817== 
+==19817== 160 bytes in 5 blocks are definitely lost in loss record 172 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F0AE: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 162 bytes in 9 blocks are possibly lost in loss record 173 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804F011: instruction(_ast**) (cl.c:865)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 168 bytes in 12 blocks are possibly lost in loss record 174 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A13C: zzcr_attr(Attrib*, int, char*) (cl.c:86)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8052257: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 168 bytes in 12 blocks are possibly lost in loss record 175 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF0A7: std::string::_Rep::_M_clone(std::allocator<char> const&, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF1CE: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x8071E6A: lowercase(std::string) (util.cc:36)
+==19817==    by 0x804A177: zzcr_attr(Attrib*, int, char*) (cl.c:89)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804F088: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 188 (152 direct, 36 indirect) bytes in 2 blocks are definitely lost in loss record 176 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x804A311: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804DF6A: prim_type(_ast**) (cl.c:703)
+==19817==    by 0x804DC7F: constr_type(_ast**) (cl.c:673)
+==19817==    by 0x804BC40: dec_var(_ast**) (cl.c:344)
+==19817==    by 0x804BA04: l_dec_vars(_ast**) (cl.c:316)
+==19817==    by 0x804B685: dec_vars(_ast**) (cl.c:278)
+==19817==    by 0x804B2E6: program(_ast**) (cl.c:246)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 188 (152 direct, 36 indirect) bytes in 2 blocks are definitely lost in loss record 177 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x806C1C0: create_type(std::string, ttypenode*, ttypenode*) (ptype.cc:14)
+==19817==    by 0x804A311: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804C38D: proc_bloc(_ast**) (cl.c:429)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 192 bytes in 6 blocks are definitely lost in loss record 179 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x805227D: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F02D: instruction(_ast**) (cl.c:866)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817== 
+==19817== 204 bytes in 12 blocks are possibly lost in loss record 180 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A3AE: createASTlist(_ast*) (cl.c:118)
+==19817==    by 0x804F75D: instrParams(_ast**) (cl.c:944)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 216 bytes in 12 blocks are possibly lost in loss record 181 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x805227D: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817== 
+==19817== 216 bytes in 12 blocks are possibly lost in loss record 182 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049C0D: zzsubroot(_ast**, _ast**, _ast**) (ast.c:115)
+==19817==    by 0x804F0AE: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== 224 bytes in 7 blocks are definitely lost in loss record 186 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x804F0AE: instruction(_ast**) (cl.c:870)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 224 bytes in 7 blocks are definitely lost in loss record 187 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049BDA: zzsubroot(_ast**, _ast**, _ast**) (ast.c:111)
+==19817==    by 0x8051EE2: expsimple(_ast**) (cl.c:1322)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817==    by 0x8050AA8: expr_compare(_ast**) (cl.c:1125)
+==19817==    by 0x805059C: expression(_ast**) (cl.c:1076)
+==19817==    by 0x804F4F2: instrParams(_ast**) (cl.c:921)
+==19817==    by 0x804F0CA: instruction(_ast**) (cl.c:871)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817== 
+==19817== 254 bytes in 12 blocks are possibly lost in loss record 190 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A127: zzcr_attr(Attrib*, int, char*) (cl.c:85)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x8052257: expsimple(_ast**) (cl.c:1355)
+==19817==    by 0x8051BD7: not_negative(_ast**) (cl.c:1292)
+==19817==    by 0x8051529: expr_mult_div(_ast**) (cl.c:1228)
+==19817==    by 0x805101D: expr_plus_sub(_ast**) (cl.c:1179)
+==19817== 
+==19817== 294 bytes in 21 blocks are possibly lost in loss record 191 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A10F: zzcr_attr(Attrib*, int, char*) (cl.c:82)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EC94: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 320 bytes in 10 blocks are definitely lost in loss record 195 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804ECBA: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804C8CC: proc_def(_ast**) (cl.c:478)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817== 
+==19817== 352 bytes in 11 blocks are definitely lost in loss record 197 of 207
+==19817==    at 0x4023FAB: calloc (vg_replace_malloc.c:418)
+==19817==    by 0x8049AAF: zzastnew() (ast.c:64)
+==19817==    by 0x8049AEE: zzsubchild(_ast**, _ast**, _ast**) (ast.c:80)
+==19817==    by 0x804ECBA: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817==    by 0x804B316: program(_ast**) (cl.c:247)
+==19817==    by 0x804AB44: main (cl.c:184)
+==19817== 
+==19817== 378 bytes in 21 blocks are possibly lost in loss record 198 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D069F: std::string::_M_mutate(unsigned int, unsigned int, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0839: std::string::_M_replace_safe(unsigned int, unsigned int, char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D08DD: std::string::assign(char const*, unsigned int) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40D0A74: std::string::operator=(char const*) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A0FA: zzcr_attr(Attrib*, int, char*) (cl.c:81)
+==19817==    by 0x807173D: _zzmatch(int, char**, char**, int*, int*, unsigned char**) (err.h:610)
+==19817==    by 0x804EC94: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817== 
+==19817== 378 bytes in 21 blocks are possibly lost in loss record 199 of 207
+==19817==    at 0x40253E0: operator new(unsigned int) (vg_replace_malloc.c:214)
+==19817==    by 0x40CE435: std::string::_Rep::_S_create(unsigned int, unsigned int, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF340: ??? (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x40CF525: std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, std::allocator<char> const&) (in /usr/lib/libstdc++.so.6.0.13)
+==19817==    by 0x804A2DC: createASTnode(Attrib*, int, char*) (cl.c:110)
+==19817==    by 0x8049B21: zzsubchild(_ast**, _ast**, _ast**) (ast.c:84)
+==19817==    by 0x804ECBA: instruction(_ast**) (cl.c:836)
+==19817==    by 0x804EA77: l_instrs(_ast**) (cl.c:807)
+==19817==    by 0x804C8FC: proc_def(_ast**) (cl.c:479)
+==19817==    by 0x804C3D9: proc_bloc(_ast**) (cl.c:431)
+==19817==    by 0x804C0B9: dec_bloc(_ast**) (cl.c:400)
+==19817==    by 0x804BEB1: l_dec_blocs(_ast**) (cl.c:371)
+==19817== 
+==19817== LEAK SUMMARY:
+==19817==    definitely lost: 3,712 bytes in 105 blocks
+==19817==    indirectly lost: 144 bytes in 8 blocks
+==19817==      possibly lost: 5,111 bytes in 305 blocks
+==19817==    still reachable: 11,888 bytes in 240 blocks
+==19817==         suppressed: 0 bytes in 0 blocks
+==19817== Reachable blocks (those to which a pointer was found) are not shown.
+==19817== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19817== 
+==19817== For counts of detected and suppressed errors, rerun with: -v
+==19817== Use --track-origins=yes to see where uninitialised values come from
+==19817== ERROR SUMMARY: 118 errors from 118 contexts (suppressed: 17 from 6)

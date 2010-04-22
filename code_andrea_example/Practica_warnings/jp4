@@ -1,0 +1,36 @@
+Program
+  Vars
+    X Int
+    Y Int
+    Z Int
+    W Int
+  EndVars
+  Procedure p1
+    Procedure p
+      Y:=5
+      X:=4 div Z
+      Z:=3 div X
+      While (Y<1) Do
+        Y:=1-Y
+      EndWhile
+      Z:=0
+      If W<1 Then
+        X:=X-1
+      EndIf
+    EndProcedure
+    X:=1
+    Y:=0
+    While (Y<1) Do
+      Y:=1-Y
+    EndWhile
+    While (X<1) Do
+      W:=4 div Z
+      Z:=3 div 0
+    EndWhile
+  EndProcedure
+  X:=2
+  Z:=0
+  If (X<1-Z) Then
+    X:=X div (2-(3-1))
+  EndIf
+EndProgram

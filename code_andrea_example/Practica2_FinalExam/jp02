@@ -1,0 +1,9 @@
+Program
+  Vars
+	A Array [10] Of Int
+	X Int
+  EndVars
+
+A[0]:=3
+WriteLn(A[-5])
+EndProgram

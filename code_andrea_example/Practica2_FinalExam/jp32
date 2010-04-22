@@ -1,0 +1,45 @@
+Program
+  Vars
+    S Struct
+        X Int
+        A Array [10] Of Int
+      EndStruct
+  EndVars
+  Procedure P1(Ref A Array [10] Of Int)
+    A[3]:=5
+  EndProcedure
+  Procedure P2(Ref S2 Struct X Int A Array [10] Of Int EndStruct)
+    S2.A:=F1(S2.A)
+    S2.A:=F2(S2.A)
+    S2.X:=3
+    P1(S2.A)
+    P3(S2.A)
+  EndProcedure
+  Procedure P3(Val A2 Array [10] Of Int)
+    A2[4]:=5
+  EndProcedure
+  Function F1(Ref A Array [10] Of Int) Return Array [10] Of Int
+    Vars
+      B Array [10] Of Int
+    EndVars
+    B:=A
+    B[5]:=B[3]+B[4]
+    Return B
+  EndFunction
+  Function F2(Val A Array [10] Of Int) Return Array [10] Of Int
+    Vars
+      B Array [10] Of Int
+    EndVars
+    B:=A
+    B[6]:=B[3]+B[4]+B[5]
+    Return B
+  EndFunction
+  S.A[3]:=1
+  S.A[4]:=2
+  P2(S)
+  WriteLn(S.X)
+  WriteLn(S.A[3])
+  WriteLn(S.A[4])
+  WriteLn(S.A[5])
+  WriteLn(S.A[6])
+EndProgram

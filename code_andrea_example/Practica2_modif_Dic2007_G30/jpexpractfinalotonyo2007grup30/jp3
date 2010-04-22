@@ -1,0 +1,42 @@
+PROGRAM
+  VARS
+    x Pointer to Int
+    y Struct
+	  x Pointer to Array [10] of Int
+	  y Int
+	EndStruct
+    b Pointer to Struct 
+	x Pointer to Array [10] of Int
+        y Int
+      EndStruct
+    c Pointer to Pointer to Int
+  ENDVARS
+  FUNCTION f (val x int) RETURN bool
+  	RETURN x=3
+  ENDFUNCTION
+    x^:=3
+    y^:=3
+    y.y:=x^
+    b^.y:=x^
+    y.x:=c^
+    y.x:=b.x
+    x.x^^:=3
+    y.y^:=
+          y.x^[b^]
+    y.y:=y.x^[b^.y]
+    x^:=c^
+    c^^:=x^
+    c^:=x
+
+    x:=&y.y
+    x:=&b
+    x:=&y
+    x:=&c^^
+    y.y:=&b.y
+    y.y:=&x
+    x^:=&f(3)
+    c:=&y.y
+    y.x^[&c^^]:=
+                5+&f(b^.y)
+    b:=&y
+ENDPROGRAM

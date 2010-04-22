@@ -1,0 +1,39 @@
+PROGRAM
+  VARS
+    a Array[31] of Date
+    s Struct b Bool d Date EndStruct
+    x int
+    y bool
+  ENDVARS
+
+  Function F(ref d Date) return Date
+    Vars
+      d Date
+    EndVars
+    x:= day(d)
+    b:= month(a[d])	
+    syear(s.d,r)
+    return a[4+5+d]
+  EndFunction
+
+  Procedure P(val t Array[12] of Date)
+    x:=F(s.d)
+    While x<31 Do
+      sday(t[x],x)
+      writeln(day(t[x]))
+		writeln(month(s))
+		writeln(year(
+			F(
+				F(s.d)
+		)))
+     EndWhile
+  EndProcedure
+
+  P(a)
+  If a[138] > s.d Then
+	writeln(s)
+  EndIf
+  sday(F(a[3]), b)
+  smonth(r, x)
+ EndProgram
+

@@ -1,0 +1,8 @@
+L. 17: Return con tipo incompatible.
+L. 21: Return con tipo incompatible.
+L. 25: Parametro 1 con tipos incompatibles.
+L. 25: Parametro 2 con tipos incompatibles.
+L. 27: Parametro 2 no-referenciable pero pasado por referencia.
+L. 29: Faltan parametros en la llamada.
+L. 29: Parametro 2 no-referenciable pero pasado por referencia.
+L. 30: Asignacion con tipos incompatibles.

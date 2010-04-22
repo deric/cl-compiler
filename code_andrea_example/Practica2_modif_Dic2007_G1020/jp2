@@ -1,0 +1,50 @@
+Program
+  Vars
+    B Bool
+  EndVars
+  Function F() Return Bool
+    Write("F ")
+    Return False
+  EndFunction
+  Function G(Val B Bool) Return Bool
+    Write("G ")
+    Return B
+  EndFunction 
+  Function H() Return Bool
+    Write("H ")
+    Return True
+  EndFunction
+  B:=True Or False
+  B:=False Or True
+  B:=F() Or F()
+  WriteLn("") WriteLn("-------------")
+  B:=H() Or H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) Or G(False) Or G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) Or G(True) Or G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) Or G(True) Or G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=3=3 Or H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(Not(H() Or H())) Or Not H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(Not H() Or H()) And Not H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) Or G(False) And H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) Or G(True) And G(True)
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) Or G(True) And H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) And G(False) Or H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(False) And G(True) Or H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) And G(False) Or H()
+  WriteLn("") WriteLn("-------------")
+  B:=G(True) And G(True) Or H()
+  WriteLn("")
+
+EndProgram

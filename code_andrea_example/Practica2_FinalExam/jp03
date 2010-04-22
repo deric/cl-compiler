@@ -1,0 +1,43 @@
+Program
+  Vars
+	A Array [10] Of Int
+	I Int
+  EndVars
+
+I := 0
+WriteLn("Estat inicial")
+While I<10 Do
+    Write(A[I])
+    Write("  ")
+    I := I+1
+  EndWhile
+A[15]:=2
+
+WriteLn(" ")
+WriteLn("Despres d'executar A[15]:=2 queda:")
+I := 0
+While I<10 Do
+    Write(A[I])
+    Write("  ")
+    I := I+1
+  EndWhile
+
+WriteLn(" ")
+WriteLn("Despres d'executar A[12]:=56 A[3]:=21 queda:")
+A[12]:=56
+A[3]:=21
+I := 0
+While I<10 Do
+    Write(A[I])
+    Write("  ")
+    I := I+1
+  EndWhile
+
+WriteLn("")
+WriteLn(A[22])
+WriteLn(" ")
+WriteLn("Fem una prova amb valors negatius")
+A[-6]:=77
+WriteLn(A[-3])
+
+EndProgram

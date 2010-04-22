@@ -1,0 +1,31 @@
+program
+  vars
+    s string
+    i int
+  endvars
+
+  procedure P(val a int, val b string)
+    writeln(a)
+    writeln(b)
+  endprocedure
+
+  function f(val a int, ref b string) return string
+    return "adeu"
+  endfunction
+
+  function g(val a int) return int
+    return "hola"
+  endfunction
+
+  function h() return string
+    return 3
+  endfunction
+
+  P(i, s)
+  P(s, i)
+  P(23, "Hola")
+  s := f(23, "Hola")
+  s := f(i, s)
+  s := f(g, h)
+  i := f(i, s)
+endprogram

@@ -1,0 +1,158 @@
+
+
+  1: Program
+  2:   Vars
+  3:     x Int
+  4:     y Struct
+  5:         x bool
+  6:         y Int
+  7:       EndStruct
+  8:     z Array [10] Of Struct
+  9:                            p bool
+ 10:                            x Int
+ 11:                          EndStruct
+ 12:   EndVars
+ 13:   Procedure P(ref a Struct p bool x Int EndStruct,
+ 14:               val b Struct p bool x Int EndStruct,
+ 15:               ref x Array [10] Of Struct p bool x Int EndStruct)
+ 16:     Vars
+ 17:       z Array [4] of Int
+ 18:       y Array [4] of Int
+ 19:     EndVars
+ 20:     x[3].p
+ 21:           .x:=45+z[y[2]]
+ 22:     z:=y
+ 23:     z:=x
+ 24:   EndProcedure 
+ 25:   y.y:=y.y
+ 26:   x:=y.y
+ 27:   z[y.y+2].p:=z[x]
+ 28:   P(z[3],z[y.y],z)
+ 29: EndProgram
+ 30: 
+ 31: 
+
+
+program
+    \__list
+    |      \__ident(x)
+    |      |        \__int
+    |      \__ident(y)
+    |      |        \__struct
+    |      |                 \__ident(x)
+    |      |                 |        \__bool
+    |      |                 \__ident(y)
+    |      |                          \__int
+    |      \__ident(z)
+    |               \__array
+    |                       \__intconst(10)
+    |                       \__struct
+    |                                \__ident(p)
+    |                                |        \__bool
+    |                                \__ident(x)
+    |                                         \__int
+    \__list
+    |      \__procedure
+    |                  \__ident(P)
+    |                  |        \__list
+    |                  |               \__ref
+    |                  |               |     \__ident(a)
+    |                  |               |     \__struct
+    |                  |               |              \__ident(p)
+    |                  |               |              |        \__bool
+    |                  |               |              \__ident(x)
+    |                  |               |                       \__int
+    |                  |               \__val
+    |                  |               |     \__ident(b)
+    |                  |               |     \__struct
+    |                  |               |              \__ident(p)
+    |                  |               |              |        \__bool
+    |                  |               |              \__ident(x)
+    |                  |               |                       \__int
+    |                  |               \__ref
+    |                  |                     \__ident(x)
+    |                  |                     \__array
+    |                  |                             \__intconst(10)
+    |                  |                             \__struct
+    |                  |                                      \__ident(p)
+    |                  |                                      |        \__bool
+    |                  |                                      \__ident(x)
+    |                  |                                               \__int
+    |                  \__list
+    |                  |      \__ident(z)
+    |                  |      |        \__array
+    |                  |      |                \__intconst(4)
+    |                  |      |                \__int
+    |                  |      \__ident(y)
+    |                  |               \__array
+    |                  |                       \__intconst(4)
+    |                  |                       \__int
+    |                  \__list
+    |                  \__list
+    |                         \__:=
+    |                         |    \__.
+    |                         |    |   \__.
+    |                         |    |   |   \__[
+    |                         |    |   |   |   \__ident(x)
+    |                         |    |   |   |   \__intconst(3)
+    |                         |    |   |   \__ident(p)
+    |                         |    |   \__ident(x)
+    |                         |    \__+
+    |                         |        \__intconst(45)
+    |                         |        \__[
+    |                         |            \__ident(z)
+    |                         |            \__[
+    |                         |                \__ident(y)
+    |                         |                \__intconst(2)
+    |                         \__:=
+    |                         |    \__ident(z)
+    |                         |    \__ident(y)
+    |                         \__:=
+    |                              \__ident(z)
+    |                              \__ident(x)
+    \__list
+           \__:=
+           |    \__.
+           |    |   \__ident(y)
+           |    |   \__ident(y)
+           |    \__.
+           |        \__ident(y)
+           |        \__ident(y)
+           \__:=
+           |    \__ident(x)
+           |    \__.
+           |        \__ident(y)
+           |        \__ident(y)
+           \__:=
+           |    \__.
+           |    |   \__[
+           |    |   |   \__ident(z)
+           |    |   |   \__+
+           |    |   |       \__.
+           |    |   |       |   \__ident(y)
+           |    |   |       |   \__ident(y)
+           |    |   |       \__intconst(2)
+           |    |   \__ident(p)
+           |    \__[
+           |        \__ident(z)
+           |        \__ident(x)
+           \__(
+               \__ident(P)
+               \__list
+                      \__[
+                      |   \__ident(z)
+                      |   \__intconst(3)
+                      \__[
+                      |   \__ident(z)
+                      |   \__.
+                      |       \__ident(y)
+                      |       \__ident(y)
+                      \__ident(z)
+
+
+Type Checking:
+
+L. 21: Operator struct. with incompatible types.
+L. 23: Assignment with incompatible types.
+L. 27: Assignment with incompatible types.
+There are errors: no code generated

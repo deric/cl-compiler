@@ -1,0 +1,13 @@
+Program
+  Vars
+    S Struct
+                    X Int
+                    A Array [10] Of Int
+                  EndStruct
+   X Int
+  EndVars
+  X:=-1
+  S.X:=7
+  X:=S.X
+  WriteLn(X)
+EndProgram

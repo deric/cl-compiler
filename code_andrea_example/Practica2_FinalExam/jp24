@@ -1,0 +1,25 @@
+Program
+  Vars
+    X Int
+    Y Int
+    B Bool
+    S Struct
+        X Int
+        B Bool
+      EndStruct
+    S1 Struct
+         X Int
+         B Bool
+       EndStruct
+  EndVars
+  X:=5
+  S.B:=True
+  S1.X:=4
+  S1.B:=False
+  If (X*3>10 And S.B) Then
+    S.X:=X
+    S1:=S
+  EndIf
+  WriteLn(S1.X)
+  WriteLn(S1.B)
+EndProgram

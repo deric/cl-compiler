@@ -1,0 +1,23 @@
+Program
+  Vars
+    X Int
+    Y Int
+    B Bool
+    S Struct
+        X Int
+        B Bool
+      EndStruct
+    S1 Struct
+         X Int
+         B Bool
+       EndStruct
+  EndVars
+  X:=5
+  B:=True
+  S1.X:=4
+  S1.B:=False
+  WriteLn(X)
+  WriteLn(B)
+  WriteLn(S1.X)
+  WriteLn(S1.B)
+EndProgram

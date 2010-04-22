@@ -1,0 +1,10 @@
+Program
+  Vars
+    B Bool
+  EndVars
+  Function F Return Bool
+    WriteLn("hola")
+    Return True
+  EndFunction
+  B:=F Or F
+EndProgram

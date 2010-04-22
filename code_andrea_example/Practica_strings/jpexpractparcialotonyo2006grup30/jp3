@@ -1,0 +1,29 @@
+program
+  vars
+    s1 string
+    s2 string
+    i int
+    r real
+    b bool
+  endvars
+
+  s1 := "holahola"
+  i := 4
+  writeln(s2 + "iAdeu")
+  write(i + s2)
+  write(s1 + i)
+  s1 := s1 + s2 + "fi"
+  if s1 = "hola" then
+    i := 3
+  endif
+  b := i = s1
+  b := s1 OR s2
+  b := s1 < s2
+  i := i div s1
+  i := s2 div i
+  r := r / s1
+  r := s1 / r
+  s2 := -s1
+  s2 := not s1
+  b := "hola" = "adeu"
+endprogram

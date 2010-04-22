@@ -1,0 +1,414 @@
+
+
+  1: Program
+  2:   Vars
+  3:     X Int
+  4:     Y Int
+  5:   EndVars
+  6:   Procedure F()
+  7:     Write("F")
+  8:   EndProcedure
+  9:   Procedure G()
+ 10:     Write("G")
+ 11:   EndProcedure
+ 12:   Procedure H()
+ 13:     Write("H")
+ 14:   EndProcedure
+ 15:   Function T() Return Int
+ 16:     Y:=Y+1
+ 17:     Return Y
+ 18:   EndFunction
+ 19:   Function Mod(Val X Int,Val M Int) Return Int
+ 20:     Return X-(X/M)*M
+ 21:   EndFunction
+ 22:   X:=0
+ 23:   Y:=1
+ 24:   While X<20 Do
+ 25:      Switch Mod(X,5)
+ 26:        Case 0: F()
+ 27:        Case 1: G()
+ 28:        Case 1: WriteLn("Pifiada1")
+ 29:        Case 0: WriteLn("Pifiada2")
+ 30:        Case 4:
+ 31:          Switch Mod(Y,2)
+ 32:            Case 0:Write(T())
+ 33:            Case 1:Write(T()+1)
+ 34:            Default:
+ 35:              WriteLn("Pifiada3")
+ 36:          EndSwitch
+ 37:        Default: H()
+ 38:     EndSwitch
+ 39:     X:=X+1
+ 40:   EndWhile
+ 41:   WriteLn("")
+ 42: EndProgram
+ 43: 
+ 44: 
+
+
+ program
+ | list
+ | | ident(X)
+ | | | int
+ | | ident(Y)
+ | | | int
+ | list
+ | | procedure
+ | | | ident(F)
+ | | | | list
+ | | | list
+ | | | list
+ | | | list
+ | | | | write
+ | | | | | string("F")
+ | | procedure
+ | | | ident(G)
+ | | | | list
+ | | | list
+ | | | list
+ | | | list
+ | | | | write
+ | | | | | string("G")
+ | | procedure
+ | | | ident(H)
+ | | | | list
+ | | | list
+ | | | list
+ | | | list
+ | | | | write
+ | | | | | string("H")
+ | | function
+ | | | ident(T)
+ | | | | list
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | | :=
+ | | | | | ident(Y)
+ | | | | | +
+ | | | | | | ident(Y)
+ | | | | | | intconst(1)
+ | | | ident(Y)
+ | | function
+ | | | ident(Mod)
+ | | | | list
+ | | | | | val
+ | | | | | | ident(X)
+ | | | | | | int
+ | | | | | val
+ | | | | | | ident(M)
+ | | | | | | int
+ | | | | int
+ | | | list
+ | | | list
+ | | | list
+ | | | -
+ | | | | ident(X)
+ | | | | *
+ | | | | | /
+ | | | | | | ident(X)
+ | | | | | | ident(M)
+ | | | | | ident(M)
+ | list
+ | | :=
+ | | | ident(X)
+ | | | intconst(0)
+ | | :=
+ | | | ident(Y)
+ | | | intconst(1)
+ | | while
+ | | | <
+ | | | | ident(X)
+ | | | | intconst(20)
+ | | | list
+ | | | | switch
+ | | | | | (
+ | | | | | | ident(Mod)
+ | | | | | | list
+ | | | | | | | ident(X)
+ | | | | | | | intconst(5)
+ | | | | | list
+ | | | | | | case
+ | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(F)
+ | | | | | | | | | list
+ | | | | | | case
+ | | | | | | | intconst(1)
+ | | | | | | | list
+ | | | | | | | | (
+ | | | | | | | | | ident(G)
+ | | | | | | | | | list
+ | | | | | | case
+ | | | | | | | intconst(1)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("Pifiada1")
+ | | | | | | case
+ | | | | | | | intconst(0)
+ | | | | | | | list
+ | | | | | | | | writeln
+ | | | | | | | | | string("Pifiada2")
+ | | | | | | case
+ | | | | | | | intconst(4)
+ | | | | | | | list
+ | | | | | | | | switch
+ | | | | | | | | | (
+ | | | | | | | | | | ident(Mod)
+ | | | | | | | | | | list
+ | | | | | | | | | | | ident(Y)
+ | | | | | | | | | | | intconst(2)
+ | | | | | | | | | list
+ | | | | | | | | | | case
+ | | | | | | | | | | | intconst(0)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | write
+ | | | | | | | | | | | | | (
+ | | | | | | | | | | | | | | ident(T)
+ | | | | | | | | | | | | | | list
+ | | | | | | | | | | case
+ | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | | list
+ | | | | | | | | | | | | write
+ | | | | | | | | | | | | | +
+ | | | | | | | | | | | | | | (
+ | | | | | | | | | | | | | | | ident(T)
+ | | | | | | | | | | | | | | | list
+ | | | | | | | | | | | | | | intconst(1)
+ | | | | | | | | | | default
+ | | | | | | | | | | list
+ | | | | | | | | | | | writeln
+ | | | | | | | | | | | | string("Pifiada3")
+ | | | | | | default
+ | | | | | | list
+ | | | | | | | (
+ | | | | | | | | ident(H)
+ | | | | | | | | list
+ | | | | :=
+ | | | | | ident(X)
+ | | | | | +
+ | | | | | | ident(X)
+ | | | | | | intconst(1)
+ | | writeln
+ | | | string("")
+
+
+Type Checking:
+
+Generating code:
+program
+  parameters
+    static_link
+  endparameters
+
+  variables
+    _X 4
+    _Y 4
+  endvariables
+
+    aload _X t0
+    iload 0 t1
+    stor t1 t0
+    aload _Y t0
+    iload 1 t1
+    stor t1 t0
+  etiq while_1
+    load _X t0
+    iload 20 t1
+    lesi t0 t1 t0
+    fjmp t0 endwhile_1
+  etiq switch_1
+    pushparam 0
+    load _X t0
+    pushparam t0
+    iload 5 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_Mod
+    killparam
+    killparam
+    killparam
+    popparam t0
+    iload 0 t1
+    equi t0 t1 t2
+    fjmp t2 next_1
+    aload static_link t0
+    pushparam t0
+    call program_F
+    killparam
+    ujmp endswitch_0
+  etiq next_1
+    iload 1 t1
+    equi t0 t1 t2
+    fjmp t2 next_2
+    aload static_link t0
+    pushparam t0
+    call program_G
+    killparam
+    ujmp endswitch_0
+  etiq next_2
+    iload 1 t1
+    equi t0 t1 t2
+    fjmp t2 next_3
+    wris "Pifiada1"
+    wrln
+    ujmp endswitch_0
+  etiq next_3
+    iload 0 t1
+    equi t0 t1 t2
+    fjmp t2 next_4
+    wris "Pifiada2"
+    wrln
+    ujmp endswitch_0
+  etiq next_4
+    iload 4 t1
+    equi t0 t1 t2
+    fjmp t2 next_5
+  etiq switch_0
+    pushparam 0
+    load _Y t0
+    pushparam t0
+    iload 2 t0
+    pushparam t0
+    aload static_link t0
+    pushparam t0
+    call program_Mod
+    killparam
+    killparam
+    killparam
+    popparam t0
+    iload 0 t1
+    equi t0 t1 t2
+    fjmp t2 next_6
+    pushparam 0
+    aload static_link t0
+    pushparam t0
+    call program_T
+    killparam
+    popparam t0
+    wrii t0
+    ujmp endswitch_0
+  etiq next_6
+    iload 1 t1
+    equi t0 t1 t2
+    fjmp t2 next_7
+    pushparam 0
+    aload static_link t0
+    pushparam t0
+    call program_T
+    killparam
+    popparam t0
+    iload 1 t1
+    addi t0 t1 t0
+    wrii t0
+    ujmp endswitch_0
+  etiq next_7
+    wris "Pifiada3"
+    wrln
+  etiq endswitch_0
+    ujmp endswitch_0
+  etiq next_5
+    aload static_link t0
+    pushparam t0
+    call program_H
+    killparam
+  etiq endswitch_0
+    aload _X t0
+    load _X t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    ujmp while_1
+  etiq endwhile_1
+    wris ""
+    wrln
+    stop
+endprogram
+
+subroutine program_F
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    wris "F"
+    retu
+endsubroutine
+
+subroutine program_G
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    wris "G"
+    retu
+endsubroutine
+
+subroutine program_H
+  parameters
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    wris "H"
+    retu
+endsubroutine
+
+subroutine program_T
+  parameters
+    returnvalue
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load static_link t0
+    addi t0 offset(program:_Y) t0
+    load static_link t1
+    addi t1 offset(program:_Y) t1
+    load t1 t1
+    iload 1 t2
+    addi t1 t2 t1
+    stor t1 t0
+    load static_link t0
+    addi t0 offset(program:_Y) t0
+    load t0 t0
+    stor t0 returnvalue
+    retu
+endsubroutine
+
+subroutine program_Mod
+  parameters
+    returnvalue
+    _X
+    _M
+    static_link
+  endparameters
+
+  variables
+  endvariables
+
+    load _X t0
+    load _X t1
+    load _M t2
+    divi t1 t2 t1
+    load _M t2
+    muli t1 t2 t1
+    subi t0 t1 t0
+    stor t0 returnvalue
+    retu
+endsubroutine
+
+Executing code:
+FGHH3FGHH3FGHH5FGHH5
