@@ -225,21 +225,22 @@ void parse_param(AST *param){
 }*/
 
 void parse_param(AST* a){
-    if(a==0) return; //cuando no tenemos mas
+    if(a==0) return;
+	///firstly reach the last one
+    parse_param(a->right);
+    TypeCheck(a->down->right);
 
-    parse_param(a->right); //empezamos por el de mas a la derecha
-    TypeCheck(a->down->right); //miramos tipo del parametro y creamos tp
-
-    if(a->right==0) //no hay más parametros a la dcha
-    {
-	if(a->kind=="val") a->tp=create_type("parval", a->down->right->tp, 0);
-	else if(a->kind=="ref") a->tp=create_type("parref", a->down->right->tp, 0);
-    }
-    else //tiene hermano, lo enlazo con el hermano dcha
-    {
-	if(a->kind=="val") a->tp=create_type("parval", a->down->right->tp, a->right->tp);
-	else if(a->kind=="ref") a->tp=create_type("parref", a->down->right->tp, a->right->tp);
-    }
+    if(a->right==0){
+		if(a->kind=="val")
+			a->tp=create_type("parval", a->down->right->tp, 0);
+		else if(a->kind=="ref")
+			a->tp=create_type("parref", a->down->right->tp, 0);
+	}else {
+		if(a->kind=="val")
+			a->tp=create_type("parval", a->down->right->tp, a->right->tp);
+		else if(a->kind=="ref")
+			a->tp=create_type("parref", a->down->right->tp, a->right->tp);
+	}
 }
 
 void create_header(AST *a)
@@ -459,7 +460,8 @@ void TypeCheck(AST *a,string info)
 				///we need to check if  a->down->text is a callable
 				if (stdef->kind != "procedure"){
 						errorisnotprocedure(a->line);
-				}else{
+				}
+				if(stdef->kind == "function" || stdef->kind == "procedure"){
 					///validate params of procedure
 					validate_params(a, stdef, a->line, stdef->numparams);
 				}
@@ -469,7 +471,6 @@ void TypeCheck(AST *a,string info)
 				if (stdef->kind != "function" ){
 					errorisnotfunction(a->line);
 				}
-
 					if(stdef->kind=="function"){
 						if(info=="instruction")
 							errorisnotprocedure(a->line);
@@ -598,7 +599,6 @@ void validate_params(AST *a,ptype tp,int line,int numparam) {
 	AST *a1=a->down->right->down;
 	ptype tp1=tp->down;
 	int n = count_params(a->down->right->down);
-
 	///check number of params
 	if(n!=numparam)
 		errornumparam(line);
