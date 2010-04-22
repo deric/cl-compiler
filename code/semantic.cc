@@ -444,7 +444,22 @@ void TypeCheck(AST *a,string info)
     if (child(a,0)->tp->kind!="error" && !isbasickind(child(a,0)->tp->kind)) {
       errorreadwriterequirebasic(a->line,a->kind);
     }
-  }else if (a->kind == "("){
+  }	else if((a->kind=="read") || (a->kind=="write"))
+	{
+		TypeCheck(a->down);
+		if(a->down->ref==0 && !isbasickind(a->down->tp->kind))
+		{
+			errornonreferenceableexpression(a->line,a->kind);
+			//a->tp=create_type("error",0,0);
+		}
+		else if(!isbasickind(a->down->tp->kind) && a->down->tp->kind!="error")
+		{
+			errorreadwriterequirebasic(a->line, a->kind);
+		}
+	}
+
+
+  else if (a->kind == "("){
 	/**
 	* at this point we don't know if this is a procedure(function) call, or an expression
 	* in case of call, we have to check if that it proprerly defined  in symboltable

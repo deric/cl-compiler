@@ -253,6 +253,10 @@ int main(int argc,char *argv[])
 #token GREATER      "\>"
 #token EQUAL         "\="
 
+#token WRITELN      "WRITELN"
+#token WRITE        "WRITE"
+#token READ         "READ"
+
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","
@@ -302,7 +306,12 @@ field: IDENT^ field_type;
 field_type: (INT^ | STRUCT^ (field)* ENDSTRUCT! | BOOL | ARRAY^ OPENSQ! INTCONST CLOSESQ! OF! field_type);
 
 ///list of instructions
-l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
+l_instrs: (instruction|read | write )* <<#0=createASTlist(_sibling);>>;
+
+
+read: READ^ OPENPAR! expr CLOSEPAR! ;
+
+write: ( WRITE^ | WRITELN^ ) OPENPAR! ( expr | STRING ) CLOSEPAR! ;
 
 ///an instruction can contain
 ///- an assigment to a variable
@@ -310,7 +319,8 @@ l_instrs: (instruction)* <<#0=createASTlist(_sibling);>>;
 ///- a newline with a function or a STRING
 instruction:
         IDENT ( DOT^ IDENT | OPENSQ^ expr CLOSESQ!)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
-          | WRITELN^ OPENPAR! ( calling_func) CLOSEPAR!|dec_bloc_if | dec_bloc_while;
+          |dec_bloc_if
+          | dec_bloc_while;
 
 ///function parameters can be calculations such as 3+a or 3+3
 ///a list of function parameters
