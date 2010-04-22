@@ -458,8 +458,6 @@ void TypeCheck(AST *a,string info)
 			errorreadwriterequirebasic(a->line, a->kind);
 		}
 	}
-
-
   else if (a->kind == "("){
 	/**
 	* at this point we don't know if this is a procedure(function) call, or an expression
