@@ -233,7 +233,6 @@ int main(int argc,char *argv[])
 #token REF          "REF"
 #token STRUCT       "STRUCT"
 #token ENDSTRUCT    "ENDSTRUCT"
-#token WRITELN      "WRITELN"
 #token RETURN       "RETURN"
 #token ARRAY        "Array"
 #token OF           "of"
