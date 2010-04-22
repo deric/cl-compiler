@@ -154,7 +154,7 @@ codechain GenRight(AST *a,int t)
   }
 
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
-  /*Is referencable*/
+  /*Is referenceable*/
   if (a->ref) {
     if (a->kind=="ident" && symboltable.jumped_scopes(a->text)==0 &&
       isbasickind(symboltable[a->text].tp->kind) && symboltable[a->text].kind!="idparref") {
@@ -162,11 +162,11 @@ codechain GenRight(AST *a,int t)
     }
     /* Basic types */
     else if (isbasickind(a->tp->kind)) {
-
       c=GenLeft(a,t)||
       "load t"+itostring(t)+" t"+itostring(t);
+    }
     /* Not basic types! */
-    } else {
+    else {
       int size = compute_size(a->tp);
       c=GenLeft(a,t+1)||
       "aload aux_space t"+itostring(t)||
@@ -174,7 +174,6 @@ codechain GenRight(AST *a,int t)
       "copy t"+itostring(t+1) +" t"+itostring(t) +" "+ itostring(size);
       offsetauxspace+=size;
     }
-
   /* Non referencable types from this point */
   /* INTCONST */
   } else if (a->kind=="intconst") {
@@ -227,9 +226,9 @@ codechain GenRight(AST *a,int t)
   /* Less or equal then */
   }
   else if (a->kind == "<=") {
-  c = GenRight(a->down,t)||
-  GenRight(a->down->right,t+1)||
-  "lesi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+    c = GenRight(a->down,t)||
+    GenRight(a->down->right,t+1)||
+    "lesi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
   }
   /* Bigger then */
   else if (a->kind == ">") {
