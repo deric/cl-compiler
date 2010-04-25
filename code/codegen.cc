@@ -34,21 +34,27 @@ int maxoffsetauxspace;
 int offsetauxspace;
 
 // For distinghishing different labels for different if's and while's.
-int newLabelWhile(bool inicialitzar = false){
-  static int comptador = 1;
-  if (inicialitzar) comptador = 0;
-  return comptador++;
+
+/* defines a new While label to keep track of the amount */
+int newLabelWhile(bool initialize = false) {
+  static int counter = 1;
+  if (initialize) counter = 0;
+  return counter++;
+}
+/* defines a new If label to keep track of the amount */
+int newLabelIf(bool initialize = false) {
+  static int counter = 1;
+  if (initialize) counter = 0;
+  return counter++;
+}
+/* defines a new NAND label to keep track of the amount */
+int newLabelNand(bool initialize = false){
+	static int counter = 1;
+	if(initialize) counter = 0;
+	return counter++;
 }
 
-int newLabelIf(bool inicialitzar = false){
-  static int comptador = 1;
-  if (inicialitzar) comptador = 0;
-  return comptador++;
-}
-
-
-codechain indirections(int jumped_scopes,int t)
-{
+codechain indirections(int jumped_scopes,int t) {
   codechain c;
   if (jumped_scopes==0) {
     c="aload static_link t"+itostring(t);
@@ -62,8 +68,7 @@ codechain indirections(int jumped_scopes,int t)
   return c;
 }
 
-int compute_size(ptype tp)
-{
+int compute_size(ptype tp) {
   if (isbasickind(tp->kind)) {
     tp->size=4;
   }
@@ -80,8 +85,7 @@ int compute_size(ptype tp)
   return tp->size;
 }
 
-void gencodevariablesandsetsizes(scope *sc,codesubroutine &cs,bool isfunction=0)
-{
+void gencodevariablesandsetsizes(scope *sc,codesubroutine &cs,bool isfunction=0) {
   if (isfunction) cs.parameters.push_back("returnvalue");
   for (list<string>::iterator it=sc->ids.begin();it!=sc->ids.end();it++) {
     if (sc->m[*it].kind=="idvarlocal") {
@@ -108,8 +112,7 @@ void gencodevariablesandsetsizes(scope *sc,codesubroutine &cs,bool isfunction=0)
 codechain GenLeft(AST *a,int t);
 codechain GenRight(AST *a,int t);
 
-void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremoveparam,int t)
-{
+void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremoveparam,int t) {
   if (!a) return;
  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
 
@@ -119,8 +122,7 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
 }
 
 // ...to be completed:
-codechain GenLeft(AST *a,int t)
-{
+codechain GenLeft(AST *a,int t) {
   codechain c;
 
   if (!a) {
@@ -128,25 +130,24 @@ codechain GenLeft(AST *a,int t)
   }
 
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  /* IDENT (creating new var) */
   if (a->kind=="ident") {
     c="aload _"+a->text+" t"+itostring(t);
   }
-  else if (a->kind=="."){
+  else if (a->kind==".") {
     c=GenLeft(child(a,0),t)||
       "addi t"+itostring(t)+" "+
       itostring(child(a,0)->tp->offset[child(a,1)->text])+" t"+itostring(t);
   }
   else {
-    cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
+    cout<<"BIG PROBLEM! No case defined in GenLeft for kind  "<<a->kind<<endl;
   }
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
   return c;
 }
 
 
-// ...to be completed:
-codechain GenRight(AST *a,int t)
-{
+codechain GenRight(AST *a,int t) {
   codechain c;
 
   if (!a) {
@@ -249,11 +250,24 @@ codechain GenRight(AST *a,int t)
     "equi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
   
   }
-  /* And */
+  /* AND */
   else if (a->kind == "and") {
     c = GenRight(a->down,t)||
     GenRight(a->down->right,t+1)||
     "land t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
+  }
+  /* Not AND */
+  else if (a->kind == "nand") {
+	int lab = newLabelNand(false);
+	c = GenRight(a->down,t)||
+	GenRight(a->down->right,t+1)||
+	"land t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t)||
+	"fjmp t"+itostring(t)+" nandzero_"+itostring(lab)||
+	"iload 0 t"+itostring (t)||
+	"ujmp endnand_"+itostring(lab)||
+	"etiq nandzero_"+itostring(lab)||
+	"iload 1 t"+itostring (t)||
+	"etiq endnand_"+itostring(lab);
   }
   /* OR */
   else if (a->kind == "or") {
@@ -266,14 +280,26 @@ codechain GenRight(AST *a,int t)
     c = GenRight(a->down,t)||
     "lnot t" + itostring (t) + " t" + itostring (t);
   }
-  else {
-    cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
+  /* Access to a struct */
+  else if (a->kind == ".") {
+    ptype typ = symboltable[a->down->down->text].tp;
+    CodeGenRealParams(a->down->down,typ,c,c,t);
+    c = c||"addi t"+itostring(t)+" "+itostring(a->down->tp->offset[a->down->right->text])+" t"+itostring(t);
   }
+  /* Identifier of a function */
+  else if (a->kind == "idfunc") {  
+    codechain cpush, ckill;
+    CodeGenRealParams(a->down, symboltable[a->down->text].tp, c, ckill, t);  
+  }
+  else {
+    cout<<"BIG PROBLEM! No case defined in GenRight for kind "<<a->kind<<endl;
+  }
+
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
   return c;
+
 }
 
-// ...to be completed:
 codechain CodeGenInstruction(AST *a,string info="")
 {
   codechain c;
@@ -283,41 +309,108 @@ codechain CodeGenInstruction(AST *a,string info="")
   }
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   offsetauxspace=0;
+  /* LIST */
   if (a->kind=="list") {
-    for (AST *a1=a->down;a1!=0;a1=a1->right) {
+    /* for every instruction in the list - call CodeGenInstruction */
+    for (AST *a1=a->down;a1!=0;a1=a1->right) { 
       c=c||CodeGenInstruction(a1,info);
     }
   }
+  /* assigning a identifier */
   else if (a->kind==":=") {
+    /* Basic types */
     if (isbasickind(child(a,0)->tp->kind)) {
       c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"stor t1 t0";
     }
+    /* Complex or referencables types */
     else if (child(a,1)->ref) {
       c=GenLeft(child(a,0),0)||GenLeft(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
     }
+    /* complex but not referencable types */
     else {
       c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
     }
-  } 
+  }
+  /* WRITE/WRITELN */
   else if (a->kind=="write" || a->kind=="writeln") {
+    /*If it is a string */
     if (child(a,0)->kind=="string") {
-      //...to be done.
-    } 
+      c="wris "+a->down->text;
+    }
+    /* otherwise we write integer */
     else {//Exp
       c=GenRight(child(a,0),0)||"wrii t0";
     }
-
     if (a->kind=="writeln") {
       c=c||"wrln";
     }
   }
+  /* READ */
+  else if (a->kind=="read") {
+    if (child(a,0)->kind=="string") {
+      c="reai "+a->down->text;
+    } else {//Exp
+      c=GenRight(a->down,0)||"reai t0";
+    }
+  
+  }
+  /* IF */
+  else if (a->kind=="if") {
+    int lab = newLabelIf(false);
+    // There is an ELSE
+    if (a->down->right->right) {
+        c=GenRight(a->down,0)||
+        "fjmp t0 else_"+itostring(lab)||
+        CodeGenInstruction(a->down->right,"instruction")||
+        "ujmp endif_"+itostring(lab)||
+        "etiq else_"+itostring(lab)||
+        CodeGenInstruction(a->down->right->right,"instruction")||
+        "etiq endif_"+itostring(lab);
+    }
+    // There is no ELSE
+    else {
+      c=GenRight(a->down,0)||
+      "fjmp t0 endif_"+itostring(lab)||
+      CodeGenInstruction(a->down->right,"instruction")||
+      "etiq endif_"+itostring(lab);
+    }
+  }
+  /* WHILE */
+  else if (a->kind=="while") {
+    int lab = newLabelWhile(false);
+    c="etiq while_"+itostring(lab)||
+    GenRight(a->down,0)||
+    "fjmp t0 endwhile_"+itostring(lab)||
+    CodeGenInstruction(a->down->right,"instruction")||
+    "ujmp while_"+itostring(lab)||
+    "etiq endwhile_"+itostring(lab);
+  }
+  /* ID PROCEDURE */
+  else if (a->kind=="idproc") {
+    codechain kill;
+    CodeGenRealParams(a->down,symboltable[a->down->text].tp,c,kill,0);
+  }
+  /* LABEL PROCEDURE */
+  else if (a->kind=="label") {
+    c="etiq label_"+a->down->text;
+  /* PROCEDURE */
+  }
+  /* GOTO instruction */
+  else if (a->kind=="goto") {  // call of procedure
+    c="ujmp label_"+a->down->text;
+
+  }
+  else {
+    cout<<"BIG PROBLEM! No case defined in CodeGenInstruction for kind "<<a->kind<< "("<<a->text<<") in line "<<a->line<<endl;
+  }
+  /* FIGURE OUT THIS LINE */
+  if (offsetauxspace > maxoffsetauxspace) 	maxoffsetauxspace = offsetauxspace;
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 
   return c;
 }
 
-void CodeGenSubroutine(AST *a,list<codesubroutine> &l)
-{
+void CodeGenSubroutine(AST *a,list<codesubroutine> &l) {
   codesubroutine cs;
 
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
@@ -334,8 +427,7 @@ void CodeGenSubroutine(AST *a,list<codesubroutine> &l)
 
 }
 
-void CodeGen(AST *a,codeglobal &cg)
-{
+void CodeGen(AST *a,codeglobal &cg) {
   initnumops();
   securemodeon();
   cg.mainsub.name="program";
