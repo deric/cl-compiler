@@ -55,6 +55,10 @@ void zzcr_attr(Attrib *attr,int type,char *text)
     attr->kind="intconst";
     attr->text=text;
     break;
+  case STRING:
+	attr->kind="string";
+	attr->text=text;
+	break;
   default:
     attr->kind=lowercase(text);
     attr->text="";
