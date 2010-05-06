@@ -259,6 +259,7 @@ int main(int argc,char *argv[])
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","
+#token STRING	    "\"~[\"]*\""
 #token IDENT        "[a-zA-Z][a-zA-Z0-9]*"
 #token INTCONST     "[0-9]+"
 #token COMMENT      "//~[\n]*" << printf("%s",zzlextext); zzskip(); >>
