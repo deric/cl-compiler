@@ -13,7 +13,7 @@ n=0
 score=0
 for item in ${array[*]}
 do
-	printf "### Executing %s\n" $item
+	printf "### Executing %s\t" $item
 	./cl <$item >my$item execute
         colordiff s$item my$item
 	res=`diff s$item my$item | wc -l`

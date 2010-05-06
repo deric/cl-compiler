@@ -135,9 +135,14 @@ codechain GenLeft(AST *a,int t) {
     c="aload _"+a->text+" t"+itostring(t);
   }
   else if (a->kind==".") {
-    c=GenLeft(child(a,0),t)||
-      "addi t"+itostring(t)+" "+
-      itostring(child(a,0)->tp->offset[child(a,1)->text])+" t"+itostring(t);
+	c=GenLeft(a->down,t)||
+		"addi t"+itostring(t)+" "+
+		 itostring(a->down->tp->offset[a->down->right->text])+" t"+itostring(t);
+  }else if(a->kind == "["){ //ARRAY
+	c=GenLeft(a->down,t)||
+        GenRight(a->down->right,t+1)||
+        "muli t"+itostring(t+1)+" "+itostring(a->down->tp->down->size)+" t"+itostring(t+1)||	//Offset segons index de l'array
+        "addi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t); //sum of the offset
   }
   else {
     cout<<"BIG PROBLEM! No case defined in GenLeft for kind  "<<a->kind<<endl;
@@ -248,7 +253,7 @@ codechain GenRight(AST *a,int t) {
     c = GenRight(a->down,t)||
     GenRight(a->down->right,t+1)||
     "equi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t);
-  
+
   }
   /* AND */
   else if (a->kind == "and") {
@@ -287,11 +292,14 @@ codechain GenRight(AST *a,int t) {
     c = c||"addi t"+itostring(t)+" "+itostring(a->down->tp->offset[a->down->right->text])+" t"+itostring(t);
   }
   /* Identifier of a function */
-  else if (a->kind == "idfunc") {  
+  else if (a->kind == "idfunc") {
     codechain cpush, ckill;
-    CodeGenRealParams(a->down, symboltable[a->down->text].tp, c, ckill, t);  
-  }
-  else {
+    CodeGenRealParams(a->down, symboltable[a->down->text].tp, c, ckill, t);
+  }else if(a->kind == "["){
+	c = GenLeft(a->down,t) ||
+	GenRight(child(a,1),t+1) ||
+    "addi t"+itostring(t)+" "+itostring(a->down->tp->offset[a->down->right->text])+" t"+itostring(t);
+  }else {
     cout<<"BIG PROBLEM! No case defined in GenRight for kind "<<a->kind<<endl;
   }
 
@@ -312,7 +320,7 @@ codechain CodeGenInstruction(AST *a,string info="")
   /* LIST */
   if (a->kind=="list") {
     /* for every instruction in the list - call CodeGenInstruction */
-    for (AST *a1=a->down;a1!=0;a1=a1->right) { 
+    for (AST *a1=a->down;a1!=0;a1=a1->right) {
       c=c||CodeGenInstruction(a1,info);
     }
   }
@@ -352,7 +360,7 @@ codechain CodeGenInstruction(AST *a,string info="")
     } else {//Exp
       c=GenRight(a->down,0)||"reai t0";
     }
-  
+
   }
   /* IF */
   else if (a->kind=="if") {
