@@ -130,22 +130,20 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
 	num_param++;
     }
 
-	//Fem el push del static_link segons quin escope sigui (funionalitat de indirections)
  	cpushparam=cpushparam||
 	indirections(symboltable.jumped_scopes(a->text),t)||
 	"pushparam t"+itostring(t);
 
-	//Crida a la funcio
+
 	cpushparam=cpushparam ||
 	"call "+symboltable.idtable(a->text) + "_" + a->text;
 
-	//Fem tants killparam com params teniem
+	//for each param we have to put there killparam
 	for(int i=0;i<num_param;i++)
 	{
 		cpushparam=cpushparam||"killparam";
 	}
 
-	//Si es funicio fem el pop del resultat, si no fem el killparam per treure'l
         if (symboltable[a->text].tp->kind=="function") {
            if (isbasickind(tp->right->kind)) {
                cpushparam=cpushparam||"popparam t"+itostring(t);
@@ -153,9 +151,6 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
                cpushparam=cpushparam||"killparam";
            }
        }
-
-
-
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
 
@@ -170,7 +165,15 @@ codechain GenLeft(AST *a,int t) {
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   /* IDENT (creating new var) */
   if (a->kind=="ident") {
-    c="aload _"+a->text+" t"+itostring(t);
+	//cout << symboltable[a->text].kind <<endl;
+	//variable is a reference => we don't have to load address
+	if(symboltable[a->text].kind == "idparref"){
+		c="load _"+a->text+" t"+itostring(t);
+	}else{
+		//idparval or idvarlocal
+		c="aload _"+a->text+" t"+itostring(t);
+	}
+
   }
   else if (a->kind==".") {
 	c=GenLeft(a->down,t)||
@@ -477,7 +480,37 @@ void CodeGenSubroutine(AST *a,list<codesubroutine> &l) {
   symboltable.push(a->sc);
   symboltable.setidtable(idtable+"_"+child(a,0)->text);
 
-  //...to be done.
+  //generate subroutines in this scope
+  gencodevariablesandsetsizes(a->sc,cs,a->kind=="function"?1:0);
+  for (AST *a1=a->down->right->right->down;a1!=0;a1=a1->right) {
+    CodeGenSubroutine(a1,l);
+  }
+
+  maxoffsetauxspace=0;
+  newLabelIf(true);
+  newLabelWhile(true);
+
+  codechain returncode;
+  //find the return code of subroutine
+  if (a->kind=="function") {
+    if (isbasickind(child(a,4)->tp->kind))
+	returncode = GenRight(a->down->right->right->right->right,0)||
+	"stor t0 returnvalue";
+    else {
+      returncode = GenLeft(child(a,4),1)||
+	"load returnvalue t0"||
+	"copy t1 t0 "+itostring(a->down->right->right->right->right->tp->size);
+    }
+  }
+
+  cs.c=CodeGenInstruction(a->down->right->right->right)||returncode||"retu";
+
+  if (maxoffsetauxspace>0) {
+    variable_data vd;
+    vd.name="aux_space";
+    vd.size=maxoffsetauxspace;
+    cs.localvariables.push_back(vd);
+  }
 
   symboltable.pop();
   l.push_back(cs);
