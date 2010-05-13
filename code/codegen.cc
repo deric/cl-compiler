@@ -115,8 +115,46 @@ codechain GenRight(AST *a,int t);
 void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremoveparam,int t) {
   if (!a) return;
  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+ //parsing parameters of procedure
 
-  //...to be done.
+    ptype paux = tp->down;
+    int num_param = 1;
+
+    for (AST *a1=a->right->down; a1!=0;a1=a1->right, paux=paux->right) {
+        if (paux->kind=="parval") {
+            cpushparam=cpushparam || GenRight(a1,t) || "pushparam t"+itostring(t);
+        } else {
+            cpushparam=cpushparam || GenLeft(a1,t) || "pushparam t"+itostring(t);
+        }
+
+	num_param++;
+    }
+
+	//Fem el push del static_link segons quin escope sigui (funionalitat de indirections)
+ 	cpushparam=cpushparam||
+	indirections(symboltable.jumped_scopes(a->text),t)||
+	"pushparam t"+itostring(t);
+
+	//Crida a la funcio
+	cpushparam=cpushparam ||
+	"call "+symboltable.idtable(a->text) + "_" + a->text;
+
+	//Fem tants killparam com params teniem
+	for(int i=0;i<num_param;i++)
+	{
+		cpushparam=cpushparam||"killparam";
+	}
+
+	//Si es funicio fem el pop del resultat, si no fem el killparam per treure'l
+        if (symboltable[a->text].tp->kind=="function") {
+           if (isbasickind(tp->right->kind)) {
+               cpushparam=cpushparam||"popparam t"+itostring(t);
+           } else {
+               cpushparam=cpushparam||"killparam";
+           }
+       }
+
+
 
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
@@ -406,6 +444,18 @@ codechain CodeGenInstruction(AST *a,string info="")
   /* GOTO instruction */
   else if (a->kind=="goto") {  // call of procedure
     c="ujmp label_"+a->down->text;
+
+  }else if(a->kind == "("){
+	  if(a->down->kind == "ident"){
+		  	//procedure call
+			codechain kill;
+			//passing list of params
+			CodeGenRealParams(a->down,symboltable[a->down->text].tp,c,kill,0);
+			//cout << "br "<<a->kind<< a->down->kind<<endl;
+	  }else {
+    cout<<"BIG PROBLEM! No case defined in CodeGenInstruction for kind "<<a->kind<< "("<<a->text<<") in line "<<a->line<<endl;
+  }
+
 
   }
   else {
