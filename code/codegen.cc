@@ -167,12 +167,48 @@ codechain GenLeft(AST *a,int t) {
   if (a->kind=="ident") {
 	//cout << symboltable[a->text].kind <<endl;
 	//variable is a reference => we don't have to load address
-	if(symboltable[a->text].kind == "idparref"){
-		c="load _"+a->text+" t"+itostring(t);
+	string vartype = symboltable[a->text].kind;
+	//localvar
+	if (symboltable.jumped_scopes(a->text)==0) {
+		if(vartype == "idparref"){
+			c="load _"+a->text+" t"+itostring(t);
+		}else if(vartype == "idvarlocal"){
+			c="aload _"+a->text+" t"+itostring(t);
+		}else{
+			//idparval
+			c="load _"+a->text+" t"+itostring(t);
+		}
+
 	}else{
-		//idparval or idvarlocal
-		c="aload _"+a->text+" t"+itostring(t);
+	//variable from some other scope
+		if(vartype == "idparref"){
+			c="load static_link t"+itostring(t)||
+			"addi t"+itostring(t)+" offset("+symboltable.idtable(a->text)+":_"+a->text+") t"+itostring(t)||
+			"load t"+itostring(t)+" t"+itostring(t);
+		}else if(vartype == "idvarlocal"){
+			c = "load static_link t"+itostring(t);
+			for (int i=1;i<symboltable.jumped_scopes(a->text);i++)
+			{
+				c=c||"load t"+itostring(t)+" t"+itostring(t);
+			}
+
+			c=c||
+			"addi t"+itostring(t)+" offset("+symboltable.idtable(a->text)+":_"+a->text+") t"+itostring(t);
+
+		}else{
+			//idparval
+			c="load static_link t"+itostring(t);
+			for (int i=1;i<symboltable.jumped_scopes(a->text);i++) {
+				c=c||"load t"+itostring(t)+" t"+itostring(t);
+			}
+			c=c||
+			"addi t"+itostring(t)+" offset("+symboltable.idtable(a->text)+":_"+a->text+") t"+itostring(t);
+		}
+
+
 	}
+
+
 
   }
   else if (a->kind==".") {
