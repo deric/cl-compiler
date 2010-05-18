@@ -165,7 +165,6 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
 }
 
-// ...to be completed:
 codechain GenLeft(AST *a,int t) {
   codechain c;
 
@@ -176,18 +175,25 @@ codechain GenLeft(AST *a,int t) {
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   /* IDENT (creating new var) */
   if (a->kind=="ident") {
-	//cout << a->text << " "<<symboltable[a->text].kind <<endl;
+	//cout << a->text << " "<<symboltable[a->text].kind <<" : "<< symboltable[a->text].tp->kind<<endl;
 	//variable is a reference => we don't have to load address
 	string vartype = symboltable[a->text].kind;
 	//localvar
 	if (symboltable.jumped_scopes(a->text)==0) {
-		if(vartype == "idparref"){
+		//we cant load array passed by value
+		if(vartype == "idparval"){
+			//cout << a->text << " "<<symboltable[a->text].kind <<" : "<< symboltable[a->text].tp->kind<<" * "<< a->tp->kind<<endl;
+			if (isbasickind(a->tp->kind)){
+				c="aload _"+a->text+" t"+itostring(t);
+			}else{
+				c="load _"+a->text+" t"+itostring(t);
+			}
+		}else if (vartype == "idparref"){
 			c="load _"+a->text+" t"+itostring(t);
 		}else{
 			//idvarlocal or idparval
 			c="aload _"+a->text+" t"+itostring(t);
 		}
-
 	}else{
 	//variable from some other scope
 		if(vartype == "idparref"){
@@ -213,12 +219,7 @@ codechain GenLeft(AST *a,int t) {
 			c=c||
 			"addi t"+itostring(t)+" offset("+symboltable.idtable(a->text)+":_"+a->text+") t"+itostring(t);
 		}
-
-
 	}
-
-
-
   }
   else if (a->kind==".") {
 	c=GenLeft(a->down,t)||
@@ -493,18 +494,11 @@ codechain CodeGenInstruction(AST *a,string info="")
   else if (a->kind=="goto") {  // call of procedure
     c="ujmp label_"+a->down->text;
 
-  }else if(a->kind == "("){
-	  if(a->down->kind == "ident"){
+  }else if(a->kind == "(" && a->down->kind == "ident"){
 		  	//procedure call
 			codechain kill;
 			//passing list of params
 			CodeGenRealParams(a->down,symboltable[a->down->text].tp,c,kill,0);
-			//cout << "br "<<a->kind<< a->down->kind<<endl;
-	  }else {
-    cout<<"BIG PROBLEM! No case defined in CodeGenInstruction for kind "<<a->kind<< "("<<a->text<<") in line "<<a->line<<endl;
-  }
-
-
   }
   else {
     cout<<"BIG PROBLEM! No case defined in CodeGenInstruction for kind "<<a->kind<< "("<<a->text<<") in line "<<a->line<<endl;
@@ -517,9 +511,8 @@ codechain CodeGenInstruction(AST *a,string info="")
 }
 
 void CodeGenSubroutine(AST *a,list<codesubroutine> &l) {
-  codesubroutine cs;
-
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
+  codesubroutine cs;
   string idtable=symboltable.idtable(child(a,0)->text);
   cs.name=idtable+"_"+child(a,0)->text;
   symboltable.push(a->sc);

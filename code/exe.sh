@@ -5,7 +5,7 @@ do
    printf "#"
 done  
 #test suite
-array=(jp20 jp21 jp22 jp23 jp24 jp25 jp26 jp27 jp28)
+array=(jp20 jp21 jp22 jp23 jp24 jp25 jp26 jp27 jp28 jp29 jp30 jp31 jp32 jp33)
 
 printf "\n### Loaded %d test files\n" ${#array[*]}
 rank=0
