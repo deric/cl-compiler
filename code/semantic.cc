@@ -311,7 +311,6 @@ void TypeCheck(AST *a,string info)
    // symboltable.write();
     TypeCheck(child(a,1));
     TypeCheck(child(a,2),"instruction");
-
     symboltable.pop();
   }
   else if (a->kind=="list") {
@@ -482,19 +481,20 @@ void TypeCheck(AST *a,string info)
 			}else{
 			/// info!="instruction"
 				///we are inside expression and it MUST return a value
-				if (stdef->kind != "function" ){
+				if (stdef->kind != "error" && stdef->kind != "function") {
+				///if (stdef->kind != "function" ){
 					errorisnotfunction(a->line);
-				}
-					if(stdef->kind=="function"){
+				}else if(stdef->kind=="function"){
 						if(info=="instruction")
 							errorisnotprocedure(a->line);
 						else{
 							a->tp=stdef->right;
-							a->ref=1;
+							a->kind = "idfunc";
+							a->ref=0;
 						}
-					}
-					validate_params(a, stdef, a->line, stdef->numparams);
 				}
+				validate_params(a, stdef, a->line, stdef->numparams);
+			}
 		}
 	}else if(a->kind == "not" && a->down->right==0){
 		TypeCheck(a->down);
@@ -547,7 +547,7 @@ void TypeCheck(AST *a,string info)
 			errorbooleanrequired(a->line,a->kind);
 		}
 		///list of instructions
-		TypeCheck(a->down->right, "instruction");
+		TypeCheck(a->down->right, info);
 	}else if(a->kind== "if"){
 		TypeCheck(child(a,0));
 		if(a->down->tp->kind!="error" && a->down->tp->kind!="bool")
@@ -555,10 +555,10 @@ void TypeCheck(AST *a,string info)
 			errorbooleanrequired(a->line,a->kind);
 		}
 		///list of instructions
-		TypeCheck(child(a,1), "instruction");
+		TypeCheck(child(a,1), info);
 		///ELSE clause
 		if(child(a,2) !=0){
-			TypeCheck(child(a,2));
+			TypeCheck(child(a,2), info);
 		}
 	}
 	else if(a->kind =="+"){
