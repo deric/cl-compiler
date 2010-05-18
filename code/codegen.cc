@@ -138,8 +138,7 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
         } else {
             cpushparam=cpushparam || GenLeft(a1,t) || "pushparam t"+itostring(t);
         }
-
-	num_param++;
+		num_param++;
     }
 
  	cpushparam=cpushparam||
@@ -177,18 +176,16 @@ codechain GenLeft(AST *a,int t) {
   //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
   /* IDENT (creating new var) */
   if (a->kind=="ident") {
-	//cout << symboltable[a->text].kind <<endl;
+	//cout << a->text << " "<<symboltable[a->text].kind <<endl;
 	//variable is a reference => we don't have to load address
 	string vartype = symboltable[a->text].kind;
 	//localvar
 	if (symboltable.jumped_scopes(a->text)==0) {
 		if(vartype == "idparref"){
 			c="load _"+a->text+" t"+itostring(t);
-		}else if(vartype == "idvarlocal"){
-			c="aload _"+a->text+" t"+itostring(t);
 		}else{
-			//idparval
-			c="load _"+a->text+" t"+itostring(t);
+			//idvarlocal or idparval
+			c="aload _"+a->text+" t"+itostring(t);
 		}
 
 	}else{
