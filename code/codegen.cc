@@ -117,6 +117,18 @@ void CodeGenRealParams(AST *a,ptype tp,codechain &cpushparam,codechain &cremovep
  //cout<<"Starting with node \""<<a->kind<<"\""<<endl;
  //parsing parameters of procedure
 
+   if (symboltable[a->text].tp->kind=="function") {
+		if (isbasickind(tp->right->kind)) {
+            cpushparam="pushparam 0";
+        } else {
+			//allocating aux space for non-basic types
+            cpushparam="aload aux_space t"+itostring(t)+" addi t"+itostring(t)+" "+itostring(offsetauxspace)+" t"+itostring(t)+" pushparam t"+itostring(t);
+            offsetauxspace+=compute_size(tp->right);
+            t++;
+        }
+    }
+
+
     ptype paux = tp->down;
     int num_param = 1;
 
