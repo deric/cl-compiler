@@ -320,6 +320,7 @@ read: READ^ OPENPAR! expr CLOSEPAR! ;
 
 write: ( WRITE^ | WRITELN^ ) OPENPAR! ( expr | STRING ) CLOSEPAR! ;
 
+
 ///an instruction can contain
 ///- an assigment to a variable
 ///- a function
@@ -327,11 +328,14 @@ write: ( WRITE^ | WRITELN^ ) OPENPAR! ( expr | STRING ) CLOSEPAR! ;
 instruction:
         IDENT ( DOT^ IDENT | OPENSQ^ expr CLOSESQ!)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
           |dec_bloc_if
-          | dec_bloc_while;
+          | dec_bloc_while
+          | OPENANGL^ (creating_structure) CLOSEANGL!;
+
 
 ///function parameters can be calculations such as 3+a or 3+3
 ///a list of function parameters
 ///must generate an empty list even if no parameter
+///used also for creation of structure
 calling_func: (expr (COMMA! expr)* | ) <<#0=createASTlist(_sibling);>>;
 
 ///adding the AND, OR statement
@@ -354,6 +358,6 @@ faktor: (MINUS^ faktor) | (NOT^ faktor) | term;
 ///such as a variable, a function, a constant or a boolean
 
 ///brackets round expression
-term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!) ;
+term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!)| OPENANGL^ calling_func CLOSEANGL! ;
 
 prim: INTCONST | BOOL_VALUE;
