@@ -12,13 +12,15 @@ using namespace std;
 #include <stdlib.h>
 #include "ptype.hh"
 #include "symtab.hh"
-
 #include "myASTnode.hh"
 
 #include "semantic.hh"
 
 // feedback the main program with our error status
 int TypeError = 0;
+
+string itostring(int x);
+int compute_size(ptype tp);
 
 
 /// ---------- Error reporting routines --------------
@@ -168,7 +170,7 @@ void TpPrintIndent(ptype t,string s)
 
   cout<<t->kind<< endl;
 
-   /* if ((int)(t->ids.size())!=0) {
+  if ((int)(t->ids.size())!=0) {
     cout<<"(";
     list<string>::iterator it=t->ids.begin();
     for (;it!=t->ids.end();) {
@@ -179,7 +181,7 @@ void TpPrintIndent(ptype t,string s)
       if (it!=t->ids.end()) cout<<",";
     }
     cout<<")";
-  }*/
+  }
   if (t->down!=0) {
     cout<<s+"  \\__";
     TpPrintIndent(t->down,s+"  |"+string(t->kind.size(),' '));
@@ -192,8 +194,8 @@ void TpPrintIndent(ptype t,string s)
 
 void TpPrint(ptype t)
 {
-  cout<<endl;
   TpPrintIndent(t,"  ");
+  cout<<endl;
 }
 /*
 void parse_param(AST *param){
@@ -600,6 +602,20 @@ void TypeCheck(AST *a,string info)
 			}
 		}
 		//cout << a->line <<" "<<a->tp->kind<<" "<<a->text<<"["<<child(a,1)->text<<"]"<< child(a,1)->tp->kind <<endl;
+	}else if (a->kind=="<<") {
+		a->tp = create_type("struct", 0, 0);
+		AST *a1= a->down->down;
+		int i=0;
+		while(a1 != 0){
+			TypeCheck(a1);
+			string s = "e" + itostring(i);
+			a->tp->struct_field[s]=a1->tp;
+			a->tp->ids.push_back(s);
+			a1=a1->right;
+			i++;
+		}
+		//TpPrint(a->tp);
+	//	compute_size(a->tp);
 	}else {
 		cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
 	}
