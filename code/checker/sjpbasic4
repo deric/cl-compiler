@@ -1,0 +1,66 @@
+L. 12: Identifier x is undeclared.
+L. 12: Left expression of assignment is not referenceable.
+L. 13: Identifier x is undeclared.
+L. 13: Left expression of assignment is not referenceable.
+L. 14: Identifier x is undeclared.
+L. 14: Operator [] with incompatible types.
+L. 14: Left expression of assignment is not referenceable.
+L. 15: Identifier y is undeclared.
+L. 15: Identifier x is undeclared.
+L. 15: Operator [] with incompatible types.
+L. 16: Operator - with incompatible types.
+L. 15: Left expression of assignment is not referenceable.
+L. 17: Left expression of assignment is not referenceable.
+L. 18: Identifier x is undeclared.
+L. 18: Left expression of assignment is not referenceable.
+L. 19: Identifier x is undeclared.
+L. 19: Left expression of assignment is not referenceable.
+L. 20: Operator ( must be applied to a procedure in an instruction.
+L. 21: Operator ( must be applied to a procedure in an instruction.
+L. 21: The number of parameters in the call do not match.
+L. 22: Identifier m is undeclared.
+L. 22: Identifier x is undeclared.
+L. 22: Identifier y is undeclared.
+L. 22: Identifier a is undeclared.
+L. 22: Left expression of assignment is not referenceable.
+L. 23: Identifier m is undeclared.
+L. 23: Identifier a is undeclared.
+L. 23: Left expression of assignment is not referenceable.
+L. 24: Identifier m is undeclared.
+L. 24: Identifier a is undeclared.
+L. 24: Left expression of assignment is not referenceable.
+L. 25: Identifier x is undeclared.
+L. 25: Operator [] with incompatible types.
+L. 25: Identifier y is undeclared.
+L. 25: Left expression of assignment is not referenceable.
+L. 26: Identifier a is undeclared.
+L. 26: Identifier x is undeclared.
+L. 26: Operator struct. with incompatible types.
+L. 26: Left expression of assignment is not referenceable.
+L. 27: Identifier b is undeclared.
+L. 27: Identifier f is undeclared.
+L. 27: Left expression of assignment is not referenceable.
+L. 28: Identifier x is undeclared.
+L. 28: Identifier x is undeclared.
+L. 28: Operator array[] with incompatible types.
+L. 28: Operator [] with incompatible types.
+L. 28: Left expression of assignment is not referenceable.
+L. 29: Identifier x is undeclared.
+L. 29: Identifier x is undeclared.
+L. 29: Operator array[] with incompatible types.
+L. 29: Operator [] with incompatible types.
+L. 29: Left expression of assignment is not referenceable.
+L. 30: Identifier b is undeclared.
+L. 30: Identifier f is undeclared.
+L. 30: Left expression of assignment is not referenceable.
+L. 31: Identifier b is undeclared.
+L. 31: Identifier f is undeclared.
+L. 31: Operator struct. with incompatible types.
+L. 31: Left expression of assignment is not referenceable.
+L. 32: Identifier b is undeclared.
+L. 32: Identifier f is undeclared.
+L. 32: Operator struct. with incompatible types.
+L. 32: Left expression of assignment is not referenceable.
+L. 33: Identifier x is undeclared.
+L. 33: Identifier y is undeclared.
+L. 33: Left expression of assignment is not referenceable.

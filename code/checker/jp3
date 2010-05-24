@@ -1,0 +1,33 @@
+Program
+  Vars
+    a Struct
+      v Int
+    EndStruct
+    b Struct
+      v Int
+      c Int
+    EndStruct
+    c Struct
+      x Bool
+      a Int
+      b Int
+      c Int
+    EndStruct
+    x Int
+    v Bool
+  EndVars
+  
+  a := << 3 >>
+  b := << 1, 1 + 1 >>
+  c := << 1 = 1, 1, 1, 1 >>
+  
+  WriteLn(a.v)
+  Write(b.v) Write(" ")  WriteLn(b.c)
+  If Not c.x Then
+  	WriteLn("Fallo")
+  EndIf
+  x := c.a + c.b + c.c
+  If Not (x = 3) Then
+  	WriteLn("Fallo")
+  EndIf
+EndProgram

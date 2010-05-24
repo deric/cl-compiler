@@ -1,0 +1,52 @@
+Program
+  Vars
+    a Struct
+      b Bool
+      c Int
+    EndStruct
+    d Array[1] Of Bool
+    e Struct
+      f Int
+      g Int
+    EndStruct
+    h Array[2] Of Int
+    i Struct
+      j Array[2] Of Int
+      k Struct
+        l Int
+        m Int
+      EndStruct
+    EndStruct
+    x Bool
+    y Int
+  EndVars
+  
+  Function r(Ref n Struct f Int g Int EndStruct)
+   Return Struct f Int g Int EndStruct
+    Write("r: ") WriteLn(n.f)
+  	Return n
+  EndFunction
+ 
+  a.b := True
+  a.c := 4
+  e.f := 5
+  
+  << x, y >> := a
+  Write("x: ") WriteLn(x)
+  If Not x Then WriteLn("Error") EndIf
+  
+  << d[0], e.g >> := a
+  Write("e: ") WriteLn(e.g)
+  If Not d[0] Then WriteLn("Error") EndIf
+  
+  << h[0], h[1] >> := r(e)
+  Write("h: ") Write(h[0]) Write(" ") WriteLn(h[1])
+
+  i.j[0] := 6
+  i.j[1] := 7
+  i.k.l := 8
+  i.k.m := 9
+  << h, e >> := i
+  Write("h2:") Write(h[0]) Write(" ") WriteLn(h[1])
+  Write("e2:") Write(e.f) Write(" ") WriteLn(e.g)
+EndProgram

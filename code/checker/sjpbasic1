@@ -1,0 +1,26 @@
+L. 9: Assignment with incompatible types.
+L. 11: Parameter 1 with incompatible types.
+L. 13: Operator + with incompatible types.
+L. 13: Parameter 1 is expected to be referenceable but it is not.
+L. 13: Parameter 1 with incompatible types.
+L. 14: Parameter 1 with incompatible types.
+L. 15: Parameter 1 with incompatible types.
+L. 21: Identifier p already declared.
+L. 22: Left expression of assignment is not referenceable.
+L. 23: Parameter 1 with incompatible types.
+L. 25: Parameter 1 with incompatible types.
+L. 26: Assignment with incompatible types.
+L. 28: Assignment with incompatible types.
+L. 30: Assignment with incompatible types.
+L. 32: Operator ( must be applied to a procedure in an instruction.
+L. 34: Left expression of assignment is not referenceable.
+L. 35: Parameter 1 with incompatible types.
+L. 37: Parameter 1 with incompatible types.
+L. 38: Parameter 1 with incompatible types.
+L. 39: Assignment with incompatible types.
+L. 40: Operator ( must be applied to a procedure in an instruction.
+L. 41: Operator ( must be applied to a procedure in an instruction.
+L. 43: Identifier p is undeclared.
+L. 43: Left expression of assignment is not referenceable.
+L. 44: The number of parameters in the call do not match.
+L. 45: Operator ( must be applied to a function in an expression.

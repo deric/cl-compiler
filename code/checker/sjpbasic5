@@ -1,0 +1,19 @@
+L. 19: Identifier t already declared.
+L. 8: Return with incompatible type.
+L. 11: Return with incompatible type.
+L. 14: Return with incompatible type.
+L. 17: Return with incompatible type.
+L. 20: Return with incompatible type.
+L. 25: Referenceable expression required in read.
+L. 26: Referenceable expression required in read.
+L. 27: Referenceable expression required in read.
+L. 28: Basic type required in read.
+L. 31: Basic type required in writeln.
+L. 32: Basic type required in writeln.
+L. 33: Instruction if requires a boolean condition.
+L. 34: Instruction while requires a boolean condition.
+L. 38: Instruction if requires a boolean condition.
+L. 39: Operator = with incompatible types.
+L. 43: Operator = with incompatible types.
+L. 44: The number of parameters in the call do not match.
+L. 44: Instruction while requires a boolean condition.

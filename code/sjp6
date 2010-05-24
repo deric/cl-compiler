@@ -1,0 +1,11 @@
+L. 15: Unpacking assignment with incompatible types for item 1.
+L. 15: Unpacking assignment with incompatible types for item 2.
+L. 17: Unpacking assignment with incompatible types for item 1.
+L. 19: Unpacking assignment with incompatible types for item 1.
+L. 19: Unpacking assignment with incompatible types for item 2.
+L. 22: Identifier z is undeclared.
+L. 22: Left expression of assignment is not referenceable.
+L. 23: Field z is not defined in the struct.
+L. 24: Identifier z is undeclared.
+L. 24: Left expression of item 1 in unpacking assignment is not referenceable.
+L. 24: Field z is not defined in the struct.

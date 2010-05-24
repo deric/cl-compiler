@@ -1,0 +1,19 @@
+Program
+  Vars
+    a Struct
+      a Int
+      b Int
+    EndStruct
+    b Struct
+      x Int
+      y Int
+    EndStruct
+    c Struct
+      a Int
+      b Bool
+    EndStruct
+  EndVars
+  
+  a := b
+  a := c
+EndProgram

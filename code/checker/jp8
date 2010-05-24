@@ -1,0 +1,26 @@
+Program
+  Vars
+    min Int
+    max Int
+  EndVars
+  
+  Function MinMax(Val a Int, Val b Int) Return Struct min Int max Int EndStruct
+    Vars
+      min Int
+      max Int
+    EndVars
+    If a > b Then min := b max := a 
+    Else min := a max := b
+    EndIf
+    Return << min, max >>
+  EndFunction  
+  
+  <<min, max>> := <<10, 10 * 2>>
+  Write(min) Write(" ") WriteLn(max)
+  <<min, max>> := MinMax(13, 16)
+  Write(min) Write(" ") WriteLn(max)
+  <<min, max>> := MinMax(20, 5)
+  Write(min) Write(" ") WriteLn(max)
+  <<min, max>> := <<max, min>>
+  Write(min) Write(" ") WriteLn(max)
+EndProgram

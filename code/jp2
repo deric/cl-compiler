@@ -1,0 +1,30 @@
+Program
+  Vars
+    a Struct
+      v Int
+    EndStruct
+    b Struct
+      v Int
+      c Int
+    EndStruct
+    c Struct
+      d Struct
+        x Int
+      EndStruct
+      v Bool
+    EndStruct
+    x Int
+    v Bool
+  EndVars
+  
+  a := << >>
+  a := << 3 >>
+  a := << x + 2, 4 >>
+  b := << x, v + 2 >>
+  b := << x, v >>
+  c := << << 3 >>, True >>
+  c := << a , False >>
+  c := << << >>, True >>
+  a := << z >>
+  a := z
+EndProgram

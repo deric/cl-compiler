@@ -1,0 +1,25 @@
+Program
+  Vars
+    a Struct
+      b Bool
+      c Int
+    EndStruct
+    d Struct
+      e Array[1] Of Int
+      g Array[1] Of Bool
+    EndStruct
+    x Int
+    y Bool
+  EndVars
+  
+  << x, y >> := a
+  << y, x >> := a
+  << x, x >> := a
+  
+  << d.e[1], d.g[1] >> := a
+  << d.g[1], d.e[1] >> := a
+  
+  z := 1
+  d.z := 2
+  << z, d.z >> := a
+EndProgram

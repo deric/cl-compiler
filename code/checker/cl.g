@@ -260,9 +260,6 @@ int main(int argc,char *argv[])
 #token WRITE        "WRITE"
 #token READ         "READ"
 
-#token OPENANGL "\<\<"
-#token CLOSEANGL "\>\>"
-
 #token ASIG         ":="
 #token DOT          "."
 #token COMMA        ","

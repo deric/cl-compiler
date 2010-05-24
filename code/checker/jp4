@@ -1,0 +1,29 @@
+Program
+  Vars
+    a Struct
+      b Struct
+        c Int
+        d Bool
+      EndStruct
+      e Struct
+        f Int 
+        g Bool
+      EndStruct
+    EndStruct
+    h Struct
+      i Int
+      j Bool
+    EndStruct
+    x Int
+    v Bool
+  EndVars
+  
+  h := << 2, True >>
+  a := << << 3, True >>, h >>
+
+  WriteLn(a.b.c)
+  WriteLn(a.e.f)
+  If Not a.b.d Or Not a.e.g Then
+    WriteLn("Error")
+  EndIf
+EndProgram

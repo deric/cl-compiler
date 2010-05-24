@@ -1,0 +1,48 @@
+PROGRAM
+  VARS
+    X Int
+    Y Bool
+    Z Struct x int y bool EndStruct
+  ENDVARS
+    Function p(Val X Int) Return Array [10] Of Int
+        Return r
+    EndFunction
+    Function r() Return Int
+        Return true
+    EndFunction
+    Function s() Return Struct x int y bool EndStruct
+        Return 3
+    EndFunction 
+    Function t() Return Bool
+        Return s
+    EndFunction
+    Function t() Return Bool
+        Return t
+    EndFunction
+
+    read(X)
+    read(Y)
+    read(p)
+    read(r)
+    read(s)
+    read(Z)
+
+    write(r())
+    writeln(s())
+    writeln(Z)
+    IF X THEN
+        WHILE Z DO
+	   X:=5
+	ENDWHILE
+    ENDIF
+    IF s() THEN
+        WHILE X=Y DO
+	   Y:=true
+	ENDWHILE
+    ENDIF
+    IF Z.x=Z THEN
+        WHILE p() DO
+	   Y:=true
+	ENDWHILE
+    ENDIF
+ENDPROGRAM
