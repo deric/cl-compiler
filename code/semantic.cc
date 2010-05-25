@@ -605,7 +605,7 @@ void TypeCheck(AST *a,string info)
 	}else if (a->kind=="<<") {
 		a->tp = create_type("struct", 0, 0);
 		AST *a1= a->down;
-		int i=0;
+		int i=1;
 		a->ref=0;
 		while(a1 != 0){
 			TypeCheck(a1);
@@ -616,7 +616,7 @@ void TypeCheck(AST *a,string info)
 			i++;
 		}
 		//TpPrint(a->tp);
-	//	compute_size(a->tp);
+		compute_size(a->tp);
 	}else {
 		cout<<"BIG PROBLEM! No case defined for kind "<<a->kind<<endl;
 	}

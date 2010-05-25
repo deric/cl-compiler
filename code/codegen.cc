@@ -389,23 +389,23 @@ codechain GenRight(AST *a,int t) {
   }else if(a->kind=="<<"){
       codechain res, arg;
 
-      //cout<<"Flag 1"<<endl;
+      cout<<"Flag 1"<<endl;
 
       c =c || "aload aux_space t"+itostring(t)+" addi t"+itostring(t)+" "+itostring(offsetauxspace)+" t"+itostring(t);
       int in=1;
 
-      //cout<<"Flag 2"<<endl;
+      cout<<"Flag 2"<<endl;
 
     for (AST *a1=a->down->down; a1!=0;in++, a1=a1->right) {
 	  arg= GenRight(a1,t+2);
 
-	  //cout<<"Flag 3a"<<endl;
+	  cout<<"Flag 3a in: "<<in<<endl;
 
 	  string s = "e" + itostring(in);
 	  ptype etp = a->tp->struct_field[s];
 	  int eoff = a->tp->offset[s];
 
-	  //cout<<"Flag 3b"<<endl;
+	  cout<<"Flag 3b eoff " << eoff<<endl;
 
 	  arg = arg || "iload "+itostring(eoff)+" t"+itostring(t+3)
 		    || "addi t"+itostring(t+3) + " t"+itostring(t)+" t"+itostring(t+3);
@@ -423,7 +423,7 @@ codechain GenRight(AST *a,int t) {
       //cout<<"Flag 4"<<endl;
 
       offsetauxspace+=a->tp->size; // Updates the offset of the aux_space
-      //cout<<"Valore di offsetauxspace "<<offsetauxspace<<endl;
+      cout<<"Valore di offsetauxspace "<<offsetauxspace<<endl;
 
   }else {
     cout<<"BIG PROBLEM! No case defined in GenRight for kind "<<a->kind<<endl;
@@ -452,7 +452,8 @@ codechain CodeGenInstruction(AST *a,string info="")
   }
   /* assigning a identifier */
   else if (a->kind==":=") {
-	    if(a->down->kind=="<<"){
+  if(a->down->kind=="<<"){
+
 	if(a->down->right->ref)
 	    c=GenLeft(a->down->right,0);
 	else
