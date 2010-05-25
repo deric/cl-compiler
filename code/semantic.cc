@@ -565,7 +565,7 @@ void TypeCheck(AST *a,string info)
 		TypeCheck(child(a,0));
 		TypeCheck(child(a,1));
 		if ((child(a,0)->tp->kind != "int" && child(a,0)->tp->kind != "error") ||
-				(child(a,1)->tp->kind != "int" && child(a,1)->tp->kind == "error")) {
+				(child(a,1)->tp->kind != "int" && child(a,1)->tp->kind != "error")) {
 			errorincompatibleoperator(a->line, a->kind);
 		}
 		a->tp=create_type("int",0,0);
