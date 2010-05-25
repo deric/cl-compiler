@@ -398,7 +398,7 @@ codechain GenRight(AST *a,int t) {
 
       //cout<<"Flag 2"<<endl;
 ASTPrint(a);
-    for (AST *a1=a->down->down; a1!=0;in++, a1=a1->right) {
+    for (AST *a1=a->down; a1!=0;in++, a1=a1->right) {
 	  arg= GenRight(a1,t+2);
 
 	  //cout<<"Flag 3a in: "<<in<<endl;

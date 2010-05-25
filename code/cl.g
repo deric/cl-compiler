@@ -357,6 +357,6 @@ faktor: (MINUS^ faktor) | (NOT^ faktor) | term;
 ///such as a variable, a function, a constant or a boolean
 
 ///brackets round expression
-term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!)| OPENANGL^ calling_func CLOSEANGL! ;
+term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!)| OPENANGL^  (expr (COMMA! expr)* | ) CLOSEANGL! ;
 
 prim: INTCONST | BOOL_VALUE;
