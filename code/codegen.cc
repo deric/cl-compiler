@@ -397,16 +397,16 @@ codechain GenRight(AST *a,int t) {
       int in=1;
 
       //cout<<"Flag 2"<<endl;
-
+ASTPrint(a);
     for (AST *a1=a->down->down; a1!=0;in++, a1=a1->right) {
 	  arg= GenRight(a1,t+2);
 
 	  //cout<<"Flag 3a in: "<<in<<endl;
-	TpPrint(a->tp);
+	  //TpPrint(a->tp);
 	  string s = "e" + itostring(in);
 	  ptype etp = a->tp->struct_field[s];
 	  int eoff = a->tp->offset[s];
-
+	  //TpPrint(etp);
 	  //cout<<"Flag 3b eoff " << eoff<<endl;
 
 	  arg = arg || "iload "+itostring(eoff)+" t"+itostring(t+3)

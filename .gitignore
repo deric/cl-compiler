@@ -6,4 +6,5 @@ cl.c
 err.c
 scan.c
 tokens.h
+mode.h
 myjp*
