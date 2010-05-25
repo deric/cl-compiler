@@ -411,6 +411,33 @@ void TypeCheck(AST *a,string info)
 		errornonreferenceableleft(a->line,child(a,0)->text);
 	}else if(child(a,0)->tp->kind == "struct" && child(a,1)->tp->kind != "struct"){
 		errorunpackrequiresstruct(a->line);
+	}else if(child(a,0)->tp->kind == "struct" && child(a,1)->tp->kind == "struct"){
+
+
+		//two structs let's check inside of them
+		ptype ltp = child(a,0)->tp;
+		ptype rtp = child(a,1)->tp;
+		list<string>::iterator itl = ltp->ids.begin();
+		list<string>::iterator itr = rtp->ids.begin();
+
+		if(ltp->ids.size() != rtp->ids.size()){
+				errornonreferenceableleftunpack(a->line,1);
+		}else{
+			int i =1;
+			while (itl != ltp->ids.end() && itr != rtp->ids.end()) {
+				ptype letp = ltp->struct_field[*itl];
+				ptype retp = rtp->struct_field[*itr];
+				// etp is the type of this element: treat it.
+				if(letp->kind != retp->kind){
+					errorincompatibleassignmentunpack(a->line, i);
+				}
+				itl++;itr++;
+				i++;
+			}
+		}
+/*	cout << "cmp" <<endl;
+TpPrint(child(a,0)->tp);
+	TpPrint(child(a,1)->tp);*/
 	}else if ((a->down->tp->kind!="error" && a->down->right->tp->kind!="error") &&
 	       !equivalent_types(a->down->tp,a->down->right->tp)){
 				errorincompatibleassignment(a->line);
