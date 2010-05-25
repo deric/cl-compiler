@@ -396,11 +396,12 @@ void TypeCheck(AST *a,string info)
   else if (a->kind==":=") {
 	TypeCheck(child(a,0));
 	TypeCheck(child(a,1));
-	/*TpPrint(child(a,0)->tp);
+	TpPrint(child(a,0)->tp);
 	TpPrint(child(a,1)->tp);
-	ASTPrint(a);*/
+	ASTPrint(a);
 	//unpacking of struct
-	//cout << a->down->down->tp->kind << " vs "<< child(a,1)->tp->kind <<endl;
+	//TpPrint(child(a,0)->tp);
+	cout << " vs "<< child(a,1)->tp->kind <<endl;
 	/*
 
 		if(a->down->down->tp->kind!="struct"  && child(a,1)->tp->kind == "struct"){

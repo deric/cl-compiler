@@ -329,7 +329,7 @@ instruction:
         IDENT ( DOT^ IDENT | OPENSQ^ expr CLOSESQ!)* (ASIG^ expr | OPENPAR^ (calling_func) CLOSEPAR!)
         |dec_bloc_if
         |dec_bloc_while
-		|OPENANGL! calling_func CLOSEANGL! ASIG^ IDENT;
+		|OPENANGL^ (expr (COMMA! expr)* | ) CLOSEANGL! ASIG^ IDENT;
 
 
 ///function parameters can be calculations such as 3+a or 3+3
