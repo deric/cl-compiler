@@ -228,10 +228,9 @@ codechain GenLeft(AST *a,int t) {
   }else if(a->kind == "["){ //ARRAY
 	c=GenLeft(a->down,t)||
         GenRight(a->down->right,t+1)||
-        "muli t"+itostring(t+1)+" "+itostring(a->down->tp->down->size)+" t"+itostring(t+1)||	//Offset segons index de l'array
+        "muli t"+itostring(t+1)+" "+itostring(a->down->tp->down->size)+" t"+itostring(t+1)||	//second
         "addi t"+itostring(t)+" t"+itostring(t+1)+" t"+itostring(t); //sum of the offset
-  }
-  else {
+  }else {
     cout<<"BIG PROBLEM! No case defined in GenLeft for kind  "<<a->kind<<endl;
   }
   //cout<<"Ending with node \""<<a->kind<<"\""<<endl;
@@ -386,6 +385,46 @@ codechain GenRight(AST *a,int t) {
 	c = GenLeft(a->down,t) ||
 	GenRight(child(a,1),t+1) ||
     "addi t"+itostring(t)+" "+itostring(a->down->tp->offset[a->down->right->text])+" t"+itostring(t);
+    /* STRUCT RAPIDA <<*/
+  }else if(a->kind=="<<"){
+      codechain res, arg;
+
+      //cout<<"Flag 1"<<endl;
+
+      c =c || "aload aux_space t"+itostring(t)+" addi t"+itostring(t)+" "+itostring(offsetauxspace)+" t"+itostring(t);
+      int in=1;
+
+      //cout<<"Flag 2"<<endl;
+
+    for (AST *a1=a->down->down; a1!=0;in++, a1=a1->right) {
+	  arg= GenRight(a1,t+2);
+
+	  //cout<<"Flag 3a"<<endl;
+
+	  string s = "e" + itostring(in);
+	  ptype etp = a->tp->struct_field[s];
+	  int eoff = a->tp->offset[s];
+
+	  //cout<<"Flag 3b"<<endl;
+
+	  arg = arg || "iload "+itostring(eoff)+" t"+itostring(t+3)
+		    || "addi t"+itostring(t+3) + " t"+itostring(t)+" t"+itostring(t+3);
+
+	  if (isbasickind(etp->kind))
+	      arg = arg || "stor t"+itostring(t+2)+" t"+itostring(t+3);
+	  else
+	      arg = arg || "copy t"+itostring(t+2)+" t"+itostring(t+3)+" "+itostring(etp->size);
+
+	  //cout<<"Flag 3c"<<endl;
+
+	  c = c || arg;
+      }
+
+      //cout<<"Flag 4"<<endl;
+
+      offsetauxspace+=a->tp->size; // Updates the offset of the aux_space
+      //cout<<"Valore di offsetauxspace "<<offsetauxspace<<endl;
+
   }else {
     cout<<"BIG PROBLEM! No case defined in GenRight for kind "<<a->kind<<endl;
   }
@@ -413,18 +452,67 @@ codechain CodeGenInstruction(AST *a,string info="")
   }
   /* assigning a identifier */
   else if (a->kind==":=") {
-    /* Basic types */
-    if (isbasickind(child(a,0)->tp->kind)) {
-      c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"stor t1 t0";
+	    if(a->down->kind=="<<"){
+	if(a->down->right->ref)
+	    c=GenLeft(a->down->right,0);
+	else
+	    c=GenRight(a->down->right,0);
+	bool flag;
+	int n=0;
+	ptype stp = a->down->right->tp;
+
+	for (AST *a1=a->down->down->down;a1!=0;n++, a1=a1->right) {
+	  /*if(a1->ref)
+	      c= c || GenLeft(a1,1);
+	  else
+	      c= c || GenRight(a1,1);*/
+
+	  flag=false;
+
+	  c= c || GenLeft(a1,1);
+
+	  //cout<<"Sto ciclando la STRUC RAPIDA: Elemento \""<<n<<"\""<<endl;
+
+	  list<string>::iterator it = stp->ids.begin();
+	  int n2=0;
+	  while (!flag && (it != stp->ids.end())) {
+	      ptype etp = stp->struct_field[*it];
+	      // etp es el tipo de este elemento: procesarlo.
+	      int off = stp->offset[*it];
+
+	      //cout<<"Sto ciclando la STRUCT: Elemento \""<<n2<<"\""<<endl;
+
+	      if((n==n2)){
+		  //cout<<"QUI dovrei copiare l'elemento \""<<n2<<"\" in \""<<n<<"\" della struct rapida"<<endl;
+		  // copia [t0+off] -> [t1] size=etp->size
+		  c = c || "addi t0 "+itostring(off)+" t0"
+			|| "copy t0 t1 "+itostring(etp->size);
+		  flag=true;
+	      }
+
+	      n2++;
+	      it++;
+	  }
+	}
+
+
     }
-    /* Complex or referencables types */
-    else if (child(a,1)->ref) {
-      c=GenLeft(child(a,0),0)||GenLeft(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
-    }
-    /* complex but not referencable types */
+    // basic type on right
     else {
-      c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
-    }
+		/* Basic types */
+		if (isbasickind(child(a,0)->tp->kind)) {
+		c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"stor t1 t0";
+		}
+		/* Complex or referencables types */
+		else if (child(a,1)->ref) {
+		c=GenLeft(child(a,0),0)||GenLeft(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
+		}
+		/* complex but not referencable types */
+		else {
+		c=GenLeft(child(a,0),0)||GenRight(child(a,1),1)||"copy t1 t0 "+itostring(child(a,1)->tp->size);
+		}
+
+	}
   }
   /* WRITE/WRITELN */
   else if (a->kind=="write" || a->kind=="writeln") {

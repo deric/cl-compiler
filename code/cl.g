@@ -334,7 +334,6 @@ instruction:
 ///function parameters can be calculations such as 3+a or 3+3
 ///a list of function parameters
 ///must generate an empty list even if no parameter
-///used also for creation of structure
 calling_func: (expr (COMMA! expr)* | ) <<#0=createASTlist(_sibling);>>;
 
 ///adding the AND, OR statement
@@ -357,6 +356,6 @@ faktor: (MINUS^ faktor) | (NOT^ faktor) | term;
 ///such as a variable, a function, a constant or a boolean
 
 ///brackets round expression
-term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!)| OPENANGL^ calling_func CLOSEANGL! ;
+term: IDENT (DOT^ IDENT | OPENPAR^ calling_func CLOSEPAR! | OPENSQ^ expr CLOSESQ!)* | prim | (OPENPAR! expr CLOSEPAR!)| OPENANGL^ (expr (COMMA! expr)* | ) CLOSEANGL! ;
 
 prim: INTCONST | BOOL_VALUE;
