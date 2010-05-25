@@ -33,6 +33,8 @@ int maxoffsetauxspace;
 // needed for keeping non-referenceable values.
 int offsetauxspace;
 
+void TpPrintIndent(ptype t,string s);
+
 // For distinghishing different labels for different if's and while's.
 
 /* defines a new While label to keep track of the amount */
@@ -389,23 +391,23 @@ codechain GenRight(AST *a,int t) {
   }else if(a->kind=="<<"){
       codechain res, arg;
 
-      cout<<"Flag 1"<<endl;
+      //cout<<"Flag 1"<<endl;
 
       c =c || "aload aux_space t"+itostring(t)+" addi t"+itostring(t)+" "+itostring(offsetauxspace)+" t"+itostring(t);
       int in=1;
 
-      cout<<"Flag 2"<<endl;
+      //cout<<"Flag 2"<<endl;
 
     for (AST *a1=a->down->down; a1!=0;in++, a1=a1->right) {
 	  arg= GenRight(a1,t+2);
 
-	  cout<<"Flag 3a in: "<<in<<endl;
-
+	  //cout<<"Flag 3a in: "<<in<<endl;
+	TpPrint(a->tp);
 	  string s = "e" + itostring(in);
 	  ptype etp = a->tp->struct_field[s];
 	  int eoff = a->tp->offset[s];
 
-	  cout<<"Flag 3b eoff " << eoff<<endl;
+	  //cout<<"Flag 3b eoff " << eoff<<endl;
 
 	  arg = arg || "iload "+itostring(eoff)+" t"+itostring(t+3)
 		    || "addi t"+itostring(t+3) + " t"+itostring(t)+" t"+itostring(t+3);
@@ -423,7 +425,7 @@ codechain GenRight(AST *a,int t) {
       //cout<<"Flag 4"<<endl;
 
       offsetauxspace+=a->tp->size; // Updates the offset of the aux_space
-      cout<<"Valore di offsetauxspace "<<offsetauxspace<<endl;
+      //cout<<"Valore di offsetauxspace "<<offsetauxspace<<endl;
 
   }else {
     cout<<"BIG PROBLEM! No case defined in GenRight for kind "<<a->kind<<endl;
@@ -453,21 +455,17 @@ codechain CodeGenInstruction(AST *a,string info="")
   /* assigning a identifier */
   else if (a->kind==":=") {
   if(a->down->kind=="<<"){
+	  ASTPrint(a);
 
-	if(a->down->right->ref)
+/*	if(a->down->right->ref)
 	    c=GenLeft(a->down->right,0);
 	else
-	    c=GenRight(a->down->right,0);
-	bool flag;
+	    c=GenRight(a->down->down->right,0);
+/*	bool flag;
 	int n=0;
 	ptype stp = a->down->right->tp;
 
 	for (AST *a1=a->down->down->down;a1!=0;n++, a1=a1->right) {
-	  /*if(a1->ref)
-	      c= c || GenLeft(a1,1);
-	  else
-	      c= c || GenRight(a1,1);*/
-
 	  flag=false;
 
 	  c= c || GenLeft(a1,1);
@@ -494,7 +492,7 @@ codechain CodeGenInstruction(AST *a,string info="")
 	      n2++;
 	      it++;
 	  }
-	}
+	}*/
 
 
     }

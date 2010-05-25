@@ -604,7 +604,7 @@ void TypeCheck(AST *a,string info)
 		//cout << a->line <<" "<<a->tp->kind<<" "<<a->text<<"["<<child(a,1)->text<<"]"<< child(a,1)->tp->kind <<endl;
 	}else if (a->kind=="<<") {
 		a->tp = create_type("struct", 0, 0);
-		AST *a1= a->down;
+		AST *a1= a->down->down;
 		int i=1;
 		a->ref=0;
 		while(a1 != 0){
