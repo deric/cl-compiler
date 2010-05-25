@@ -396,21 +396,22 @@ void TypeCheck(AST *a,string info)
   else if (a->kind==":=") {
 	TypeCheck(child(a,0));
 	TypeCheck(child(a,1));
-	TpPrint(child(a,0)->tp);
+	/*TpPrint(child(a,0)->tp);
 	TpPrint(child(a,1)->tp);
-	ASTPrint(a);
+	ASTPrint(a);*/
 	//unpacking of struct
 	//TpPrint(child(a,0)->tp);
-	cout << " vs "<< child(a,1)->tp->kind <<endl;
+	//cout << " vs "<< child(a,1)->tp->kind <<endl;
 	/*
 
 		if(a->down->down->tp->kind!="struct"  && child(a,1)->tp->kind == "struct"){
 		errorunpackrequiresstruct(a->line);
 	}*/
-	if (!child(a,0)->ref) {
+	if (!child(a,0)->ref && child(a,0)->tp->kind != "struct") {
 		errornonreferenceableleft(a->line,child(a,0)->text);
-	}
-	else if ((a->down->tp->kind!="error" && a->down->right->tp->kind!="error") &&
+	}else if(child(a,0)->tp->kind == "struct" && child(a,1)->tp->kind != "struct"){
+		errorunpackrequiresstruct(a->line);
+	}else if ((a->down->tp->kind!="error" && a->down->right->tp->kind!="error") &&
 	       !equivalent_types(a->down->tp,a->down->right->tp)){
 				errorincompatibleassignment(a->line);
 		}
